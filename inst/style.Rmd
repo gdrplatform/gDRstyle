@@ -1,0 +1,14 @@
+# gDR style
+
+## General
+
+1. Indentation
+  * 2 spaces for indentation
+2. Use of spaces
+  * Always utilize `if (` over `if(`
+  * Always include spaces around logical comparison `1 == 1` over `1==1`
+3. Naming conventions
+  * variables
+  * function arguments
+  * function names
+    * All action functions should start with verbs.
