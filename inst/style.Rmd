@@ -10,5 +10,9 @@
 3. Naming conventions
   * variables
   * function arguments
+    * Utilize space between function arguments `function(a = "A")` over `function(a="A")`
+    * Utilize lower_snake_case for function arguments `function(big_matrix)` over `function(bigMatrix)`
   * function names
-    * All action functions should start with verbs.
+    * All action functions should start with verbs `compute_metrics_SE` over `metrics_SE`.
+4. Function assignment
+  * Always utilize `<-` over `=` to differentiate function arguments from function assignments `myFunction <- function()` over `myFunction = function()`
