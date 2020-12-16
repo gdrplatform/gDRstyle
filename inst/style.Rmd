@@ -39,6 +39,6 @@ if () {
 ```
 8. Files
   * Where possible, break code into smaller files
-  * Separate each function by 2 spaces
+  * Separate each function by 2 lines
 9. Miscellaneous
   * Exponentiation: always utilize `^` over `**` for exponentiation like `2 ^ 3` over `2**3`.
