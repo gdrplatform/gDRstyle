@@ -21,3 +21,16 @@
   * Always utilize `<-` over `=` to differentiate function arguments from function assignments `myFunction <- function()` over `myFunction = function()`
 5. Function export
   * All internal functions are not exported
+6. Use of curly braces
+  * `if` and `else` statements should be surrounded by curly braces on the same line
+
+```{r}
+if () {
+  NULL
+} else {
+  NULL
+}
+```
+
+7. Miscellaneous
+  * Exponentiation: always utilize `^` over `**` for exponentiation like `2 ^ 3` over `2**3`.
