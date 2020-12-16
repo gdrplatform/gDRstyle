@@ -8,9 +8,11 @@
   * Always utilize `if (` over `if(`
   * Always include spaces around logical comparison `1 == 1` over `1==1`
   * Always include spaces around logical entity `if (1 == 1) {}` over `if (1=1){}`
+  * Always include spaces around `NULL` subsets `[ , subset]` over `[, subset]`
 3. Naming conventions
   * variables
     * Utilize lower_snake_case for variables
+    * Assignment should use `<-` over `=`
   * function arguments
     * Utilize space between function arguments `function(a = "A")` over `function(a="A")`
     * Utilize lower_snake_case for function arguments `function(big_matrix)` over `function(bigMatrix)`
@@ -35,6 +37,8 @@ if () {
   NULL
 }
 ```
-
-7. Miscellaneous
+8. Files
+  * Where possible, break code into smaller files
+  * Separate each function by 2 spaces
+9. Miscellaneous
   * Exponentiation: always utilize `^` over `**` for exponentiation like `2 ^ 3` over `2**3`.
