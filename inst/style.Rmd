@@ -7,6 +7,7 @@
 2. Use of spaces
   * Always utilize `if (` over `if(`
   * Always include spaces around logical comparison `1 == 1` over `1==1`
+  * Always include spaces around logical entity `if (1 == 1) {}` over `if (1=1){}`
 3. Naming conventions
   * variables
     * Utilize lower_snake_case for variables
@@ -17,10 +18,13 @@
     * All action functions should start with verbs `compute_metrics_SE` over `metrics_SE`
     * All internal functions start with a `.`
     * Utilize lowerCamelCase for function names
-4. Function assignment
-  * Always utilize `<-` over `=` to differentiate function arguments from function assignments `myFunction <- function()` over `myFunction = function()`
-5. Function export
-  * All internal functions are not exported
+4. Functions, functions, functions
+  * Function assignment
+    * Always utilize `<-` over `=` to differentiate function arguments from function assignments `myFunction <- function()` over `myFunction = function()`
+  * Function export
+    * All internal functions are not exported
+  * `vapply` over `sapply` (or `lapply` + `unlist()` if predefining FUN.VALUE is difficult)
+  * Do not use `apply` on data.frame(s) (`mapply` is good for row-wise operations) 
 6. Use of curly braces
   * `if` and `else` statements should be surrounded by curly braces on the same line
 
