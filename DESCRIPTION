@@ -13,7 +13,7 @@ Description: Describes style requirements and contains style tests for packages 
 License: file GNE_LICENSE
 LazyLoad: yes
 Imports:
-    testthat,
+    testthat
 Suggests:
     gDRutils
 VignetteBuilder: knitr
