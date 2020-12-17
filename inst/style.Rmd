@@ -22,7 +22,7 @@
     * Utilize lowerCamelCase for function names
 4. Functions, functions, functions
   * Function assignment
-    * Always utilize `<-` over `=` to differentiate function arguments from function assignments `myFunction <- function()` over `myFunction = function()`
+    * Always utilize `<-` over `=` to differentiate function arguments assignments from function assignments `myFunction <- function()` over `myFunction = function()`
   * Function export
     * All internal functions are not exported
     * All exported functions have `assert` tests for their parameters
