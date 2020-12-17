@@ -25,20 +25,34 @@
     * Always utilize `<-` over `=` to differentiate function arguments from function assignments `myFunction <- function()` over `myFunction = function()`
   * Function export
     * All internal functions are not exported
+    * All exported functions have `assert` tests for their parameters
   * `vapply` over `sapply` (or `lapply` + `unlist()` if predefining FUN.VALUE is difficult)
   * Do not use `apply` on data.frame(s) (`mapply` is good for row-wise operations) 
 6. Use of curly braces
   * `if` and `else` statements should be surrounded by curly braces on the same line
 
 ```{r}
-if () {
+if (TRUE) {
   NULL
 } else {
   NULL
 }
 ```
+
+  * Assign simple if-else statements to a variable.
+```{r}
+what_is_going_on <- if (is_check()) {
+  flog <- "it's getting hot..."
+} else if (is_mate()) {
+  flog <- "Oh noooo..."
+} else {
+  flog <- "there is a hope..."
+}
+```
+
 8. Files
   * Where possible, break code into smaller files
   * Separate each function by 2 lines
+  * Tests should be named identically to the file in `R/` (`R/assays` => `tests/testthat/test-assays.R`)
 9. Miscellaneous
   * Exponentiation: always utilize `^` over `**` for exponentiation like `2 ^ 3` over `2**3`.
