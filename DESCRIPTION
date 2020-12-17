@@ -4,10 +4,10 @@ Title: A package with style requirements for the gDR suite
 Version: 0.0.1
 Date: 2020-12-17
 Authors@R: c(person("Allison", "Vuong", role=c("cre", "aut"), email="vuong.allison@gene.com"),
+             person("Dariusz", "Scigocki", role=c("aut", "ctb")),
              person("Aleksander", "Chlebowski", role=c("ctb")),
              person("Arkadiusz", "Gladki", role=c("ctb")),
-             person("Bartosz", "Czech", role=c("ctb")), 
-             person("Dariusz", "Scigocki", role=c("ctb")))
+             person("Bartosz", "Czech", role=c("ctb"))) 
 Maintainer: Allison Vuong <vuong.allison@gene.com>
 Description: Describes style requirements and contains style tests for packages in the gDR suite.
 License: file GNE_LICENSE
