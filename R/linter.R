@@ -9,11 +9,10 @@ lintPkg <- function(pkg_name) {
 #############
 
 getFilesToLint <- function(pkg_name) {
-  pkg_base_path <- system.file(".", package=pkg_name)
   flint <- c(
-    dir(paste0(pkg_base_path, "/R"), full.names = TRUE),
-    dir(paste0(pkg_base_path, "/tests"), full.names = TRUE, recursive = TRUE),
-    dir(paste0(pkg_base_path, "/inst/shiny"), full.names = TRUE, recursive = FALSE, pattern = "*.R")
+    dir(system.file("R", package = pkg_name), full.names = TRUE),
+    dir(system.file("tests", package = pkg_name), full.names = TRUE, recursive = TRUE),
+    dir(system.file("shiny", package = pkg_name), full.names = TRUE, recursive = FALSE, pattern = "*.R")
   )
 
   # ignore extensions
@@ -37,7 +36,7 @@ lintFile <- function(filepath) {
 }
 
 
-lintAllFiles <- function(files_to_lint) {  
+lintAllFiles <- function(files_to_lint) {
   for (filepath in files_to_lint) {
     lintFile(filepath)
   }

@@ -20,7 +20,27 @@
     * All action functions should start with verbs `compute_metrics_SE` over `metrics_SE`
     * All internal functions start with a `.`
     * Utilize lowerCamelCase for function names
+    * Function names should be short and informative
 4. Functions, functions, functions
+  * Functions definition
+    * Functions definition should start on the same line as function name
+    * Every parameter should be in separate line
+    * Prepare separate functions for complicated defaults (of function parameters)
+```{r}
+ # Good
+fun <- function(param1,
+                param2,
+                param_with_dir_for_st_important = get_st_important_dir()) {
+  # Code is indented by two spaces.
+  ...
+}
+ # Bad
+fun <- function(param1, param2, param_with_dir_for_st_important = file.path(system.file(paste(param1, "SE", "rds", sep = "."), package = "important_package"))) {
+  ...
+}
+
+```
+
   * Function assignment
     * Always utilize `<-` over `=` to differentiate function arguments assignments from function assignments `myFunction <- function()` over `myFunction = function()`
   * Function export
