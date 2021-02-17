@@ -21,6 +21,20 @@
     * All internal functions start with a `.`
     * Utilize lowerCamelCase for function names
 4. Functions, functions, functions
+  * Functions definition
+    * Functions definition should start on the same line as function name
+    * Every parameter should be in separate line
+    * Prepare separate functions for complicated defaults
+    * Example of good definition:
+```{r}
+fun <- function(param1,
+                param2,
+                param3) {
+  # Code is indented by two spaces.
+  ...
+}
+```
+
   * Function assignment
     * Always utilize `<-` over `=` to differentiate function arguments assignments from function assignments `myFunction <- function()` over `myFunction = function()`
   * Function export
