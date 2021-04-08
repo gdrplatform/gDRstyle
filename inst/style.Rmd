@@ -21,6 +21,7 @@
     * All internal functions start with a `.`
     * Utilize lowerCamelCase for function names
     * Function names should be short and informative
+    * Getters should start with `get*`, setters should start with `set*`, boolean checkers should start with `is*`
 4. Functions, functions, functions
   * Functions definition
     * Functions definition should start on the same line as function name
