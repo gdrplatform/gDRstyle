@@ -26,11 +26,9 @@ getFilesToLint <- function(pkg_name = NULL, dir = NULL) {
     tests_dir <- system.file("tests", package = pkg_name)
     shiny_dir <- system.file("shiny", package = pkg_name)
   } else {
-    flint <- c(
-      R_dir <- file.path(dir, "R")
-      tests_dir <- file.path(dir, "tests")
-      shiny_dir <- file.path(dir, "shiny")
-    )
+    R_dir <- file.path(dir, "R")
+    tests_dir <- file.path(dir, "tests")
+    shiny_dir <- file.path(dir, "shiny")
   }
   
   flint <- c(
