@@ -20,20 +20,24 @@ getFilesToLint <- function(pkg_name = NULL, dir = NULL) {
     stop("define one of arguments: 'pkg_name' or 'dir'")
   } else if (!is.null(pkg_name)) {
     if (!is.null(dir)){
-      warning("both 'pkg_name' or 'dir' are defined, only 'will be use'")
+      warning("both 'pkg_name' or 'dir' are defined, only 'pkg_name' will be used")
     }
-    flint <- c(
-      dir(system.file("R", package = pkg_name), full.names = TRUE),
-      dir(system.file("tests", package = pkg_name), full.names = TRUE, recursive = TRUE),
-      dir(system.file("shiny", package = pkg_name), full.names = TRUE, recursive = FALSE, pattern = "*.R")
-    )
+    R_dir <- system.file("R", package = pkg_name)
+    tests_dir <- system.file("tests", package = pkg_name)
+    shiny_dir <- system.file("shiny", package = pkg_name)
   } else {
     flint <- c(
-      dir(file.path(dir, "R"), full.names = TRUE),
-      dir(file.path(dir, "tests"), full.names = TRUE, recursive = TRUE),
-      dir(file.path(dir, "shiny"), full.names = TRUE, recursive = FALSE, pattern = "*.R")
+      R_dir <- file.path(dir, "R")
+      tests_dir <- file.path(dir, "tests")
+      shiny_dir <- file.path(dir, "shiny")
     )
   }
+  
+  flint <- c(
+    dir(R_dir, full.names = TRUE),
+    dir(tests_dir, full.names = TRUE, recursive = TRUE),
+    dir(shiny_dir, full.names = TRUE, recursive = FALSE, pattern = "*.R")
+  )
 
   # ignore extensions
   ignore.ext <- c("md", "html")
