@@ -13,6 +13,7 @@
   * variables
     * Utilize lower_snake_case for variables
     * Assignment should use `<-` over `=`
+    * variable name should reflect proper tense `validated_se <- validate_SE()` over `validate_se <- validate_SE()`
   * function arguments
     * Utilize space between function arguments `function(a = "A")` over `function(a="A")`
     * Utilize lower_snake_case for function arguments `function(big_matrix)` over `function(bigMatrix)`
@@ -22,6 +23,7 @@
     * Utilize lowerCamelCase for function names
     * Function names should be short and informative
     * Getters should start with `get*`, setters should start with `set*`, boolean checkers should start with `is*`
+    * 
 4. Functions, functions, functions
   * Functions definition
     * Functions definition should start on the same line as function name
@@ -49,6 +51,21 @@ fun <- function(param1, param2, param_with_dir_for_st_important = file.path(syst
     * All exported functions have `assert` tests for their parameters
   * `vapply` over `sapply` (or `lapply` + `unlist()` if predefining FUN.VALUE is difficult)
   * Do not use `apply` on data.frame(s) (`mapply` is good for row-wise operations) 
+  * Function returns
+    * Use implicit returns over explicit
+```
+  # Good.
+  foo <- function() {
+    # Do stuff.
+    x
+  }
+
+  # Bad.
+  foo <- function() {
+    # Do stuff.
+    return(x)
+  }
+```
 6. Use of curly braces
   * `if` and `else` statements should be surrounded by curly braces on the same line
 
@@ -77,3 +94,19 @@ what_is_going_on <- if (is_check()) {
   * Tests should be named identically to the file in `R/` (`R/assays` => `tests/testthat/test-assays.R`)
 9. Miscellaneous
   * Exponentiation: always utilize `^` over `**` for exponentiation like `2 ^ 3` over `2**3`.
+  * Use named indexing over positional indexing `df[, "alias"] <- df[, "celllinename"]` over `df[, 1] <- df[, 2]`
+  * If anything is hardcoded (i.e. numbers or strings), consider refactoring by introducing additional function arguments or inserting logic over numbers.
+    * `df[, fxn_that_returns_idx(x):length(x)] <- NA` over `df[, 2:length(x)] <- NA`
+  * Reassign repeated logic to a variable computed only once.
+```
+# Good.
+idx <- foo()
+if (length(idx) == 1) {
+  f <- c(f[idx], f[-idx])
+}
+
+# Bad.
+if (length(foo()) == 1) {
+  f <- c(f[foo()], f[foo()])
+}
+```
