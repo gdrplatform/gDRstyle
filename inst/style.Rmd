@@ -1,6 +1,6 @@
 # gDR style
 
-## General
+## General R code
 
 1. Indentation
   * 2 spaces for indentation
@@ -110,3 +110,10 @@ if (length(foo()) == 1) {
   f <- c(f[foo()], f[foo()])
 }
 ```
+
+## General Shiny code
+1. Do not use absolute IDs (non-namespaced IDs) inside modules. It breaks their modularity.
+2. When adding an identifier to an element in order to style it with CSS, always prefer classes over IDs, as they work more naturally with modules and they can be reused.
+3. Avoid inline CSS styles.
+4. In CSS file, each rule should be on its own line.
+5. Avoid using percentages for widths; instead, use bootstrap's grid system by specifying columns.
