@@ -23,7 +23,6 @@
     * Utilize lowerCamelCase for function names
     * Function names should be short and informative
     * Getters should start with `get*`, setters should start with `set*`, boolean checkers should start with `is*`
-    * 
 4. Functions, functions, functions
   * Functions definition
     * Functions definition should start on the same line as function name
@@ -92,7 +91,11 @@ what_is_going_on <- if (is_check()) {
   * Where possible, break code into smaller files
   * Separate each function by 2 lines
   * Tests should be named identically to the file in `R/` (`R/assays` => `tests/testthat/test-assays.R`)
-9. Miscellaneous
+9. Namespacing
+  * Only double colon namespace packages that are not imported in `package.R`
+  * Common packages should all be imported in `package.R`
+    + this includes: `checkmate`, `SummarizedExperiment`, etc.
+10. Miscellaneous
   * Exponentiation: always utilize `^` over `**` for exponentiation like `2 ^ 3` over `2**3`.
   * Use named indexing over positional indexing `df[, "alias"] <- df[, "celllinename"]` over `df[, 1] <- df[, 2]`
   * If anything is hardcoded (i.e. numbers or strings), consider refactoring by introducing additional function arguments or inserting logic over numbers.
