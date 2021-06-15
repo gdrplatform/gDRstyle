@@ -95,7 +95,9 @@ what_is_going_on <- if (is_check()) {
   * Only double colon namespace packages that are not imported in `package.R`
   * Common packages should all be imported in `package.R`
     + this includes: `checkmate`, `SummarizedExperiment`, etc.
-10. Miscellaneous
+10. Tests
+  * `expect_equal(obs, exp)` over `expect_equal(exp, obs)`
+11. Miscellaneous
   * Exponentiation: always utilize `^` over `**` for exponentiation like `2 ^ 3` over `2**3`.
   * Use named indexing over positional indexing `df[, "alias"] <- df[, "celllinename"]` over `df[, 1] <- df[, 2]`
   * If anything is hardcoded (i.e. numbers or strings), consider refactoring by introducing additional function arguments or inserting logic over numbers.
