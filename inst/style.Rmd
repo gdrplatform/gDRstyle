@@ -99,6 +99,7 @@ what_is_going_on <- if (is_check()) {
   * `expect_equal(obs, exp)` over `expect_equal(exp, obs)`
 11. Miscellaneous
   * Exponentiation: always utilize `^` over `**` for exponentiation like `2 ^ 3` over `2**3`.
+  * Numerics: place `0`'s in front of decimals like `0.1` over `.1`
   * Use named indexing over positional indexing `df[, "alias"] <- df[, "celllinename"]` over `df[, 1] <- df[, 2]`
   * If anything is hardcoded (i.e. numbers or strings), consider refactoring by introducing additional function arguments or inserting logic over numbers.
     * `df[, fxn_that_returns_idx(x):length(x)] <- NA` over `df[, 2:length(x)] <- NA`
