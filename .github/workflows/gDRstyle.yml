@@ -17,10 +17,13 @@ jobs:
     runs-on: ubuntu-18.04
     container: rocker/verse:4.1.0
     steps:
+      - uses: actions/checkout@v1
+
       - name: Install dependencies
       - run: Rscript -e "install.packages(c('remotes', 'rcmdcheck'))"
       - run: Rscript -e "remotes::install_deps(dependencies = TRUE)"
-      - uses: actions/checkout@v1
 
+      - name R CMD check
+      - run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'error')"
       - name: Run lintr
       - run: Rscript -e "gDRstyle::lintPkg()"
