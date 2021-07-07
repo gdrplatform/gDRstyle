@@ -1,0 +1,28 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+#
+# See https://github.com/r-lib/actions/tree/master/examples#readme for
+# additional example workflows available for the R community.
+
+name: gDRstyle
+
+on:
+  push:
+    branches: [ * ]
+  pull_request:
+    branches: [ * ]
+
+jobs:
+  build:
+    runs-on: ubuntu-18.04
+    container: rocker/verse:4.1.0
+    steps:
+      - name: Install dependencies
+      - run: Rscript -e "install.packages(c('remotes', 'rcmdcheck'))"
+      - run: Rscript -e "remotes::install_deps(dependencies = TRUE)"
+      - uses: actions/checkout@v1
+
+      - name: Run lintr
+      - run: Rscript -e "gDRstyle::lintPkg()"
