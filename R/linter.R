@@ -10,7 +10,11 @@
 #' @importFrom lintr lint_package
 #' @export
 lintPkg <- function(pkg_dir = ".") {
-  lint_package(pkg_dir, linters = linters_config)
+  result <- lint_package(pkg_dir, linters = linters_config)
+  if (length(result) > 0L) {
+    print(result)
+    stop("Found lints")
+  }
   invisible(NULL)
 }
 
@@ -57,12 +61,19 @@ lintDir <- function(pkg_dir = ".", sub_dir) {
   path <- file.path(pkg_dir, sub_dir)
   if (dir.exists(path)) {
     files <- list.files(path, full.names = TRUE, recursive = TRUE, pattern = "*.R")
+    failures <- NULL 
     for (f in files) {
       print(paste("Linting file:", f))
-      lint(f, linters = linters_config)
+      result <- lint(f, linters = linters_config)
+      if (length(result) > 0L) {
+        print(result)
+        failures <- c(failures, f)
+      }
     }
   } else {
     stop(sprintf("directory: '%s' does not exist to lint", path))
   } 
-  invisible(NULL)
+  if (!is.null(failures)) {
+    stop(sprintf("Found linter failures in files: '%s'", paste0(failures, sep = ", ")))
+  }
 }

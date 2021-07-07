@@ -1,6 +1,8 @@
 library(testthat)
 library(gDRstyle)
 
-test_that("lintPkg works as expected", {
-  expect_error(lintPkg("."), NA)
+test_that("linting functions work as expected", {
+  devtools::wd()
+  expect_error(lintPkg(), regex = "Found lints")
+  expect_error(lintPkgDirs(), regex = "*test.R")
 })
