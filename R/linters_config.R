@@ -1,3 +1,5 @@
+#' @noRd
+#' @export
 linters_config <- lintr::with_defaults(
   #object_usage_linter = NULL,
   #absolute_paths_linter = NULL,

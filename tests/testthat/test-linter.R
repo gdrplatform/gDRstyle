@@ -1,6 +1,6 @@
 library(testthat)
-library(gDRutils)
+library(gDRstyle)
 
-test_that("lint gDRutils", {
-    lintPkg("gDRutils")
+test_that("lintPkg works as expected", {
+  expect_error(lintPkg("."), NA)
 })
