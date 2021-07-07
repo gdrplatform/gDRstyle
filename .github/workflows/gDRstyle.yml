@@ -22,11 +22,11 @@ jobs:
 
       - name: Install dependencies
         run: |
-          Rscript -e "install.packages(c('remotes', 'rcmdcheck'))"
+          Rscript -e "install.packages(c('remotes', 'rcmdcheck', 'devtools'))"
           Rscript -e "remotes::install_deps(dependencies = TRUE)"
 
       - name: R CMD check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'error')"
 
       - name: Run lintr
-        run: Rscript -e "gDRstyle::lintPkg()"
+        run: Rscript -e "devtools::install(); gDRstyle::lintPkg()"
