@@ -27,6 +27,3 @@ jobs:
 
       - name: R CMD check
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'error')"
-
-      - name: Run lintr
-        run: Rscript -e "devtools::install(); gDRstyle::lintPkg()"
