@@ -3,6 +3,7 @@ library(gDRstyle)
 
 test_that("linting functions work as expected", {
   # Bad.
-  expect_error(lintPkg(file.path("tst_pkgs", "dummy_pkg_errors")), regex = "Found lints")
-  expect_error(lintPkgDirs(file.path("tst_pkgs", "dummy_pkg_errors")), regex = "*test.R")
+  pkg_path <- file.path("tst_pkgs", "dummy_pkg_errors")
+  expect_error(withr::with_dir(pkg_path, lintPkg(".")), regex = "Found lints")
+  expect_error(withr::with_dir(pkg_path, lintPkgDirs(".")), regex = "*test.R")
 })

@@ -16,7 +16,8 @@ Imports:
     knitr,
     lintr
 Suggests:
-    testthat
+    testthat,
+    withr
 VignetteBuilder: knitr
 ByteCompile: TRUE
 RoxygenNote: 7.1.1
