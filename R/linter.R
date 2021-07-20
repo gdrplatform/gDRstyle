@@ -1,66 +1,86 @@
+#' Lint a package.
+#'
+#' Convenience function with embedded gDRplatform linting configuration.
+#'
+#' @param pkg_dir String of path to package directory.
+#' Defaults to the current directory.
+#'
+#' @return \code{NULL} invisibly.
+#'
+#' @importFrom lintr lint_package
 #' @export
-lintPkg <- function(pkg_name) {
-  flint <- getFilesToLint(pkg_name = pkg_name)
-  lintAllFiles(flint)
+lintPkg <- function(pkg_dir = ".") {
+  result <- lint_package(pkg_dir, linters = linters_config)
+  if (length(result) > 0L) {
+    print(result)
+    stop("Found lints")
+  }
+  invisible(NULL)
 }
 
+
+#' Lint select subdirectories in a package directory.
+#' @param pkg_dir String of path to package directory.
+#' Defaults to the current directory.
+#' @return \code{NULL} invisibly.
 #' @export
-lintPkgInDir <- function(pkg_dir) {
-  flint <- getFilesToLint(dir = pkg_dir)
-  lintAllFiles(flint)
+lintPkgInDir <- function(pkg_dir = ".") {
+  .Deprecated("lintPkgDirs")
+  lintPkgDirs(pkg_dir = pkg_dir)
 }
 
-#############
-# Internal
-#############
 
-getFilesToLint <- function(pkg_name = NULL, dir = NULL) {
-  
-  if (is.null(pkg_name) && is.null(dir)) {
-    stop("define one of arguments: 'pkg_name' or 'dir'")
-  } else if (!is.null(pkg_name)) {
-    if (!is.null(dir)){
-      warning("both 'pkg_name' or 'dir' are defined, only 'pkg_name' will be used")
-    }
-    R_dir <- system.file("R", package = pkg_name)
-    tests_dir <- system.file("tests", package = pkg_name)
-    shiny_dir <- system.file("shiny", package = pkg_name)
+#' Lint select subdirectories in a package directory.
+#' @param pkg_dir String of path to package directory.
+#' @param shiny Boolean of whether or not a \code{shiny} directory should
+#' also be lint.
+#' Defaults to the current directory.
+#'
+#' @return \code{NULL} invisibly.
+#' @details
+#' Will look for files in the following directories:
+#' 
+#' @export
+lintPkgDirs <- function(pkg_dir = ".", shiny = FALSE) {
+  dirs <- c("R", "tests")
+  if (shiny) {
+    dirs <- c(dirs, file.path("inst", "shiny"))
+  }
+
+  failures <- NULL
+  for (sub_dir in dirs) {
+    failure <- lintDir(pkg_dir = pkg_dir, sub_dir = sub_dir)
+    failures <- c(failures, failure)
+  }
+  if (!is.null(failures)) {
+    stop(sprintf("Found linter failures in files: '%s'", paste0(failures, collapse = ", ")))
   } else {
-    R_dir <- file.path(dir, "R")
-    tests_dir <- file.path(dir, "tests")
-    shiny_dir <- file.path(dir, "shiny")
+    print("All files OK!")
   }
-  
-  flint <- c(
-    dir(R_dir, full.names = TRUE),
-    dir(tests_dir, full.names = TRUE, recursive = TRUE),
-    dir(shiny_dir, full.names = TRUE, recursive = FALSE, pattern = "*.R")
-  )
-
-  # ignore extensions
-  ignore.ext <- c("md", "html")
-  if (!is.null(ignore.ext) && any(vapply(ignore.ext, function(x) nchar(x) > 0, FUN.VALUE = logical(1)))) {
-    pattern <- paste0(sprintf(".*\\.%s$", ignore.ext), collapse = "|")
-    flint <- flint[!grepl(pattern, flint, ignore.case = TRUE)]
-  }
-  
-  flint
+  invisible(NULL)
 }
 
 
-lintFile <- function(filepath) {
-  print(paste("Linting file:", filepath))
-  result <- lintr::lint(filepath, linters = linters_config)
-  if (length(result) > 0) {
-    print(result) # Show linter messages
-    stop(paste0("Linter fails on file:", filepath))
+#' @importFrom lintr lint
+#' @keywords internal
+lintDir <- function(pkg_dir = ".", sub_dir) {
+  path <- file.path(pkg_dir, sub_dir)
+  if (dir.exists(path)) {
+    files <- list.files(path, full.names = TRUE, recursive = TRUE, pattern = "*.R")
+    failures <- NULL 
+    for (f in files) {
+      print(paste("Linting file:", f))
+      result <- lint(f, linters = linters_config)
+      if (length(result) > 0L) {
+        print(result)
+        failures <- c(failures, f)
+      }
+    }
+  } else {
+    stop(sprintf("directory: '%s' does not exist to lint", path))
+  } 
+  if (!is.null(failures)) {
+    return(failures)
   }
-}
-
-
-lintAllFiles <- function(files_to_lint) {
-  for (filepath in files_to_lint) {
-    lintFile(filepath)
-  }
-  print("All files OK!")
+  return(invisible(NULL))
 }

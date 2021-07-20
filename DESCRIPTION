@@ -13,9 +13,11 @@ Description: Describes style requirements and contains style tests for packages 
 License: file GNE_LICENSE
 LazyLoad: yes
 Imports:
-    testthat
+    knitr,
+    lintr
 Suggests:
-    gDRutils
+    testthat,
+    withr
 VignetteBuilder: knitr
 ByteCompile: TRUE
 RoxygenNote: 7.1.1
