@@ -44,13 +44,19 @@ lintPkgInDir <- function(pkg_dir = ".") {
 lintPkgDirs <- function(pkg_dir = ".", shiny = FALSE) {
   dirs <- c("R", "tests")
   if (shiny) {
-    dirs <- c(dirs, "shiny")
+    dirs <- c(dirs, file.path("inst", "shiny"))
   }
 
+  failures <- NULL
   for (sub_dir in dirs) {
-    lintDir(pkg_dir = pkg_dir, sub_dir = sub_dir)
+    failure <- lintDir(pkg_dir = pkg_dir, sub_dir = sub_dir)
+    failures <- c(failures, failure)
   }
-  print("All files OK!")
+  if (!is.null(failures)) {
+    stop(sprintf("Found linter failures in files: '%s'", paste0(failures, collapse = ", ")))
+  } else {
+    print("All files OK!")
+  }
   invisible(NULL)
 }
 
@@ -74,6 +80,7 @@ lintDir <- function(pkg_dir = ".", sub_dir) {
     stop(sprintf("directory: '%s' does not exist to lint", path))
   } 
   if (!is.null(failures)) {
-    stop(sprintf("Found linter failures in files: '%s'", paste0(failures, sep = ", ")))
+    return(failures)
   }
+  return(invisible(NULL))
 }
