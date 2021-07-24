@@ -30,4 +30,4 @@ jobs:
         run: Rscript -e "rcmdcheck::rcmdcheck(args = '--no-manual', error_on = 'error')"
 
       - name: Test coverage
-        run: Rscript -e "covr::codecov()"
+        run: Rscript -e "covr::package_coverage()"
