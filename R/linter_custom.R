@@ -7,6 +7,8 @@
 #' @return \code{\link[lintr]{Linter}}
 #' @export
 #'
+#' @import lintr
+#'
 #' @examples
 #' \dontrun{
 #'   linters_config <- lintr::with_defaults(

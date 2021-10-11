@@ -1,7 +1,7 @@
 Package: gDRstyle
 Type: Package
 Title: A package with style requirements for the gDR suite 
-Version: 0.0.3
+Version: 0.0.4
 Date: 2021-04-09
 Authors@R: c(person("Allison", "Vuong", role=c("cre", "aut"), email="vuong.allison@gene.com"),
              person("Dariusz", "Scigocki", role=c("aut", "ctb")),
