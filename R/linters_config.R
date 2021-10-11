@@ -25,5 +25,6 @@ linters_config <- lintr::with_defaults(
   trailing_whitespace_linter = NULL,
   #assignment_linter = NULL,
   object_usage_linter = NULL,
-  object_length_linter = NULL
+  object_length_linter = NULL,
+  roxygen_author_tag_linter = roxygen_author_tag_linter()
 )
