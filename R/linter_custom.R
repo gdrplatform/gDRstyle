@@ -7,7 +7,6 @@
 #' @return \code{\link[lintr]{Linter}}
 #' @export
 #'
-#' @import lintr
 #' @author Kamil Foltynski <kamil.foltynski@@contractors.roche.com>
 #'
 #' @examples
@@ -20,12 +19,12 @@
 roxygen_tag_linter <- function(tag = "@author") {
   stopifnot(length(tag) == 1, nzchar(tag))
 
-  Linter(function(source_file) {
+  lintr::Linter(function(source_file) {
     lapply(
-      ids_with_token(source_file, "FUNCTION"),
+      lintr::ids_with_token(source_file, "FUNCTION"),
       function(id) {
 
-        parsed <- with_id(source_file, id)
+        parsed <- lintr::with_id(source_file, id)
         flines <- rev(readLines(source_file$filename)[1:parsed$line1 - 1L])
         # drop lines without prefix `#'`
         idx <- NA
@@ -50,7 +49,7 @@ roxygen_tag_linter <- function(tag = "@author") {
         is_tag_found <- any(sapply(flines_strip, function(x) grepl(pattern = tag, x), USE.NAMES = FALSE))
 
         if (!is_tag_found) {
-          Lint(
+          lintr::Lint(
             filename = source_file$filename,
             line_number = parsed$line1,
             column_number = parsed$col1,
