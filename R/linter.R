@@ -9,7 +9,7 @@
 #'
 #' @importFrom lintr lint_package
 #' @export
-lintPkg = function(pkg_dir = ".") {
+lintPkg <- function(pkg_dir = ".") {
   result <- lint_package(pkg_dir, linters = linters_config)
   if (length(result) > 0L) {
     print(result)
