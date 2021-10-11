@@ -8,12 +8,13 @@
 #' @export
 #'
 #' @import lintr
+#' @author Kamil Foltynski <kamil.foltynski@@contractors.roche.com>
 #'
 #' @examples
 #' \dontrun{
 #'   linters_config <- lintr::with_defaults(
 #'   line_length_linter = lintr::line_length_linter(120),
-#'   roxygen_author_tag_linter = roxygen_author_tag_linter()
+#'   roxygen_tag_linter = roxygen_tag_linter()
 #'   )
 #' }
 roxygen_tag_linter <- function(tag = "@author") {
@@ -43,7 +44,7 @@ roxygen_tag_linter <- function(tag = "@author") {
           return()
 
         # drop lines after one without prefix `#'`
-        flines_strip <- flines[seq_len(length(idx))]
+        flines_strip <- flines[seq_len(idx)]
 
         # check if tag exists
         is_tag_found <- any(sapply(flines_strip, function(x) grepl(pattern = tag, x), USE.NAMES = FALSE))
