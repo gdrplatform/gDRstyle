@@ -1,4 +1,4 @@
-#' roxygen_author_tag_linter
+#' roxygen_tag_linter
 #'
 #' Check that function has documented specific tag in Roxygen skeleton (default \code{@@author}).
 #'
@@ -16,7 +16,7 @@
 #'   roxygen_author_tag_linter = roxygen_author_tag_linter()
 #'   )
 #' }
-roxygen_author_tag_linter <- function(tag = "@author") {
+roxygen_tag_linter <- function(tag = "@author") {
   stopifnot(length(tag) == 1, nzchar(tag))
 
   Linter(function(source_file) {
