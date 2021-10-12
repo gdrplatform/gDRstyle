@@ -39,7 +39,7 @@ lintPkgInDir <- function(pkg_dir = ".") {
 #' @return \code{NULL} invisibly.
 #' @details
 #' Will look for files in the following directories:
-#' 
+#'
 #' @export
 lintPkgDirs <- function(pkg_dir = ".", shiny = FALSE) {
   dirs <- c("R", "tests")
@@ -67,7 +67,7 @@ lintDir <- function(pkg_dir = ".", sub_dir) {
   path <- file.path(pkg_dir, sub_dir)
   if (dir.exists(path)) {
     files <- list.files(path, full.names = TRUE, recursive = TRUE, pattern = "*.R")
-    failures <- NULL 
+    failures <- NULL
     for (f in files) {
       print(paste("Linting file:", f))
       result <- lint(f, linters = linters_config)
@@ -78,9 +78,10 @@ lintDir <- function(pkg_dir = ".", sub_dir) {
     }
   } else {
     stop(sprintf("directory: '%s' does not exist to lint", path))
-  } 
+  }
   if (!is.null(failures)) {
     return(failures)
   }
   return(invisible(NULL))
 }
+
