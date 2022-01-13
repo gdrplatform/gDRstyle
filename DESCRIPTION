@@ -9,7 +9,7 @@ Authors@R: c(person("Allison", "Vuong", role=c("cre", "aut"), email="vuong.allis
              person("Arkadiusz", "Gladki", role=c("ctb")),
              person("Bartosz", "Czech", role=c("ctb"))) 
 Maintainer: Allison Vuong <vuong.allison@gene.com>
-Description: Describes style requirements and contains style tests for packages in the gDR suite.
+Description: Describes style requirements and contains style tests for packages in the gDR suite. Also includes any CI/CD templates to be applied to other repos.
 License: file GNE_LICENSE
 LazyLoad: yes
 Imports:
