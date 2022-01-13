@@ -1,2 +1,2 @@
 # gDRstyle
-A repository describing standards to be upheld by all gDR packages.
+A repository describing standards and templates to be upheld/used by all gDR packages.
