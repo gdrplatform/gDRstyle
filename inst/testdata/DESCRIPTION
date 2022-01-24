@@ -1,0 +1,13 @@
+Package: dummyPkg
+Type: Package
+Title: A dummy package for testing
+Version: 0.0.1
+Date: 2022-01-14
+Maintainer: Allison Vuong <vuong.allison@gene.com>
+Description: Dummy package for testing.
+License: file GNE_LICENSE
+LazyLoad: yes
+Imports:
+  A (>= 1.0.0),
+  B (>= 1.2.2),
+  C
