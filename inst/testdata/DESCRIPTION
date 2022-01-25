@@ -8,6 +8,6 @@ Description: Dummy package for testing.
 License: file GNE_LICENSE
 LazyLoad: yes
 Imports:
-  A (>= 1.0.0),
-  B (>= 1.2.2),
+  A (>=1.0.0),
+  B (>=1.2.2),
   C
