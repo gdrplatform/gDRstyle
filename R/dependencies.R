@@ -26,7 +26,13 @@ checkDependencies <- function(dep_path, desc_path) {
 
   # Subset to those with version requirements.
   rp_pkgs <- rp_deps$pkgs
-  rp_ver <- lapply(rp_pkgs, function(x) x$ver) 
+  rp_ver <- lapply(rp_pkgs, function(x) {
+    if (is.null(x$ver)) {
+      "*"
+    } else {
+      x$ver
+    }
+  ) 
 
   idx <- match(names(rp_ver), desc_deps$package)
   if (any(na_idx <- is.na(idx))) {
