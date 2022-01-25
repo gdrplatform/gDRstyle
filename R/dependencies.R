@@ -66,6 +66,17 @@ compare_versions <- function(rp, desc) {
   misaligned_ver_pkgs
 }
 
+
+#' Tidy version strings.
+#'
+#' Tidy version strings, often to make them comparable.
+#'
+#' @param ver String of a package version.
+#'
+#' @return Tidied string of package version.
+#'
+#' @keywords internal
+#' @noRd
 .tidy_versions <- function(ver) {
   gsub(" ", "", ver)
 }
