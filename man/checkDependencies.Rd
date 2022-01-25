@@ -4,9 +4,13 @@
 \alias{checkDependencies}
 \title{Check for alignment of package dependencies across Rplatform and package specifications.}
 \usage{
-checkDependencies(pkg_dir = ".")
+checkDependencies(dep_path, desc_path)
 }
 \arguments{
+\item{dep_path}{String of path to the rplatform \code{dependencies.yaml} file.}
+
+\item{desc_path}{String of the path to the package \code{DESCRIPTION} file.}
+
 \item{pkg_dir}{String of path to package directory. 
 Defaults to the current directory.}
 }

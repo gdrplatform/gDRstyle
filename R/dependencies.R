@@ -2,6 +2,8 @@
 #'
 #' Check the package depedency version specifications in the \code{rplatform/dependencies.yaml} and \code{DESCRIPTION}.
 #'
+#' @param dep_path String of path to the rplatform \code{dependencies.yaml} file.
+#' @param desc_path String of the path to the package \code{DESCRIPTION} file.
 #' @param pkg_dir String of path to package directory. 
 #' Defaults to the current directory.
 #'
@@ -10,18 +12,15 @@
 #' @importFrom yaml read_yaml
 #' @importFrom desc desc_get_deps
 #' @export
-checkDependencies <- function(pkg_dir = ".") {
-  dyml <- "dependencies.yaml"
-  dep_path <- system(sprintf("find %s -name %s", pkg_dir, dyml), intern=TRUE)
+checkDependencies <- function(dep_path, desc_path) {
   if (file.exists(dep_path)) {
     rp_deps <- read_yaml(dep_path)
   } else {
     stop(sprintf("no '%s' file found", dyml))
   }
 
-  desc_path <- system(sprintf("find %s -name DESCRIPTION", pkg_dir), intern=TRUE)
   if (length(desc_path) != 1L) {
-    stop("more than one DESCRIPTION file found")
+    stop("more than one 'DESCRIPTION' file found")
   }
   desc_deps <- desc_get_deps(desc_path)
 
