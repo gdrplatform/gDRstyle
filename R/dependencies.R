@@ -26,7 +26,13 @@ checkDependencies <- function(dep_path, desc_path) {
 
   # Subset to those with version requirements.
   rp_pkgs <- rp_deps$pkgs
-  rp_ver <- lapply(rp_pkgs, function(x) x$ver) 
+  rp_ver <- lapply(rp_pkgs, function(x) {
+    if (is.null(x$ver)) {
+      "*"
+    } else {
+      x$ver
+    }
+  ) 
 
   idx <- match(names(rp_ver), desc_deps$package)
   if (any(na_idx <- is.na(idx))) {
@@ -41,9 +47,11 @@ checkDependencies <- function(dep_path, desc_path) {
   # Reverse search.
   desc_pkgs <- desc_deps[desc_deps$version != "*", c("package")]
   bad_pkgs <- unique(c(bad_pkgs, setdiff(desc_pkgs, names(rp_pkgs))))
-
-  stop(sprintf("misaligned package versions between 'rplatform/dependencies.yaml' and package 'DESCRIPTION' file: %s", paste0(bad_pkgs, collapse=", ")))
-  return(NULL)
+  
+  if (length(bad_pkgs) != 0L) {
+    stop(sprintf("misaligned package versions between 'rplatform/dependencies.yaml' and package 'DESCRIPTION' file: %s", paste0(bad_pkgs, collapse=", ")))
+  }
+  invisible(NULL)
 }
 
 
@@ -59,9 +67,24 @@ compare_versions <- function(rp, desc) {
   stopifnot(all(names(rp) == names(desc)))
   misaligned_ver_pkgs <- NULL
   for (pkg in names(rp)) {
-    if (rp[[pkg]] != desc[[pkg]]) {
+    if (.tidy_versions(rp[[pkg]]) != .tidy_versions(desc[[pkg]])) {
       misaligned_ver_pkgs <- c(misaligned_ver_pkgs, pkg) 
     }
   }
   misaligned_ver_pkgs
+}
+
+
+#' Tidy version strings.
+#'
+#' Tidy version strings, often to make them comparable.
+#'
+#' @param ver String of a package version.
+#'
+#' @return Tidied string of package version.
+#'
+#' @keywords internal
+#' @noRd
+.tidy_versions <- function(ver) {
+  gsub(" ", "", ver)
 }
