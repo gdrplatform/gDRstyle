@@ -45,7 +45,7 @@ checkDependencies <- function(dep_path, desc_path) {
   if (length(bad_pkgs) != 0L) {
     stop(sprintf("misaligned package versions between 'rplatform/dependencies.yaml' and package 'DESCRIPTION' file: %s", paste0(bad_pkgs, collapse=", ")))
   }
-  return(NULL)
+  invisible(NULL)
 }
 
 
