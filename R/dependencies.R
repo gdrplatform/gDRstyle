@@ -41,8 +41,10 @@ checkDependencies <- function(dep_path, desc_path) {
   # Reverse search.
   desc_pkgs <- desc_deps[desc_deps$version != "*", c("package")]
   bad_pkgs <- unique(c(bad_pkgs, setdiff(desc_pkgs, names(rp_pkgs))))
-
-  stop(sprintf("misaligned package versions between 'rplatform/dependencies.yaml' and package 'DESCRIPTION' file: %s", paste0(bad_pkgs, collapse=", ")))
+  
+  if (length(bad_pkgs) != 0L) {
+    stop(sprintf("misaligned package versions between 'rplatform/dependencies.yaml' and package 'DESCRIPTION' file: %s", paste0(bad_pkgs, collapse=", ")))
+  }
   return(NULL)
 }
 
