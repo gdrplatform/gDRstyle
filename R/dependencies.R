@@ -59,9 +59,13 @@ compare_versions <- function(rp, desc) {
   stopifnot(all(names(rp) == names(desc)))
   misaligned_ver_pkgs <- NULL
   for (pkg in names(rp)) {
-    if (rp[[pkg]] != desc[[pkg]]) {
+    if (.tidy_versions(rp[[pkg]]) != .tidy_versions(desc[[pkg]])) {
       misaligned_ver_pkgs <- c(misaligned_ver_pkgs, pkg) 
     }
   }
   misaligned_ver_pkgs
+}
+
+.tidy_versions <- function(ver) {
+  gsub(" ", "", ver)
 }
