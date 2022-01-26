@@ -32,7 +32,7 @@ checkDependencies <- function(dep_path, desc_path) {
     } else {
       x$ver
     }
-  ) 
+  }) 
 
   idx <- match(names(rp_ver), desc_deps$package)
   if (any(na_idx <- is.na(idx))) {
