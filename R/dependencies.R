@@ -16,11 +16,14 @@ checkDependencies <- function(dep_path, desc_path) {
   if (file.exists(dep_path)) {
     rp_deps <- read_yaml(dep_path)
   } else {
-    stop(sprintf("no '%s' file found", dyml))
+    stop(sprintf("'%s' file not found", dep_path))
   }
 
-  if (length(desc_path) != 1L) {
+  if (length(desc_path) > 1L) {
     stop("more than one 'DESCRIPTION' file found")
+  }
+  if (!file.exists(desc_path)) {
+    stop(sprintf("'%s' file not found", desc_path))
   }
   desc_deps <- desc_get_deps(desc_path)
 
