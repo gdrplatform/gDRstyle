@@ -29,6 +29,12 @@ checkDependencies <- function(dep_path, desc_path) {
 
   # Subset to those with version requirements.
   rp_pkgs <- rp_deps$pkgs
+  
+  skiped_packages <- lapply(rp_pkgs, function(x){
+    !isTRUE(x$NonDescription)
+  })
+  rp_pkgs <- rp_pkgs[unlist(skiped_packages)]
+  
   rp_ver <- lapply(rp_pkgs, function(x) {
     if (is.null(x$ver)) {
       "*"
