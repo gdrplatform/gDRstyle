@@ -33,7 +33,7 @@ checkDependencies <- function(dep_path, desc_path) {
   skipped_packages <- lapply(rp_pkgs, function(x){
     isTRUE(x$NonDescription)
   })
-  rp_pkgs <- rp_pkgs[unlist(!skipped_packages)]
+  rp_pkgs <- rp_pkgs[!unlist(skipped_packages)]
   
   rp_ver <- lapply(rp_pkgs, function(x) {
     if (is.null(x$ver)) {
