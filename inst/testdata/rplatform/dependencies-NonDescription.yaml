@@ -1,0 +1,8 @@
+pkgs:
+  A:
+    ver: '>= 1.0.0'
+  B: 
+    ver: '>= 1.2.2'
+  D: 
+    ver: '>= 1.0.0'
+    NonDescription: TRUE
