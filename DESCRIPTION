@@ -1,14 +1,14 @@
 Package: gDRstyle
 Type: Package
 Title: A package with style requirements for the gDR suite 
-Version: 0.0.9
-Date: 2022-03-23
+Version: 0.0.10
+Date: 2022-03-25
 Authors@R: c(person("Allison", "Vuong", role=c("cre", "aut"), email="vuong.allison@gene.com"),
              person("Dariusz", "Scigocki", role=c("aut", "ctb")),
              person("Aleksander", "Chlebowski", role=c("ctb")),
              person("Arkadiusz", "Gladki", role=c("ctb")),
              person("Bartosz", "Czech", role=c("ctb"))) 
-Maintainer: Allison Vuong <vuong.allison@gene.com>
+Maintainer: gDR team <gdr-support-d@gene.com>
 Description: Describes style requirements and contains style tests for packages in the gDR suite. Also includes any CI/CD templates to be applied to other repos.
 License: file GNE_LICENSE
 LazyLoad: yes
