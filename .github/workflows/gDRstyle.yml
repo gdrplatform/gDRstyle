@@ -59,4 +59,4 @@ jobs:
 
       - name: Run tests
         run: |
-          docker run -v `pwd`:/mnt/vol ${{ env.TEST_TAG }} bash -c 'bash /mnt/vol/rplatform/run_tests.sh /mnt/vol/gDRstyle'
+          docker run -v `pwd`:/mnt/vol ${{ env.TEST_TAG }} bash -c 'bash /mnt/vol/rplatform/run_tests.sh /mnt/vol/'
