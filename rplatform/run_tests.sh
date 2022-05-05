@@ -10,11 +10,11 @@ echo "Working directory contains: `ls | tr '\n' ' '`"
 set -e
 
 echo ">>>>>>>> Running linter"
-Rscript -e "gDRstyle::lintPkgDirs('/mnt/vol')"
+Rscript -e "gDRstyle::lintPkgDirs('/home/rstudio/projects/gDRstyle')"
 
 echo ">>>>> RUNNING UNIT TESTS"
 Rscript -e "testthat::test_local(path = '$repo_path', stop_on_failure = TRUE)"
 
 echo ">>>>> RUNNING DEVTOOLS::CHECK()"
-sudo R CMD check --no-build-vignettes --no-manual --no-tests /mnt/vol
+sudo R CMD check --no-build-vignettes --no-manual --no-tests "$repo_path"
 
