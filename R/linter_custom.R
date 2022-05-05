@@ -17,9 +17,10 @@
 #'   )
 #' }
 roxygen_tag_linter <- function(tag = "@author") {
+  
   stopifnot(length(tag) == 1, nzchar(tag))
 
-  lintr::Linter(function(source_file) {
+  fun <- function(source_file) {
     lapply(
       lintr::ids_with_token(source_file, "FUNCTION"),
       function(id) {
@@ -60,5 +61,10 @@ roxygen_tag_linter <- function(tag = "@author") {
         }
 
       })
-  })
+  }
+  # to ensure backward compatibility, temporarily change the class by hand,
+  # it future we should switch to `lintr::Linter(function(source_file) {...}`
+  class(fun) <- "linter"
+  fun
 }
+
