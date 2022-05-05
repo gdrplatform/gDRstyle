@@ -1,7 +1,7 @@
 #' @noRd
 #' @export
 linters_config <- lintr::with_defaults(
-  #object_usage_linter = NULL,
+  #object_usage_linter = NULL, # nolint
   #absolute_paths_linter = NULL,
   #assignment_linter = NULL,
   #closed_curly_linter = NULL,
@@ -26,5 +26,6 @@ linters_config <- lintr::with_defaults(
   #assignment_linter = NULL,
   object_usage_linter = NULL,
   object_length_linter = NULL
-  # roxygen_tag_linter = roxygen_tag_linter() # commented out, because will require a lot of work to make it work with all repos
+  # commented out, because will require a lot of work to make it work with all repos
+  # roxygen_tag_linter = roxygen_tag_linter() # nolint
 )

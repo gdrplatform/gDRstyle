@@ -31,7 +31,7 @@ checkDependencies <- function(dep_path, desc_path) {
   rp_pkgs <- rp_deps$pkgs
   
   # Skip defined packages
-  skipped_packages <- lapply(rp_pkgs, function(x){
+  skipped_packages <- lapply(rp_pkgs, function(x) {
     isTRUE(x$NonDescription)
   })
   rp_pkgs <- rp_pkgs[!unlist(skipped_packages)]
@@ -47,7 +47,7 @@ checkDependencies <- function(dep_path, desc_path) {
   idx <- match(names(rp_ver), desc_deps$package)
   if (any(na_idx <- is.na(idx))) {
     stop(sprintf("packages specified in 'dependencies.yaml' not present in 'DESCRIPTION': %s",
-      paste0(names(rp_ver)[na_idx], collapse=", ")))
+                 paste0(names(rp_ver)[na_idx], collapse = ", ")))
   }
   xrp_ver <- desc_deps[idx, "version"]
   names(xrp_ver) <- desc_deps[idx, "package"]
