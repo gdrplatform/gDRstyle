@@ -3,7 +3,7 @@ Type: Package
 Title: A package with style requirements for the gDR suite 
 Version: 0.0.10
 Date: 2022-03-25
-Authors@R: c(person("Allison", "Vuong", role=c("cre", "aut"), email="vuong.allison@gene.com"),
+Author: c(person("Allison", "Vuong", role=c("cre", "aut"), email="vuong.allison@gene.com"),
              person("Dariusz", "Scigocki", role=c("aut", "ctb")),
              person("Aleksander", "Chlebowski", role=c("ctb")),
              person("Arkadiusz", "Gladki", role=c("ctb")),
