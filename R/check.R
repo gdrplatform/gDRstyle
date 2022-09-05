@@ -6,8 +6,17 @@
 #'
 #' @export
 checkPackage <- function(pkgName, repoDir, subdir) {
+  print(paste("Name:", pkgName))
+  print(paste("Repo:", repoDir))
+  print(paste("Subdir:", subdir))
   pkgDir <- file.path(repoDir, subdir)
-
+  
+  print(paste("Dir:", pkgDir))
+  print("==================")
+  print(list.files(pkgDir))
+  print("==================")
+  print(list.files("/opt/"))
+  
   stopifnot(
     dir.exists(repoDir),
     dir.exists(pkgDir)
