@@ -102,5 +102,5 @@ compare_versions <- function(rp, desc) {
 #' @keywords internal
 #' @noRd
 .tidy_versions <- function(ver) {
-  gsub(" ", "", ver)
+  gsub("\\s|==", "", ver)
 }
