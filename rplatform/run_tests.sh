@@ -10,5 +10,5 @@ echo "Working directory contains: `ls | tr '\n' ' '`"
 set -e
 
 echo ">>>>>>>> RUNNING CHECK"
-Rscript -e "gDRstyle::checkPackage('gDRutils' , '$repo_path', FALSE)"
+Rscript -e "gDRstyle::checkPackage('gDRstyle' , '$repo_path')"
 

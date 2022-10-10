@@ -5,9 +5,9 @@
 #' @param repoDir String of path to repository directory.
 #'
 #' @export
-checkPackage <- function(pkgName, repoDir, subdir) {
-  pkgDir <- if(subdir) {
-    file.path(repoDir, pkgName)
+checkPackage <- function(pkgName, repoDir, subdir = NULL) {
+  pkgDir <- if(!is.null(subdir)) {
+    file.path(repoDir, subdir)
   } else {
     file.path(repoDir)
   }
@@ -28,7 +28,7 @@ checkPackage <- function(pkgName, repoDir, subdir) {
   
   cat("Deps")
   gDRstyle::checkDependencies(
-    desc_path = paste0(repoDir, '/', pkgName, '/DESCRIPTION'), 
-    dep_path = paste0(repoDir, '/rplatform/dependencies.yaml')
+    desc_path = file.path(repoDir, pkgName, 'DESCRIPTION'), 
+    dep_path = file.path(repoDir, 'rplatform', 'dependencies.yaml')
   )
 }

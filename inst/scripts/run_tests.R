@@ -14,4 +14,4 @@ invisible(
 )
 
 # Check package
-gDRstyle::checkPackage(PKG_NAME, REPO_DIR, as.logical(PKG_SUBDIR))
+gDRstyle::checkPackage(PKG_NAME, REPO_DIR, PKG_SUBDIR)
