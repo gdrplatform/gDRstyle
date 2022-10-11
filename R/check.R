@@ -6,10 +6,10 @@
 #'
 #' @export
 checkPackage <- function(pkgName, repoDir, subdir = NULL) {
-  pkgDir <- if(!is.null(subdir)) {
-    file.path(repoDir, subdir)
-  } else {
+  pkgDir <- if(is.null(subdir) || subdir == "~") {
     file.path(repoDir)
+  } else {
+    file.path(repoDir, subdir)
   }
 
   stopifnot(
