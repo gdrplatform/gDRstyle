@@ -7,6 +7,7 @@ ARG GITHUB_TOKEN
 #================= Check & build package
 RUN mkdir -p /mnt/vol
 COPY ./ /tmp/gDRstyle/
+COPY rplatform/install_repo.R /mnt/vol
 RUN R -f /mnt/vol/install_repo.R 
 
 #================= Clean up
