@@ -89,13 +89,17 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
 
   for (name in names(deps)) {
     pkg <- deps[[name]]
-    if (is.null(pkg$source)) { pkg$source <- "Git" }
+    if (is.null(pkg$source)) {
+      pkg$source <- "Git" 
+    }
     switch(
       EXPR = toupper(pkg$source),
 
       ## CRAN installation
       "CRAN" = {
-        if (is.null(pkg$repos)) { pkg$repos <- repos }
+        if (is.null(pkg$repos)) {
+          pkg$repos <- repos
+        }
         remotes::install_version(
           package = name,
           version = pkg$ver,
@@ -105,7 +109,9 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
 
       ## Bioconductor installation
       "BIOC" = {
-        if (is.null(pkg$ver)) { pkg$ver <- BiocManager::version() }
+        if (is.null(pkg$ver)) {
+          pkg$ver <- BiocManager::version() 
+        }
         BiocManager::install(
           pkgs = name,
           update = FALSE,
@@ -115,7 +121,9 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
 
       ## GitHub installation
       "GITHUB" = {
-        if (is.null(pkg$ref)) { pkg$ref <- "HEAD" }
+        if (is.null(pkg$ref)) {
+          pkg$ref <- "HEAD" 
+        }
         remotes::install_github(
           repo = pkg$url,
           ref = pkg$ref,
