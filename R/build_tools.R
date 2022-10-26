@@ -98,7 +98,7 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
       ## CRAN installation
       "CRAN" = {
         if (is.null(pkg$repos)) {
-          pkg$repos <- repos
+          pkg$repos <- getOption("repos")
         }
         remotes::install_version(
           package = name,
