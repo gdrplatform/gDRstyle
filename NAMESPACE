@@ -2,6 +2,8 @@
 
 export(checkDependencies)
 export(checkPackage)
+export(installAllDeps)
+export(installLocalPackage)
 export(lintPkg)
 export(lintPkgDirs)
 export(lintPkgInDir)
