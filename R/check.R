@@ -25,7 +25,11 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL) {
   devtools::test(pkgDir, stop_on_failure = TRUE)
   
   cat("Check")
-  devtools::check(pkgDir, error_on = "error", args = c("--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests"))
+  devtools::check(
+    pkgDir, 
+    error_on = "error", 
+    args = c("--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests")
+  )
   
   cat("Deps")
   gDRstyle::checkDependencies(
