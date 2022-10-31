@@ -33,7 +33,7 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL) {
   
   cat("Deps")
   gDRstyle::checkDependencies(
-    desc_path = file.path(repoDir, pkgName, "DESCRIPTION"), 
+    desc_path = file.path(repoDir, pkgDir, "DESCRIPTION"), 
     dep_path = file.path(repoDir, "rplatform", "dependencies.yaml")
   )
 }
