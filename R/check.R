@@ -9,7 +9,7 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL) {
   pkgDir <- if (is.null(subdir) || subdir == "~") {
     file.path(repoDir)
   } else {
-    option(pkgSubdir = subdir)
+    options(pkgSubdir = subdir)
     file.path(repoDir, subdir)
   }
 
