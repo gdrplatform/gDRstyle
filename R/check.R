@@ -31,9 +31,12 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL) {
     args = c("--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests")
   )
   
-  cat("Deps")
-  gDRstyle::checkDependencies(
-    desc_path = file.path(pkgDir, "DESCRIPTION"), 
-    dep_path = file.path(repoDir, "rplatform", "dependencies.yaml")
-  )
+  depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
+  if (file.exists(depsYaml)) {
+    cat("Deps")
+    gDRstyle::checkDependencies(
+      desc_path = file.path(pkgDir, "DESCRIPTION"), 
+      dep_path = depsYaml
+    )
+  }
 }
