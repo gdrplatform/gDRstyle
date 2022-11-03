@@ -27,8 +27,8 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL) {
   cat("Check")
   rcmdcheck::rcmdcheck(
     pkgDir, 
-    error_on = 'error', 
-    args = ("--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests")
+    error_on = "error", 
+    args = c("--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests")
   )
   
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
