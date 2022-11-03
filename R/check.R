@@ -22,10 +22,10 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL) {
   gDRstyle::lintPkgDirs(pkgDir)
   
   cat("Tests")
-  devtools::test(pkgDir, stop_on_failure = TRUE)
+  testthat::test_local(pkgDir, stop_on_failure = TRUE)
   
   cat("Check")
-  devtools::check(
+  rcmdcheck::rcmdcheck(
     pkgDir, 
     error_on = "error", 
     args = c("--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests")
