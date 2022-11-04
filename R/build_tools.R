@@ -162,7 +162,7 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
           ref = pkg$ref
         )
         verify_version(name, pkg$ver)
-      }
+      },
 
       stop("Invalid or unsupported source attribute")
     )
