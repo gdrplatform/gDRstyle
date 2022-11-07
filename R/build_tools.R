@@ -10,10 +10,20 @@ setTokenVar <- function(base_dir) {
   # Use GitHub access_token if available
   gh_access_token_file <- file.path(base_dir, ".github_access_token.txt")
   if (file.exists(gh_access_token_file)) {
-    ac <- readLines(gh_access_token_file, n = 1L)
-    stopifnot(length(ac) > 0)
-    
-    Sys.setenv(GITHUB_TOKEN = ac)
+    secrets <- readLines(gh_access_token_file)
+    stopifnot(length(secrets) > 0)
+
+    if(length(secrets) == 1) {
+      Sys.setenv(GITHUB_PAT = secrets)
+    } else {
+      tokens <- strsplit(secrets, "=")
+      lapply(tokens, function(x) {
+        args <- list(x[2])
+        names(args) <- x[1]
+
+        do.call(Sys.setenv, args)
+      })
+    }
   }
 }
 
@@ -140,6 +150,16 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
           subdir = pkg$subdir,
           ref = pkg$ref,
           credentials = keys
+        )
+        verify_version(name, pkg$ver)
+      },
+
+      "GITLAB" = {
+        remotes::install_gitlab(
+          repo = pkg$repo,
+          host = ifelse(!is.null(pkg$host), pkg$host, "code.roche.com"),
+          subdir = pkg$subdir,
+          ref = pkg$ref
         )
         verify_version(name, pkg$ver)
       },
