@@ -155,11 +155,18 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
       },
 
       "GITLAB" = {
-        remotes::install_gitlab(
-          repo = pkg$repo,
-          host = ifelse(!is.null(pkg$host), pkg$host, "code.roche.com"),
-          subdir = pkg$subdir,
-          ref = pkg$ref
+        repo <- paste(tempdir(), 'install_pkg_git', name, sep = .Platform$file.sep)
+        url <- if (grepl("code.roche.com", pkg$url)) {
+          sprintf("https://%s@%s", Sys.getenv("GITLAB_PAT"), pkg$url)
+        } else {
+          pkg$url
+        }
+        system2("git", c("clone", url, "--branch", pkg$ref, "--single-branch", "--depth", "1", repo))
+        remotes::install_local(
+          paste(repo, pkg$subdir, sep = .Platform$file.sep), 
+          dependencies = TRUE,
+          upgrade = "never", 
+          quiet = FALSE
         )
         verify_version(name, pkg$ver)
       },
