@@ -155,7 +155,7 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
       },
 
       "GITLAB" = {
-        repo <- paste(tempdir(), 'install_pkg_git', pkg$name, sep = .Platform$file.sep)
+        repo <- paste(tempdir(), 'install_pkg_git', name, sep = .Platform$file.sep)
         url <- if (grepl("code.roche.com", pkg$url)) {
           sprintf("https://%s@%s", Sys.getenv("GITLAB_PAT"), pkg$url)
         } else {
