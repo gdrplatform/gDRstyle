@@ -10,6 +10,7 @@ name: main
 
 on:
   pull_request:
+  workflow_call:
 
 jobs:
   package_test:
