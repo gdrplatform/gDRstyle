@@ -14,10 +14,13 @@ on:
     inputs:
       USERNAME:
         required: true
+        type: string
       PACKAGE_NAME:
         required: true
-      BRNCH_NAME:
+        type: string
+      BRANCH_NAME:
         required: true
+        type: string
     secrets:
       PRIVATE_ACCESS_TOKEN:
         required: true
