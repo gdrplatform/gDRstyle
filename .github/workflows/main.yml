@@ -57,7 +57,7 @@ jobs:
         name: Wait for test results
         run: |
           curl -s -X POST \
-            -F token=${{ secrets.GITLAB_TOKEN }} \
+            -F token=${{ secrets.GDRGENESIS_TRIGGER_TOKEN }} \
             -F ref=main \
             -F "variables[PACKAGE_NAME]=${{ github.event.repository.name }}" \
             -F "variables[BRANCH_NAME]=${{ github.head_ref }}" \
