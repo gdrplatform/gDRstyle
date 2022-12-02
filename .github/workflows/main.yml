@@ -54,4 +54,12 @@ jobs:
       ##################
       - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'true' }}
         name: Wait for test results
-        run: exit 1
+        run: |
+          curl --request POST \
+            --form token=${{ secrets.PRIVATE_ACCESS_TOKEN }} \
+            --form ref=main \
+            --form "variables[PACKAGE_NAME]=${{ github.event.repository.name }}" \
+            --form "variables[BRANCH_NAME]=$GITHUB_REF_NAME" \
+            --form "variables[GITHUB_TRIGGER]=true"
+            "https://code.roche.com/api/v4/projects/167859/trigger/pipeline"
+          exit 1
