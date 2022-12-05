@@ -31,10 +31,8 @@ jobs:
   package_test:
     runs-on: ubuntu-18.04
     env:
-      #GITHUB_TOKEN: ${{ secrets.PRIVATE_ACCESS_TOKEN }}
       TEST_TAG: user/app:latest-${{ github.sha }}
       USERNAME: ${{ github.actor }}
-      #GDRGENESIS_TOKEN: ${{ secrets.GDRGENESIS_TRIGGER_TOKEN }}
       PACKAGE_NAME: ${{ github.event.repository.name }}
       BRANCH_NAME: ${{ github.head_ref }}
     steps:
@@ -79,6 +77,5 @@ jobs:
             -F ref=main \
             -F "variables[PACKAGE_NAME]=${{ env.PACKAGE_NAME }}" \
             -F "variables[BRANCH_NAME]=${{ env.BRANCH_NAME }}" \
-            -F "variables[GITHUB_TRIGGER]=true" \
             "https://code.roche.com/api/v4/projects/167859/trigger/pipeline"
           exit 1
