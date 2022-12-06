@@ -74,7 +74,7 @@ jobs:
         run: |
           curl -s -X POST \
             -F token=${{ secrets.GDRGENESIS_TRIGGER_TOKEN }} \
-            -F ref=main \
+            -F ref=GDR-1675 \
             -F "variables[PACKAGE_NAME]=${{ env.PACKAGE_NAME }}" \
             -F "variables[BRANCH_NAME]=${{ env.BRANCH_NAME }}" \
             "https://code.roche.com/api/v4/projects/167859/trigger/pipeline"
