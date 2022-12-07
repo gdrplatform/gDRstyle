@@ -10,19 +10,36 @@ name: main
 
 on:
   pull_request:
+  workflow_call:
+    inputs:
+      USERNAME:
+        required: true
+        type: string
+      PACKAGE_NAME:
+        required: true
+        type: string
+      BRANCH_NAME:
+        required: true
+        type: string
+    secrets:
+      PRIVATE_ACCESS_TOKEN:
+        required: true
+      GDRGENESIS_TRIGGER_TOKEN:
+        required: true
 
 jobs:
   package_test:
     runs-on: ubuntu-18.04
     env:
-      GITHUB_TOKEN: ${{ secrets.PRIVATE_ACCESS_TOKEN }}
       TEST_TAG: user/app:latest-${{ github.sha }}
-
+      USERNAME: ${{ github.actor }}
+      PACKAGE_NAME: ${{ github.event.repository.name }}
+      BRANCH_NAME: ${{ github.head_ref }}
     steps:
       - uses: tspascoal/get-user-teams-membership@v1
         id: checkUserMember
         with:
-          username: ${{ github.actor }}
+          username: ${{ env.USERNAME }}
           team: 'PR reviewers'
           GITHUB_TOKEN: ${{ secrets.PRIVATE_ACCESS_TOKEN }}
 
@@ -54,4 +71,11 @@ jobs:
       ##################
       - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'true' }}
         name: Wait for test results
-        run: exit 1
+        run: |
+          curl -s -X POST \
+            -F token=${{ secrets.GDRGENESIS_TRIGGER_TOKEN }} \
+            -F ref=main \
+            -F "variables[PACKAGE_NAME]=${{ env.PACKAGE_NAME }}" \
+            -F "variables[BRANCH_NAME]=${{ env.BRANCH_NAME }}" \
+            "https://code.roche.com/api/v4/projects/167859/trigger/pipeline"
+          exit 1
