@@ -68,7 +68,7 @@ test_notes <- function(check, repo_dir) {
 #' @param repoDir String of path to repository directory.
 #'
 #' @export
-checkPackage <- function(pkgName, repoDir, subdir = NULL) {
+checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
   pkgDir <- if (is.null(subdir) || subdir == "~") {
     file.path(repoDir)
   } else {
@@ -90,7 +90,7 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL) {
   cat("Check")
   check <- rcmdcheck::rcmdcheck(
     pkgDir, 
-    error_on = "warning", 
+    error_on = fail_on, 
     args = c("--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests")
   )
   
