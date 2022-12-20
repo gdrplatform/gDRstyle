@@ -69,6 +69,7 @@ test_notes <- function(check, repo_dir) {
 #'
 #' @export
 checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
+
   pkgDir <- if (is.null(subdir) || subdir == "~") {
     file.path(repoDir)
   } else {
@@ -76,6 +77,13 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
     file.path(repoDir, subdir)
   }
 
+  # stop on warning in tests if 'fail_on' level is below 'error'
+  stopOnWarning <- if (fail_on %in% c("warning", "note")) {
+    TRUE
+  } else {
+    FALSE
+  }
+  
   stopifnot(
     dir.exists(repoDir),
     dir.exists(pkgDir)
@@ -85,7 +93,7 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
   gDRstyle::lintPkgDirs(pkgDir)
   
   cat("Tests")
-  testthat::test_local(pkgDir, stop_on_failure = TRUE)
+  testthat::test_local(pkgDir, stop_on_failure = TRUE, stop_on_warning = stopOnWarning)
   
   cat("Check")
   check <- rcmdcheck::rcmdcheck(
