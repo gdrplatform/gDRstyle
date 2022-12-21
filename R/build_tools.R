@@ -13,7 +13,7 @@ setTokenVar <- function(base_dir) {
     secrets <- readLines(gh_access_token_file)
     stopifnot(length(secrets) > 0)
 
-    if(length(secrets) == 1) {
+    if (length(secrets) == 1) {
       Sys.setenv(GITHUB_PAT = secrets)
     } else {
       tokens <- strsplit(secrets, "=")
@@ -155,7 +155,7 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
       },
 
       "GITLAB" = {
-        repo <- paste(tempdir(), 'install_pkg_git', name, sep = .Platform$file.sep)
+        repo <- paste(tempdir(), "install_pkg_git", name, sep = .Platform$file.sep)
         url <- if (grepl("code.roche.com", pkg$url)) {
           sprintf("https://%s@%s", Sys.getenv("GITLAB_PAT"), pkg$url)
         } else {

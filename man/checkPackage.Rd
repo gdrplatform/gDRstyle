@@ -4,7 +4,7 @@
 \alias{checkPackage}
 \title{Check package}
 \usage{
-checkPackage(pkgName, repoDir, subdir)
+checkPackage(pkgName, repoDir, subdir = NULL, fail_on = "warning")
 }
 \arguments{
 \item{pkgName}{String of package name.}
