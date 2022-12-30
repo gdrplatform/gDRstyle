@@ -47,7 +47,7 @@ load_valid_notes <- function(repo_dir) {
   file_dir <- file.path(repo_dir, "rplatform", "valid_notes2.R")
   
   if (file.exists(file_dir)) {
-    source(file_dir)
+    source(file_dir)$value
   } else {
     list()
   }
