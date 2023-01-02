@@ -4,7 +4,7 @@
 #'
 #' @param dep_path String of path to the rplatform \code{dependencies.yaml} file.
 #' @param desc_path String of the path to the package \code{DESCRIPTION} file.
-#' @param pkg_dir String of path to package directory. 
+#' @param skip_pkgs vector of packages from \code{DESCRIPTION} to skip; defaults to \code{R}
 #' Defaults to the current directory.
 #'
 #' @return \code{NULL} invisibly.
@@ -12,7 +12,7 @@
 #' @importFrom yaml read_yaml
 #' @importFrom desc desc_get_deps
 #' @export
-checkDependencies <- function(dep_path, desc_path) {
+checkDependencies <- function(dep_path, desc_path, skip_pkgs = "R") {
   if (file.exists(dep_path)) {
     rp_deps <- read_yaml(dep_path)
   } else {
@@ -55,7 +55,7 @@ checkDependencies <- function(dep_path, desc_path) {
   bad_pkgs <- compare_versions(rp_ver, xrp_ver)
 
   # Reverse search.
-  desc_pkgs <- desc_deps[desc_deps$version != "*", c("package")]
+  desc_deps[desc_deps$version != "*" & !desc_deps$package %in% skip_pkgs, c("package")]
   bad_pkgs <- unique(c(bad_pkgs, setdiff(desc_pkgs, names(rp_pkgs))))
   
   if (length(bad_pkgs) != 0L) {
