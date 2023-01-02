@@ -55,7 +55,7 @@ checkDependencies <- function(dep_path, desc_path, skip_pkgs = "R") {
   bad_pkgs <- compare_versions(rp_ver, xrp_ver)
 
   # Reverse search.
-  desc_deps <- desc_deps[desc_deps$version != "*" & !desc_deps$package %in% skip_pkgs, c("package")]
+  desc_pkgs <- desc_deps[desc_deps$version != "*" & !desc_deps$package %in% skip_pkgs, c("package")]
   bad_pkgs <- unique(c(bad_pkgs, setdiff(desc_pkgs, names(rp_pkgs))))
   
   if (length(bad_pkgs) != 0L) {
