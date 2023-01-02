@@ -4,14 +4,14 @@
 \alias{checkDependencies}
 \title{Check for alignment of package dependencies across Rplatform and package specifications.}
 \usage{
-checkDependencies(dep_path, desc_path)
+checkDependencies(dep_path, desc_path, skip_pkgs = "R")
 }
 \arguments{
 \item{dep_path}{String of path to the rplatform \code{dependencies.yaml} file.}
 
 \item{desc_path}{String of the path to the package \code{DESCRIPTION} file.}
 
-\item{pkg_dir}{String of path to package directory. 
+\item{skip_pkgs}{vector of packages from \code{DESCRIPTION} to skip; defaults to \code{R}
 Defaults to the current directory.}
 }
 \value{
