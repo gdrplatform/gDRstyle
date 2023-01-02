@@ -97,12 +97,14 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
   
   cat("Check")
   check <- rcmdcheck::rcmdcheck(
-    pkgDir, 
-    error_on = fail_on, 
+    pkgDir,
+    error_on = if (fail_on == "note") "warning" else fail_on,
     args = c("--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests")
   )
   
-  test_notes(check, repoDir)
+  if (fail_on == "note") {
+    test_notes(check, repoDir)
+  }
   
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
   if (file.exists(depsYaml)) {
