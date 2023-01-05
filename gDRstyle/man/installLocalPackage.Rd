@@ -9,6 +9,8 @@ installLocalPackage(repo_path, additionalRepos = NULL, base_dir = "/mnt/vol")
 \arguments{
 \item{repo_path}{String of repository directory.}
 
+\item{additionalRepos}{List of additional Repos}
+
 \item{base_dir}{String of base working directory.}
 }
 \description{

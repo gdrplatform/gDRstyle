@@ -10,12 +10,17 @@ Author: c(person("Allison", "Vuong", role=c("cre", "aut"), email="vuong.allison@
              person("Bartosz", "Czech", role=c("ctb"))) 
 Maintainer: gDR team <gdr-support-d@gene.com>
 Description: Describes style requirements and contains style tests for packages in the gDR suite. Also includes any CI/CD templates to be applied to other repos.
-License: file GNE_LICENSE
+License: file LICENSE
 LazyLoad: yes
 Imports:
+    BiocManager,
+    curl,
     desc,
+    git2r,
     knitr,
     lintr,
+    rcmdcheck,
+    remotes,
     yaml
 Suggests:
     testthat,

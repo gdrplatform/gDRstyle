@@ -6,7 +6,7 @@
 #' and we want every other note in this section (and others) to fail check.
 #' Accepted NOTE has 2 lines, therefore the length = 2. Then we want to
 #' check whether the content of this NOTE is correct, so we take one of the lines
-#' (eg. index_to_check = 2) and grep for content of this line 
+#' (eg. index_to_check = 2) and grep for content of this line
 #' (eg. text_to_check = "assignment to" )
 #' This will result in any other NOTE failing check
 #'
@@ -23,11 +23,11 @@
 #' ‘pcg_path’
 #' Undefined global functions or variables:
 #'  pcg_path
-#'
+#' @keywords internal
 test_notes_check <- function(check_results, valid_notes_list) {
   if (!is.null(check_results$notes)) {
     NOTEs <- strsplit(check_results$notes, "\n")
-    
+
     is_note_valid <- vapply(NOTEs, function(note) {
       any(vapply(valid_notes_list, function(valid_note) {
         length_check <- length(note) == valid_note$length
@@ -35,9 +35,9 @@ test_notes_check <- function(check_results, valid_notes_list) {
         length_check && text_check
       }, FUN.VALUE = logical(1)))
     }, FUN.VALUE = logical(1))
-    
+
     if (!all(is_note_valid)) {
-      stop("Check found unexpected NOTEs: \n", 
+      stop("Check found unexpected NOTEs: \n",
            paste0(check_results$notes[!is_note_valid], collapse = " "))
     }
   }
@@ -45,7 +45,7 @@ test_notes_check <- function(check_results, valid_notes_list) {
 
 load_valid_notes <- function(repo_dir) {
   file_dir <- file.path(repo_dir, "rplatform", "valid_notes2.R")
-  
+
   if (file.exists(file_dir)) {
     source(file_dir)$value
   } else {
@@ -55,7 +55,7 @@ load_valid_notes <- function(repo_dir) {
 
 test_notes <- function(check, repo_dir) {
   valid_notes <- load_valid_notes(repo_dir)
-  
+
   if (length(valid_notes)) {
     test_notes_check(check, valid_notes)
   }
@@ -64,8 +64,10 @@ test_notes <- function(check, repo_dir) {
 #' Check package
 #'
 #' @param pkgName String of package name.
-#' @param pkgDir String of path to package directory.
 #' @param repoDir String of path to repository directory.
+#' @param subdir String of subpath to package directory.
+#' @param fail_on String specifying the level at which check fail.
+#' Supported values: `note`, `warning`(default) and `error`
 #'
 #' @export
 checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
@@ -83,7 +85,7 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
   } else {
     FALSE
   }
-  
+
   stopifnot(
     dir.exists(repoDir),
     dir.exists(pkgDir)
@@ -91,26 +93,26 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
 
   cat("Lint")
   gDRstyle::lintPkgDirs(pkgDir)
-  
+
   cat("Tests")
   testthat::test_local(pkgDir, stop_on_failure = TRUE, stop_on_warning = stopOnWarning)
-  
+
   cat("Check")
   check <- rcmdcheck::rcmdcheck(
     pkgDir,
     error_on = if (fail_on == "note") "warning" else fail_on,
     args = c("--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests")
   )
-  
+
   if (fail_on == "note") {
     test_notes(check, repoDir)
   }
-  
+
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
   if (file.exists(depsYaml)) {
     cat("Deps")
     gDRstyle::checkDependencies(
-      desc_path = file.path(pkgDir, "DESCRIPTION"), 
+      desc_path = file.path(pkgDir, "DESCRIPTION"),
       dep_path = depsYaml
     )
   }

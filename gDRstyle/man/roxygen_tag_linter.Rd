@@ -9,9 +9,6 @@ roxygen_tag_linter(tag = "@author")
 \arguments{
 \item{tag}{character (default \code{@author})}
 }
-\value{
-\code{\link[lintr]{Linter}}
-}
 \description{
 Check that function has documented specific tag in Roxygen skeleton (default \code{@author}).
 }

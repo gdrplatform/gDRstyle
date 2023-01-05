@@ -11,7 +11,10 @@ checkPackage(pkgName, repoDir, subdir = NULL, fail_on = "warning")
 
 \item{repoDir}{String of path to repository directory.}
 
-\item{pkgDir}{String of path to package directory.}
+\item{subdir}{String of subpath to package directory.}
+
+\item{fail_on}{String specifying the level at which check fail.
+Supported values: `note`, `warning`(default) and `error`}
 }
 \description{
 Check package

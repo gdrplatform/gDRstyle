@@ -29,20 +29,20 @@ checkDependencies <- function(dep_path, desc_path, skip_pkgs = "R") {
 
   # Subset to those with version requirements.
   rp_pkgs <- rp_deps$pkgs
-  
+
   # Skip defined packages
   skipped_packages <- lapply(rp_pkgs, function(x) {
     isTRUE(x$NonDescription)
   })
   rp_pkgs <- rp_pkgs[!unlist(skipped_packages)]
-  
+
   rp_ver <- lapply(rp_pkgs, function(x) {
     if (is.null(x$ver)) {
       "*"
     } else {
       x$ver
     }
-  }) 
+  })
 
   idx <- match(names(rp_ver), desc_deps$package)
   if (any(na_idx <- is.na(idx))) {
@@ -57,7 +57,7 @@ checkDependencies <- function(dep_path, desc_path, skip_pkgs = "R") {
   # Reverse search.
   desc_pkgs <- desc_deps[desc_deps$version != "*" & !desc_deps$package %in% skip_pkgs, c("package")]
   bad_pkgs <- unique(c(bad_pkgs, setdiff(desc_pkgs, names(rp_pkgs))))
-  
+
   if (length(bad_pkgs) != 0L) {
     stop(
       sprintf(
@@ -75,16 +75,16 @@ checkDependencies <- function(dep_path, desc_path, skip_pkgs = "R") {
 #' Compare listed package versions in the dependencies.yaml file as compared to the package DESCRIPTION file.
 #'
 #' @param rp Named list of package version requirements specified by rplatform \code{dependencies.yaml}.
-#' @param rp Named list of package version requirements specified by package \code{DESCRIPTION} file.
+#' @param desc Named list of package version requirements specified by package \code{DESCRIPTION} file.
 #'
-#' @return Character vector of any misaligned package versions between rplatform \code{dependencies.yaml} 
+#' @return Character vector of any misaligned package versions between rplatform \code{dependencies.yaml}
 #' and package \code{DESCRIPTION}.
 compare_versions <- function(rp, desc) {
   stopifnot(all(names(rp) == names(desc)))
   misaligned_ver_pkgs <- NULL
   for (pkg in names(rp)) {
     if (.tidy_versions(rp[[pkg]]) != .tidy_versions(desc[[pkg]])) {
-      misaligned_ver_pkgs <- c(misaligned_ver_pkgs, pkg) 
+      misaligned_ver_pkgs <- c(misaligned_ver_pkgs, pkg)
     }
   }
   misaligned_ver_pkgs
