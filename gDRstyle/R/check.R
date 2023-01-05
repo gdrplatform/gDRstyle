@@ -56,9 +56,7 @@ load_valid_notes <- function(repo_dir) {
 test_notes <- function(check, repo_dir) {
   valid_notes <- load_valid_notes(repo_dir)
 
-  if (length(valid_notes)) {
-    test_notes_check(check, valid_notes)
-  }
+  test_notes_check(check, valid_notes)
 }
 
 #' Check package
