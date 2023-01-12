@@ -23,7 +23,7 @@
 #' ‘pcg_path’
 #' Undefined global functions or variables:
 #'  pcg_path
-#'
+#' @keywords internal
 test_notes_check <- function(check_results, valid_notes_list) {
   if (!is.null(check_results$notes)) {
     NOTEs <- strsplit(check_results$notes, "\n")
@@ -62,8 +62,10 @@ test_notes <- function(check, repo_dir) {
 #' Check package
 #'
 #' @param pkgName String of package name.
-#' @param pkgDir String of path to package directory.
 #' @param repoDir String of path to repository directory.
+#' @param subdir String of subpath to package directory.
+#' @param fail_on String specifying the level at which check fail.
+#' Supported values: `note`, `warning`(default) and `error`
 #'
 #' @export
 checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {

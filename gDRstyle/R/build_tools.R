@@ -72,6 +72,7 @@ getSshKeys <- function(use_ssh) {
 #' Install locally cloned repo for builiding image purposes
 #'
 #' @param repo_path String of repository directory.
+#' @param additionalRepos List of additional Repos
 #' @param base_dir String of base working directory.
 #'
 #' @export
@@ -84,6 +85,7 @@ installLocalPackage <- function(repo_path, additionalRepos = NULL, base_dir = "/
 
 #' Install all package dependencies from yaml file for builiding image purposes
 #'
+#' @param additionalRepos List of additional Repos
 #' @param base_dir String of base working directory.
 #' @param use_ssh logical, if use ssh keys
 #'
@@ -100,7 +102,7 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
   for (name in names(deps)) {
     pkg <- deps[[name]]
     if (is.null(pkg$source)) {
-      pkg$source <- "Git" 
+      pkg$source <- "Git"
     }
     switch(
       EXPR = toupper(pkg$source),
@@ -120,7 +122,7 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
       ## Bioconductor installation
       "BIOC" = {
         if (is.null(pkg$ver)) {
-          pkg$ver <- BiocManager::version() 
+          pkg$ver <- BiocManager::version()
         }
         BiocManager::install(
           pkgs = name,
@@ -132,7 +134,7 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
       ## GitHub installation
       "GITHUB" = {
         if (is.null(pkg$ref)) {
-          pkg$ref <- "HEAD" 
+          pkg$ref <- "HEAD"
         }
         remotes::install_github(
           repo = pkg$url,
@@ -163,9 +165,9 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
         }
         system2("git", c("clone", url, "--branch", pkg$ref, "--single-branch", "--depth", "1", repo))
         remotes::install_local(
-          paste(repo, pkg$subdir, sep = .Platform$file.sep), 
+          paste(repo, pkg$subdir, sep = .Platform$file.sep),
           dependencies = TRUE,
-          upgrade = "never", 
+          upgrade = "never",
           quiet = FALSE
         )
         verify_version(name, pkg$ver)

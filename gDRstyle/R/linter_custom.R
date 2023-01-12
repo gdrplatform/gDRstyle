@@ -4,7 +4,6 @@
 #'
 #' @param tag character (default \code{@@author})
 #'
-#' @return \code{\link[lintr]{Linter}}
 #' @export
 #'
 #' @author Kamil Foltynski <kamil.foltynski@@contractors.roche.com>
@@ -17,7 +16,7 @@
 #'   )
 #' }
 roxygen_tag_linter <- function(tag = "@author") {
-  
+
   stopifnot(length(tag) == 1, nzchar(tag))
 
   fun <- function(source_file) {

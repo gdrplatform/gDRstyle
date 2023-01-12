@@ -7,6 +7,8 @@
 installAllDeps(additionalRepos = NULL, base_dir = "/mnt/vol", use_ssh = FALSE)
 }
 \arguments{
+\item{additionalRepos}{List of additional Repos}
+
 \item{base_dir}{String of base working directory.}
 
 \item{use_ssh}{logical, if use ssh keys}
