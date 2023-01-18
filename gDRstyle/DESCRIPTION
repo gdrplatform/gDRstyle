@@ -17,12 +17,12 @@ Imports:
     curl,
     desc,
     git2r,
-    knitr,
     lintr,
     rcmdcheck,
     remotes,
     yaml
 Suggests:
+    knitr,
     testthat,
     withr
 VignetteBuilder: knitr
