@@ -25,6 +25,8 @@
 #'  pcg_path
 #' @keywords internal
 test_notes_check <- function(check_results, valid_notes_list) {
+  cat("Valid notes list")
+  print(valid_notes_list)
   if (!is.null(check_results$notes)) {
     NOTEs <- strsplit(check_results$notes, "\n")
 
@@ -103,6 +105,7 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
   )
 
   if (fail_on == "note") {
+    cat(paste("Check notes for pkg:", pkgName))
     test_notes(check, repoDir)
   }
 
