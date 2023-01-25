@@ -25,15 +25,18 @@
 #'  pcg_path
 #' @keywords internal
 test_notes_check <- function(check_results, valid_notes_list) {
-  cat("Valid notes list")
+  cat("Valid notes list ")
   print(valid_notes_list)
   if (!is.null(check_results$notes)) {
     NOTEs <- strsplit(check_results$notes, "\n")
 
     is_note_valid <- vapply(NOTEs, function(note) {
       any(vapply(valid_notes_list, function(valid_note) {
+        print(paste("NOTE", note))
+        print(paste("LENGTH NOTE", length(note)))
+        print(paste("LENGTH VALID NOTE", length(valid_note)))
         length_check <- length(note) == valid_note$length
-        text_check <- grepl(valid_note$text_to_check, note[valid_note$index_to_check])
+        text_check <- grepl(valid_note$text_to_check, paste(note, collapse = " "))
         length_check && text_check
       }, FUN.VALUE = logical(1)))
     }, FUN.VALUE = logical(1))
