@@ -26,9 +26,15 @@ checkDependencies <- function(dep_path, desc_path, skip_pkgs = "R") {
     stop(sprintf("'%s' file not found", desc_path))
   }
   desc_deps <- desc_get_deps(desc_path)
+  combo_deps <- yaml::read_yaml("/mnt/vol/dependencies_combo.yaml")
 
   # Subset to those with version requirements.
   rp_pkgs <- rp_deps$pkgs
+  combo_pkgs <- combo_deps$pkgs
+
+  duplicate <- names(combo_pkgs) %in% names(rp_pkgs)
+  combo_pkgs[duplicate] <- NULL
+  all_pkgs <- c(rp_pkgs, combo_pkgs)
 
   # Skip defined packages
   skipped_packages <- lapply(rp_pkgs, function(x) {
@@ -56,7 +62,7 @@ checkDependencies <- function(dep_path, desc_path, skip_pkgs = "R") {
 
   # Reverse search.
   desc_pkgs <- desc_deps[desc_deps$version != "*" & !desc_deps$package %in% skip_pkgs, c("package")]
-  bad_pkgs <- unique(c(bad_pkgs, setdiff(desc_pkgs, names(rp_pkgs))))
+  bad_pkgs <- unique(c(bad_pkgs, setdiff(desc_pkgs, names(all_pkgs))))
 
   if (length(bad_pkgs) != 0L) {
     stop(
