@@ -1,8 +1,8 @@
 Package: gDRstyle
 Type: Package
 Title: A package with style requirements for the gDR suite 
-Version: 1.3.11
-Date: 2023-01-26
+Version: 1.3.12
+Date: 2023-02-01
 Author: c(person("Allison", "Vuong", role=c("cre", "aut"), email="vuong.allison@gene.com"),
              person("Dariusz", "Scigocki", role=c("aut", "ctb")),
              person("Aleksander", "Chlebowski", role=c("ctb")),
@@ -27,5 +27,5 @@ Suggests:
     withr
 VignetteBuilder: knitr
 ByteCompile: TRUE
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.3
 Encoding: UTF-8

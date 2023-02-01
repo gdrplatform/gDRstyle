@@ -1,3 +1,6 @@
+[1.3.12] - 2023-02-01
+- fix tests for dependencies check
+
 [1.3.11] - 2023-01-26
 - improve dependencies check
 

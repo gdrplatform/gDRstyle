@@ -5,6 +5,7 @@
 #' @param dep_path String of path to the rplatform \code{dependencies.yaml} file.
 #' @param desc_path String of the path to the package \code{DESCRIPTION} file.
 #' @param skip_pkgs vector of packages from \code{DESCRIPTION} to skip; defaults to \code{R}
+#' @param combo_dep_path String of path to the combo image \code{dependencies.yaml} file.
 #' Defaults to the current directory.
 #'
 #' @return \code{NULL} invisibly.
@@ -12,7 +13,10 @@
 #' @importFrom yaml read_yaml
 #' @importFrom desc desc_get_deps
 #' @export
-checkDependencies <- function(dep_path, desc_path, skip_pkgs = "R") {
+checkDependencies <- function(dep_path,
+                              desc_path,
+                              skip_pkgs = "R",
+                              combo_dep_path = "/mnt/vol/dependencies_combo.yaml") {
   if (file.exists(dep_path)) {
     rp_deps <- read_yaml(dep_path)
   } else {
@@ -26,7 +30,7 @@ checkDependencies <- function(dep_path, desc_path, skip_pkgs = "R") {
     stop(sprintf("'%s' file not found", desc_path))
   }
   desc_deps <- desc_get_deps(desc_path)
-  combo_deps <- yaml::read_yaml("/mnt/vol/dependencies_combo.yaml")
+  combo_deps <- yaml::read_yaml(combo_dep_path)
 
   # Subset to those with version requirements.
   rp_pkgs <- rp_deps$pkgs
