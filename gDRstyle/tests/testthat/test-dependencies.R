@@ -4,7 +4,7 @@ test_that("checkDependencies works as expected", {
   expect_error(checkDependencies(
     dep_path = system.file(package = "gDRstyle", "testdata", "rplatform", "dependencies.yaml"),
     desc_path = system.file(package = "gDRstyle", "testdata", "DESCRIPTION"),
-    combo_dep_path = system.file(package = "gDRstyle", "testdata", "rplatform", "dependencies-combo.yaml")
+    combo_dep_path = system.file(package = "gDRstyle", "testdata", "rplatform", "dependencies_combo.yaml")
   ),
   regex = "misaligned package versions between 'rplatform/dependencies.yaml' and package 'DESCRIPTION' file: B")
 })
