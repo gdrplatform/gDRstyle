@@ -13,7 +13,7 @@ test_that("skiping in checkDependencies works as expected", {
   checkDependencies(
     dep_path = system.file(package = "gDRstyle", "testdata", "rplatform", "dependencies-NonDescription.yaml"),
     desc_path = system.file(package = "gDRstyle", "testdata", "DESCRIPTION"),
-    combo_dep_path = system.file(package = "gDRstyle", "testdata", "rplatform", "dependencies-combo.yaml")
+    combo_dep_path = system.file(package = "gDRstyle", "testdata", "rplatform", "dependencies_combo.yaml")
   )
 })
 
