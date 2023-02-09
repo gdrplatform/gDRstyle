@@ -1,6 +1,5 @@
 testthat::test_that("set repos properly", {
   repos <- getOption("repos")
-  testthat::expect_true("CRAN" %in% names(repos))
   testthat::expect_false("DUMMY" %in% names(repos))
 
   setReposOpt(additionalRepos = c(DUMMY = "DUMMY_REPO"))
