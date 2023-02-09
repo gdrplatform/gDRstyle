@@ -6,9 +6,9 @@ setReposOpt <- function(additionalRepos = NULL) {
   options(repos = repos)
 }
 
-setTokenVar <- function(base_dir) {
+setTokenVar <- function(base_dir, filename = ".github_access_token.txt") {
   # Use GitHub access_token if available
-  gh_access_token_file <- file.path(base_dir, ".github_access_token.txt")
+  gh_access_token_file <- file.path(base_dir, filename)
   if (file.exists(gh_access_token_file)) {
     secrets <- readLines(gh_access_token_file)
     stopifnot(length(secrets) > 0)
@@ -40,23 +40,6 @@ verify_version <- function(name, required_version) {
       pkg_version,
       required_version
     ))
-  }
-}
-#' this function help figuring out which GitHub domain should be used
-#' github.roche.com will be chosen if available
-#' otherwise github.com
-get_github_hostname <- function() {
-  conn_status <- tryCatch(
-    curl::curl_fetch_memory("github.roche.com"),
-    error = function(e) {
-      e
-    }
-  )
-  # error in connection to database will be returned as error list with exit_code = 2
-  if (inherits(conn_status, "error")) {
-    "api.github.com"
-  } else {
-    "github.roche.com/api/v3"
   }
 }
 
@@ -93,7 +76,6 @@ installLocalPackage <- function(repo_path, additionalRepos = NULL, base_dir = "/
 installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ssh = FALSE) {
   setReposOpt(additionalRepos)
   setTokenVar(base_dir)
-  gh_hostname <- get_github_hostname()
   keys <- getSshKeys(use_ssh)
 
   deps_yaml <- file.path(base_dir, "/dependencies.yaml")
@@ -107,6 +89,7 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
     switch(
       EXPR = toupper(pkg$source),
 
+      # nocov start
       ## CRAN installation
       "CRAN" = {
         if (is.null(pkg$repos)) {
@@ -140,7 +123,7 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
           repo = pkg$url,
           ref = pkg$ref,
           subdir = pkg$subdir,
-          host = ifelse(!is.null(pkg$host), pkg$host, gh_hostname)
+          host = ifelse(!is.null(pkg$host), pkg$host, "api.github.com")
         )
         verify_version(name, pkg$ver)
       },
@@ -172,6 +155,7 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
         )
         verify_version(name, pkg$ver)
       },
+      # nocov end
 
       stop("Invalid or unsupported source attribute")
     )
