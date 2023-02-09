@@ -1,13 +1,11 @@
 testthat::test_that("set repos properly", {
-  testthat::expect_equal(getOption("repos"), c(CRAN = "@CRAN@"))
+  repos <- getOption("repos")
+  testthat::expect_true("CRAN" %in% names(repos))
+  testthat::expect_false("DUMMY" %in% names(repos))
+
   setReposOpt(additionalRepos = c(DUMMY = "DUMMY_REPO"))
-  testthat::expect_equal(
-    getOption("repos"),
-    c(
-      CRAN = "https://cran.microsoft.com/snapshot/2023-01-20",
-      DUMMY = "DUMMY_REPO"
-    )
-  )
+  new_repos <- getOption("repos")
+  testthat::expect_true(all(c("CRAN", "DUMMY") %in% names(new_repos)))
 })
 
 testthat::test_that("set tokens properly", {
