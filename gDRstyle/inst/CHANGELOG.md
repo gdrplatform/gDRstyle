@@ -1,3 +1,6 @@
+[1.3.13] - 2023-02-10
+- increase unit tests coverage
+
 [1.3.12] - 2023-02-01
 - fix tests for dependencies check
 
