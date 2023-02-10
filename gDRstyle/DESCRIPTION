@@ -14,7 +14,6 @@ License: file LICENSE
 LazyLoad: yes
 Imports:
     BiocManager,
-    curl,
     desc,
     git2r,
     lintr,
