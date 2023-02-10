@@ -30,15 +30,20 @@ checkDependencies <- function(dep_path,
     stop(sprintf("'%s' file not found", desc_path))
   }
   desc_deps <- desc_get_deps(desc_path)
-  combo_deps <- yaml::read_yaml(combo_dep_path)
-
   # Subset to those with version requirements.
   rp_pkgs <- rp_deps$pkgs
-  combo_pkgs <- combo_deps$pkgs
 
-  duplicate <- names(combo_pkgs) %in% names(rp_pkgs)
-  combo_pkgs[duplicate] <- NULL
-  all_pkgs <- c(rp_pkgs, combo_pkgs)
+  if (file.exists(combo_dep_path)) {
+    combo_deps <- yaml::read_yaml(combo_dep_path)
+
+    combo_pkgs <- combo_deps$pkgs
+
+    duplicate <- names(combo_pkgs) %in% names(rp_pkgs)
+    combo_pkgs[duplicate] <- NULL
+    all_pkgs <- c(rp_pkgs, combo_pkgs)
+  } else {
+    all_pkgs <- rp_pkgs
+  }
 
   # Skip defined packages
   skipped_packages <- lapply(rp_pkgs, function(x) {

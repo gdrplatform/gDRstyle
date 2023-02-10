@@ -1,0 +1,7 @@
+pkgs:
+  dummyPkg:
+    ver: '>=5.10.15'
+    url: gdrplatform/dummyPkg
+    ref: master
+    subdir: ~
+    source: DUMMY_SRC

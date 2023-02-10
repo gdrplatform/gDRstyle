@@ -1,8 +1,8 @@
 Package: gDRstyle
 Type: Package
 Title: A package with style requirements for the gDR suite 
-Version: 1.3.12
-Date: 2023-02-01
+Version: 1.3.13
+Date: 2023-02-10
 Author: c(person("Allison", "Vuong", role=c("cre", "aut"), email="vuong.allison@gene.com"),
              person("Dariusz", "Scigocki", role=c("aut", "ctb")),
              person("Aleksander", "Chlebowski", role=c("ctb")),
@@ -14,7 +14,6 @@ License: file LICENSE
 LazyLoad: yes
 Imports:
     BiocManager,
-    curl,
     desc,
     git2r,
     lintr,
