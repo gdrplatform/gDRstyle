@@ -35,6 +35,7 @@ jobs:
       USERNAME: ${{ github.actor }}
       PACKAGE_NAME: ${{ github.event.repository.name }}
       BRANCH_NAME: ${{ github.head_ref }}
+      BASE_IMAGE: marcinkam/gdrshiny:0.11
     steps:
       - uses: tspascoal/get-user-teams-membership@v1
         id: checkUserMember
