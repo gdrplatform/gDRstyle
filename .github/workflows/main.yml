@@ -59,7 +59,7 @@ jobs:
           context: .
           load: true
           tags: ${{ env.TEST_TAG }}
-          build-args:
+          build-args: |
             GITHUB_TOKEN=${{ secrets.PRIVATE_ACCESS_TOKEN }}
             BASE_IMAGE=${{ env.BASE_IMAGE }}
       - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'true' }}
