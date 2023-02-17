@@ -35,6 +35,7 @@ jobs:
       USERNAME: ${{ github.actor }}
       PACKAGE_NAME: ${{ github.event.repository.name }}
       BRANCH_NAME: ${{ github.head_ref }}
+      BASE_IMAGE: marcinkam/gdrshiny:0.11
     steps:
       - uses: tspascoal/get-user-teams-membership@v1
         id: checkUserMember
@@ -59,13 +60,13 @@ jobs:
           context: .
           load: true
           tags: ${{ env.TEST_TAG }}
-          build-args:
+          build-args: |
             GITHUB_TOKEN=${{ secrets.PRIVATE_ACCESS_TOKEN }}
             BASE_IMAGE=${{ env.BASE_IMAGE }}
       - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
         name: Run tests
         run: |
-          docker run -v `pwd`:/mnt/vol ${{ env.TEST_TAG }} bash -c 'bash /mnt/vol/rplatform/run_tests.sh /mnt/vol/gDRutils'
+          docker run -v `pwd`:/mnt/vol ${{ env.TEST_TAG }} bash -c 'bash /mnt/vol/rplatform/run_tests.sh /mnt/vol/'
       
       ##################
       # User from Gene #
