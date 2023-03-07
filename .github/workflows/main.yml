@@ -29,7 +29,7 @@ on:
 
 jobs:
   package_test:
-    runs-on: ubuntu-18.04
+    runs-on: ubuntu-20.04
     env:
       TEST_TAG: user/app:latest-${{ github.sha }}
       USERNAME: ${{ github.actor }}
