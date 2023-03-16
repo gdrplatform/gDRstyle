@@ -65,10 +65,11 @@ test_notes <- function(check, repo_dir) {
 #' @param repoDir String of path to repository directory.
 #' @param subdir String of subpath to package directory.
 #' @param fail_on String specifying the level at which check fail.
+#' @param bioc_check Logical whether bioc check should be performed
 #' Supported values: `note`, `warning`(default) and `error`
 #'
 #' @export
-checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
+checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning", bioc_check = FALSE) {
 
   pkgDir <- if (is.null(subdir) || subdir == "~") {
     file.path(repoDir)
@@ -104,6 +105,13 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
 
   if (fail_on == "note") {
     test_notes(check, repoDir)
+  }
+
+  if (bioc_check) {
+    BiocCheck::BiocCheck(
+      package = pkgDir,
+      `--no-check-unit-tests` = TRUE # unit tests are called in previous step
+    )
   }
 
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")

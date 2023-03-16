@@ -4,7 +4,13 @@
 \alias{checkPackage}
 \title{Check package}
 \usage{
-checkPackage(pkgName, repoDir, subdir = NULL, fail_on = "warning")
+checkPackage(
+  pkgName,
+  repoDir,
+  subdir = NULL,
+  fail_on = "warning",
+  bioc_check = FALSE
+)
 }
 \arguments{
 \item{pkgName}{String of package name.}
@@ -13,7 +19,9 @@ checkPackage(pkgName, repoDir, subdir = NULL, fail_on = "warning")
 
 \item{subdir}{String of subpath to package directory.}
 
-\item{fail_on}{String specifying the level at which check fail.
+\item{fail_on}{String specifying the level at which check fail.}
+
+\item{bioc_check}{Logical whether bioc check should be performed
 Supported values: `note`, `warning`(default) and `error`}
 }
 \description{
