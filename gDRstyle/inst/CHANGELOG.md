@@ -1,3 +1,6 @@
+[1.3.14] - 2023-03-15
+- handle BiocCheck
+
 [1.3.13] - 2023-02-10
 - increase unit tests coverage
 
