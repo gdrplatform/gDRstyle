@@ -13,6 +13,7 @@ Description: Describes style requirements and contains style tests for packages 
 License: file LICENSE
 LazyLoad: yes
 Imports:
+    BiocCheck,
     BiocManager,
     desc,
     git2r,
