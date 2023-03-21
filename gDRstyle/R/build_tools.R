@@ -14,7 +14,9 @@ setTokenVar <- function(base_dir, filename = ".github_access_token.txt") {
     stopifnot(length(secrets) > 0)
 
     if (length(secrets) == 1) {
-      Sys.setenv(GITHUB_PAT = secrets)
+      args <- list(secrets)
+      names(args) <- "GITHUB_PAT"
+      do.call(Sys.setenv, args)
     } else {
       tokens <- strsplit(secrets, "=")
       lapply(tokens, function(x) {
@@ -29,7 +31,7 @@ setTokenVar <- function(base_dir, filename = ".github_access_token.txt") {
 
 # Auxiliary functions
 verify_version <- function(name, required_version) {
-  pkg_version <- packageVersion(name)
+  pkg_version <- utils::packageVersion(name)
   ## '>=1.2.3' => '>= 1.2.3'
   required_version <-
     gsub("^([><=]+)([0-9.]+)$", "\\1 \\2", required_version, perl = TRUE)
@@ -58,22 +60,37 @@ getSshKeys <- function(use_ssh) {
 #' @param additionalRepos List of additional Repos
 #' @param base_dir String of base working directory.
 #'
+#' @return \code{NULL}
 #' @export
-installLocalPackage <- function(repo_path, additionalRepos = NULL, base_dir = "/mnt/vol") {
+installLocalPackage <- function(repo_path,
+                                additionalRepos = NULL,
+                                base_dir = "/mnt/vol") {
   setReposOpt(additionalRepos)
   setTokenVar(base_dir)
 
   remotes::install_local(path = repo_path)
 }
 
-#' Install all package dependencies from yaml file for builiding image purposes
+#' Install all package dependencies from yaml file for
+#' building image purposes
 #'
 #' @param additionalRepos List of additional Repos
 #' @param base_dir String of base working directory.
 #' @param use_ssh logical, if use ssh keys
 #'
+#' @examples
+#' installAllDeps(
+#'   base_dir = "testdata/",
+#'   additionalRepos = c(
+#'     CRAN = "https://cran.microsoft.com/snapshot/2023-01-20"
+#'   )
+#' )
+#'
+#' @return \code{NULL}
 #' @export
-installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ssh = FALSE) {
+installAllDeps <- function(additionalRepos = NULL,
+                           base_dir = "/mnt/vol",
+                           use_ssh = FALSE) {
   setReposOpt(additionalRepos)
   setTokenVar(base_dir)
   keys <- getSshKeys(use_ssh)
@@ -81,83 +98,96 @@ installAllDeps <- function(additionalRepos = NULL, base_dir = "/mnt/vol", use_ss
   deps_yaml <- file.path(base_dir, "/dependencies.yaml")
   deps <- yaml::read_yaml(deps_yaml)$pkgs
 
+
   for (name in names(deps)) {
     pkg <- deps[[name]]
     if (is.null(pkg$source)) {
       pkg$source <- "Git"
     }
+    repo <- paste(tempdir(), "install_pkg_git", name, sep = .Platform$file.sep)
+    url <- if (grepl("code.roche.com", pkg$url)) {
+      sprintf("https://%s@%s", Sys.getenv("GITLAB_PAT"), pkg$url)
+    } else {
+      pkg$url
+    }
+
     switch(
       EXPR = toupper(pkg$source),
 
       # nocov start
-      ## CRAN installation
-      "CRAN" = {
-        if (is.null(pkg$repos)) {
-          pkg$repos <- getOption("repos")
-        }
-        remotes::install_version(
-          package = name,
-          version = pkg$ver,
-          repos = pkg$repos
-        )
-      },
+      "CRAN" = install_cran(name = name, pkg = pkg),
 
-      ## Bioconductor installation
-      "BIOC" = {
-        if (is.null(pkg$ver)) {
-          pkg$ver <- BiocManager::version()
-        }
-        BiocManager::install(
-          pkgs = name,
-          update = FALSE,
-          version = pkg$ver  ## Bioc version or 'devel'
-        )
-      },
+      "BIOC" = install_bioc(name = name, pkg = pkg),
 
-      ## GitHub installation
-      "GITHUB" = {
-        if (is.null(pkg$ref)) {
-          pkg$ref <- "HEAD"
-        }
-        remotes::install_github(
-          repo = pkg$url,
-          ref = pkg$ref,
-          subdir = pkg$subdir,
-          host = ifelse(!is.null(pkg$host), pkg$host, "api.github.com")
-        )
-        verify_version(name, pkg$ver)
-      },
+      "GITHUB" = install_github(name = name, pkg = pkg),
 
-      ## Git installation
-      "GIT" = {
-        remotes::install_git(
-          url = pkg$url,
-          subdir = pkg$subdir,
-          ref = pkg$ref,
-          credentials = keys
-        )
-        verify_version(name, pkg$ver)
-      },
+      "GIT" = install_git(name = name, pkg = pkg, keys = keys),
 
-      "GITLAB" = {
-        repo <- paste(tempdir(), "install_pkg_git", name, sep = .Platform$file.sep)
-        url <- if (grepl("code.roche.com", pkg$url)) {
-          sprintf("https://%s@%s", Sys.getenv("GITLAB_PAT"), pkg$url)
-        } else {
-          pkg$url
-        }
-        system2("git", c("clone", url, "--branch", pkg$ref, "--single-branch", "--depth", "1", repo))
-        remotes::install_local(
-          paste(repo, pkg$subdir, sep = .Platform$file.sep),
-          dependencies = TRUE,
-          upgrade = "never",
-          quiet = FALSE
-        )
-        verify_version(name, pkg$ver)
-      },
+      "GITLAB" = install_gitlab(name = name, pkg = pkg, url = url, repo = repo),
       # nocov end
 
       stop("Invalid or unsupported source attribute")
     )
   }
 }
+
+# nocov start
+install_cran <- function(name, pkg) {
+  if (is.null(pkg$repos)) {
+    pkg$repos <- getOption("repos")
+  }
+  remotes::install_version(
+    package = name,
+    version = pkg$ver,
+    repos = pkg$repos
+  )
+}
+
+install_bioc <- function(name, pkg) {
+  if (is.null(pkg$ver)) {
+    pkg$ver <- BiocManager::version()
+  }
+  remotes::install_bioc(
+    repo = name,
+    upgrade = "never"
+  )
+  verify_version(name, pkg$ver)
+}
+
+install_github <- function(name, pkg) {
+  if (is.null(pkg$ref)) {
+    pkg$ref <- "HEAD"
+  }
+  remotes::install_github(
+    repo = pkg$url,
+    ref = pkg$ref,
+    subdir = pkg$subdir,
+    host = ifelse(!is.null(pkg$host), pkg$host, "api.github.com")
+  )
+  verify_version(name, pkg$ver)
+}
+
+install_git <- function(name, pkg, keys) {
+  remotes::install_git(
+    url = pkg$url,
+    subdir = pkg$subdir,
+    ref = pkg$ref,
+    credentials = keys
+  )
+  verify_version(name, pkg$ver)
+}
+
+install_gitlab <- function(name, pkg, url, repo) {
+  git_args <- c(
+    "clone", url, "--branch", pkg$ref, "--single-branch", "--depth", "1", repo
+  )
+  system2("git", git_args)
+  remotes::install_local(
+    paste(repo, pkg$subdir, sep = .Platform$file.sep),
+    dependencies = TRUE,
+    upgrade = "never",
+    quiet = FALSE
+  )
+  verify_version(name, pkg$ver)
+}
+# nocov end

@@ -21,4 +21,10 @@ Lint select subdirectories in a package directory.
 }
 \details{
 Will look for files in the following directories:
+\code{"R"}, \code{"tests"}, and conditionally \code{"inst/shiny"}
+if \code{shiny} is \code{TRUE}.
+}
+\examples{
+lintPkgDirs(pkg_dir= ".")
+
 }

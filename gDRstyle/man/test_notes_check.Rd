@@ -2,9 +2,12 @@
 % Please edit documentation in R/check.R
 \name{test_notes_check}
 \alias{test_notes_check}
-\title{Let's assume there is a valid note:}
+\title{Assume there is a valid note:}
 \usage{
 test_notes_check(check_results, valid_notes_list)
+}
+\value{
+\code{NULL}
 }
 \description{
 > checking R code for possible problems ... NOTE
@@ -13,12 +16,12 @@ mini_facile_app: no visible binding for '<<-' assignment to ‘CONFIG’
 \details{
 and we want every other note in this section (and others) to fail check.
 Accepted NOTE has 2 lines, therefore the length = 2. Then we want to
-check whether the content of this NOTE is correct, so we take one of the lines
-(eg. index_to_check = 2) and grep for content of this line
+check whether the content of this NOTE is correct, so we take one of
+the lines (eg. index_to_check = 2) and grep for content of this line
 (eg. text_to_check = "assignment to" )
 This will result in any other NOTE failing check
 
-For instance if we take:
+Take:
 
   list(
     list(length = 2, index_to_check = 2, text_to_check = "assignment to")

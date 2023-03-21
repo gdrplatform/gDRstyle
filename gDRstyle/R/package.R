@@ -1,4 +1,3 @@
-#' @importFrom utils packageVersion
 
 utils::globalVariables(
   c(
