@@ -32,51 +32,28 @@ checkDependencies <- function(dep_path,
   desc_deps <- desc_get_deps(desc_path)
   # Subset to those with version requirements.
   rp_pkgs <- rp_deps$pkgs
-
-  if (file.exists(combo_dep_path)) {
-    combo_deps <- yaml::read_yaml(combo_dep_path)
-
-    combo_pkgs <- combo_deps$pkgs
-
-    duplicate <- names(combo_pkgs) %in% names(rp_pkgs)
-    combo_pkgs[duplicate] <- NULL
-    all_pkgs <- c(rp_pkgs, combo_pkgs)
-  } else {
-    all_pkgs <- rp_pkgs
-  }
+  all_pkgs <- get_all_pkgs(combo_dep_path = combo_dep_path, rp_pkgs = rp_pkgs)
 
   # Skip defined packages
-  skipped_packages <- lapply(rp_pkgs, function(x) {
-    isTRUE(x$NonDescription)
-  })
+  skipped_packages <- lapply(rp_pkgs, function(x) {isTRUE(x$NonDescription)})
   rp_pkgs <- rp_pkgs[!unlist(skipped_packages)]
 
-  rp_ver <- lapply(rp_pkgs, function(x) {
-    if (is.null(x$ver)) {
-      "*"
-    } else {
-      x$ver
-    }
-  })
+  rp_ver <- lapply(rp_pkgs, function(x) {`if`(is.null(x$ver), "*", x$ver)})
 
-  idx <- match(names(rp_ver), desc_deps$package)
-  if (any(na_idx <- is.na(idx))) {
-    stop(sprintf("packages specified in 'dependencies.yaml' not present in 'DESCRIPTION': %s",
-                 paste0(names(rp_ver)[na_idx], collapse = ", ")))
-  }
-  xrp_ver <- desc_deps[idx, "version"]
-  names(xrp_ver) <- desc_deps[idx, "package"]
+  # Bad pkgs search
+  bad_pkgs <- pkgs_search(rp_ver = rp_ver, desc_deps = desc_deps)
 
-  bad_pkgs <- compare_versions(rp_ver, xrp_ver)
-
-  # Reverse search.
-  desc_pkgs <- desc_deps[desc_deps$version != "*" & !desc_deps$package %in% skip_pkgs, c("package")]
-  bad_pkgs <- unique(c(bad_pkgs, setdiff(desc_pkgs, names(all_pkgs))))
+  # Reverse search
+  bad_pkgs <- unique(c(
+    bad_pkgs,
+    pkgs_reverse_search(desc = desc_deps, skip = skip_pkgs, all = all_pkgs)
+  ))
 
   if (length(bad_pkgs) != 0L) {
     stop(
       sprintf(
-        "misaligned package versions between 'rplatform/dependencies.yaml' and package 'DESCRIPTION' file: %s",
+        "misaligned package versions between 'rplatform/dependencies.yaml'
+        and package 'DESCRIPTION' file: %s",
         paste0(bad_pkgs, collapse = ", ")
       )
     )
@@ -118,4 +95,40 @@ compare_versions <- function(rp, desc) {
 #' @noRd
 .tidy_versions <- function(ver) {
   gsub("\\s|==", "", ver)
+}
+
+get_all_pkgs <- function(combo_dep_path, rp_pkgs) {
+  if (file.exists(combo_dep_path)) {
+    combo_deps <- yaml::read_yaml(combo_dep_path)
+
+    combo_pkgs <- combo_deps$pkgs
+
+    duplicate <- names(combo_pkgs) %in% names(rp_pkgs)
+    combo_pkgs[duplicate] <- NULL
+
+    c(rp_pkgs, combo_pkgs)
+  } else {
+    rp_pkgs
+  }
+}
+
+pkgs_search <- function(rp_ver, desc_deps) {
+  idx <- match(names(rp_ver), desc_deps$package)
+  if (any(na_idx <- is.na(idx))) {
+    stop(sprintf(
+      "packages specified in 'dependencies.yaml' not present in 'DESCRIPTION': %s",
+      paste0(names(rp_ver)[na_idx], collapse = ", ")
+    ))
+  }
+  xrp_ver <- desc_deps[idx, "version"]
+  names(xrp_ver) <- desc_deps[idx, "package"]
+
+  compare_versions(rp_ver, xrp_ver)
+}
+
+pkgs_reverse_search <- function(desc, skip, all) {
+  cond <- desc$version != "*" & !desc$package %in% skip
+  pkgs <- desc[cond, c("package")]
+
+  setdiff(pkgs, names(all))
 }

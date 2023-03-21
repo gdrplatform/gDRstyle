@@ -1,18 +1,22 @@
 Package: gDRstyle
 Type: Package
 Title: A package with style requirements for the gDR suite 
-Version: 1.3.13
-Date: 2023-02-10
-Author: c(person("Allison", "Vuong", role=c("cre", "aut"), email="vuong.allison@gene.com"),
-             person("Dariusz", "Scigocki", role=c("aut", "ctb")),
-             person("Aleksander", "Chlebowski", role=c("ctb")),
-             person("Arkadiusz", "Gladki", role=c("ctb")),
-             person("Bartosz", "Czech", role=c("ctb"))) 
-Maintainer: gDR team <gdr-support-d@gene.com>
-Description: Describes style requirements and contains style tests for packages in the gDR suite. Also includes any CI/CD templates to be applied to other repos.
+Version: 1.16.14
+Date: 2023-03-15
+Authors@R: c(
+    person("Allison", "Vuong", role=c("cre", "aut"), email="vuong.allison@gene.com"),
+    person("Dariusz", "Scigocki", role=c("aut", "ctb")),
+    person("Marcin", "Kamianowski", role=c("aut", "ctb")),
+    person("Aleksander", "Chlebowski", role=c("ctb")),
+    person("Arkadiusz", "Gladki", role=c("ctb")),
+    person("Bartosz", "Czech", role=c("ctb")))
+Description: Package fills a helper package role for whole gDR suite. It helps to 
+    support good development practices by keeping style requirements and style tests for 
+    other packages. It also contains build helpers to make all package requirements met.
 License: file LICENSE
 LazyLoad: yes
 Imports:
+    BiocCheck,
     BiocManager,
     desc,
     git2r,

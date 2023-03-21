@@ -12,7 +12,7 @@
 lintPkg <- function(pkg_dir = ".") {
   result <- lint_package(pkg_dir, linters = linters_config)
   if (length(result) > 0L) {
-    print(result)
+    message(result)
     stop("Found lints")
   }
   invisible(NULL)
@@ -42,9 +42,12 @@ lintPkgDirs <- function(pkg_dir = ".", shiny = FALSE) {
     failures <- c(failures, failure)
   }
   if (!is.null(failures)) {
-    stop(sprintf("Found linter failures in files: '%s'", paste0(failures, collapse = ", ")))
+    stop(sprintf(
+      "Found linter failures in files: '%s'",
+      paste0(failures, collapse = ", ")
+    ))
   } else {
-    print("All files OK!")
+    message("All files OK!")
   }
   invisible(NULL)
 }
@@ -55,13 +58,18 @@ lintPkgDirs <- function(pkg_dir = ".", shiny = FALSE) {
 lintDir <- function(pkg_dir = ".", sub_dir) {
   path <- file.path(pkg_dir, sub_dir)
   if (dir.exists(path)) {
-    files <- list.files(path, full.names = TRUE, recursive = TRUE, pattern = "*.R")
+    files <- list.files(
+      path,
+      full.names = TRUE,
+      recursive = TRUE,
+      pattern = "*.R"
+    )
     failures <- NULL
     for (f in files) {
-      print(paste("Linting file:", f))
+      message(paste("Linting file:", f))
       result <- lint(f, linters = linters_config)
       if (length(result) > 0L) {
-        print(result)
+        message(result)
         failures <- c(failures, f)
       }
     }
