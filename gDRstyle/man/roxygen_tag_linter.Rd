@@ -13,7 +13,7 @@ roxygen_tag_linter(tag = "@author")
 Check that function has documented specific tag in Roxygen skeleton (default \code{@author}).
 }
 \examples{
-\dontrun{
+\donttest{
   linters_config <- lintr::with_defaults(
   line_length_linter = lintr::line_length_linter(120),
   roxygen_tag_linter = roxygen_tag_linter()

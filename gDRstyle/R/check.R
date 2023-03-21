@@ -5,8 +5,8 @@
 #'
 #' and we want every other note in this section (and others) to fail check.
 #' Accepted NOTE has 2 lines, therefore the length = 2. Then we want to
-#' check whether the content of this NOTE is correct, so we take one of the lines
-#' (eg. index_to_check = 2) and grep for content of this line
+#' check whether the content of this NOTE is correct, so we take one of
+#' the lines (eg. index_to_check = 2) and grep for content of this line
 #' (eg. text_to_check = "assignment to" )
 #' This will result in any other NOTE failing check
 #'
@@ -31,7 +31,10 @@ test_notes_check <- function(check_results, valid_notes_list) {
     is_note_valid <- vapply(NOTEs, function(note) {
       any(vapply(valid_notes_list, function(valid_note) {
         length_check <- length(note) == valid_note$length
-        text_check <- grepl(valid_note$text_to_check, note[valid_note$index_to_check])
+        text_check <- grepl(
+          valid_note$text_to_check,
+          note[valid_note$index_to_check]
+        )
         length_check && text_check
       }, FUN.VALUE = logical(1)))
     }, FUN.VALUE = logical(1))
@@ -63,15 +66,16 @@ test_notes <- function(check, repo_dir) {
 #'
 #' Used in gDR platform pacakges' CI/CD pipelines to check that the package
 #' abides by gDRstyle stylistic requirements, passes \code{rcmdcheck}, and
-#' ensures that the \code{dependencies.yml} file used to build 
-#' gDR platform's docker image is kept up-to-date with the dependencies 
+#' ensures that the \code{dependencies.yml} file used to build
+#' gDR platform's docker image is kept up-to-date with the dependencies
 #' listed in the package's \code{DESCRIPTION} file.
 #'
 #' @param pkgName String of package name.
 #' @param repoDir String of path to repository directory.
-#' @param subdir String of relative path to the R package root directory from the \code{repoDir}.
-#' @param fail_on String specifying the level at which check fail.
-#' Supported values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.
+#' @param subdir String of relative path to the R package root directory
+#' from the \code{repoDir}.
+#' @param fail_on String specifying the level at which check fail. Supported
+#' values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.
 #'
 #' @examples
 #' \dontrun{
@@ -99,20 +103,25 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
     dir.exists(pkgDir)
   )
 
-  cat("Lint")
+  message("Lint")
   gDRstyle::lintPkgDirs(pkgDir)
 
-  cat("Tests")
-  testthat::test_local(pkgDir, stop_on_failure = TRUE, stop_on_warning = stopOnWarning)
+  message("Tests")
+  testthat::test_local(
+    pkgDir,
+    stop_on_failure = TRUE,
+    stop_on_warning = stopOnWarning
+  )
 
-  cat("Check")
-  if (fail_on == "note") {
-    fail_on <- "warning" # rcmdcheck gets warning instead of note
-  }
+  message("Check")
+  # rcmdcheck gets warning instead of note
+  error_on <- `if`(fail_on == "note", "warning", fail_on)
   check <- rcmdcheck::rcmdcheck(
     pkgDir,
-    error_on = fail_on,
-    args = c("--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests")
+    error_on = error_on,
+    args = c(
+      "--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests"
+    )
   )
 
   if (fail_on == "note") {
@@ -121,7 +130,7 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
 
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
   if (file.exists(depsYaml)) {
-    cat("Deps")
+    message("Deps")
     gDRstyle::checkDependencies(
       desc_path = file.path(pkgDir, "DESCRIPTION"),
       dep_path = depsYaml
