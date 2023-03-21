@@ -1,12 +1,12 @@
 #' roxygen_tag_linter
 #'
-#' Check that function has documented specific tag in Roxygen skeleton (default \code{@@author}).
+#' Check that function has documented specific tag in Roxygen skeleton (default \code{@author}).
 #'
-#' @param tag character (default \code{@@author})
+#' @param tag character (default \code{@author})
 #'
 #' @export
 #'
-#' @author Kamil Foltynski <kamil.foltynski@@contractors.roche.com>
+#' @author Kamil Foltynski <kamil.foltynski@contractors.roche.com>
 #'
 #' @examples
 #' \dontrun{

@@ -1,6 +1,6 @@
 #' Lint a package.
 #'
-#' Convenience function with embedded gDRplatform linting configuration.
+#' Convenience function which uses the gDR platform linting configuration.
 #'
 #' @param pkg_dir String of path to package directory.
 #' Defaults to the current directory.
@@ -20,6 +20,7 @@ lintPkg <- function(pkg_dir = ".") {
 
 
 #' Lint select subdirectories in a package directory.
+#'
 #' @param pkg_dir String of path to package directory.
 #' @param shiny Boolean of whether or not a \code{shiny} directory should
 #' also be lint.
@@ -28,7 +29,7 @@ lintPkg <- function(pkg_dir = ".") {
 #' @return \code{NULL} invisibly.
 #' @details
 #' Will look for files in the following directories:
-#'
+#' \code{"R"}, \code{"tests"}, and conditionally \code{"inst/shiny"} if \code{shiny} is \code{TRUE}.
 #' @export
 lintPkgDirs <- function(pkg_dir = ".", shiny = FALSE) {
   dirs <- c("R", "tests")
@@ -73,4 +74,3 @@ lintDir <- function(pkg_dir = ".", sub_dir) {
   }
   return(invisible(NULL))
 }
-

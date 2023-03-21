@@ -31,7 +31,7 @@ checkDependencies <- function(dep_path,
   }
   desc_deps <- desc_get_deps(desc_path)
   # Subset to those with version requirements.
-  rp_pkgs <- rp_deps$pkgs
+  all_pkgs <- rp_pkgs <- rp_deps$pkgs
 
   if (file.exists(combo_dep_path)) {
     combo_deps <- yaml::read_yaml(combo_dep_path)
@@ -40,9 +40,7 @@ checkDependencies <- function(dep_path,
 
     duplicate <- names(combo_pkgs) %in% names(rp_pkgs)
     combo_pkgs[duplicate] <- NULL
-    all_pkgs <- c(rp_pkgs, combo_pkgs)
-  } else {
-    all_pkgs <- rp_pkgs
+    all_pkgs <- c(all_pkgs, combo_pkgs)
   }
 
   # Skip defined packages
@@ -85,7 +83,7 @@ checkDependencies <- function(dep_path,
 }
 
 
-#' Compare listed package versions in the dependencies.yaml file as compared to the package DESCRIPTION file.
+#' Compare listed package versions dependencies.
 #'
 #' Compare listed package versions in the dependencies.yaml file as compared to the package DESCRIPTION file.
 #'

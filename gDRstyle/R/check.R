@@ -1,4 +1,4 @@
-#' Let's assume there is a valid note:
+#' Assume there is a valid note:
 #'
 #' > checking R code for possible problems ... NOTE
 #' mini_facile_app: no visible binding for '<<-' assignment to ‘CONFIG’
@@ -10,7 +10,7 @@
 #' (eg. text_to_check = "assignment to" )
 #' This will result in any other NOTE failing check
 #'
-#' For instance if we take:
+#' Take:
 #'
 #'   list(
 #'     list(length = 2, index_to_check = 2, text_to_check = "assignment to")
@@ -59,16 +59,30 @@ test_notes <- function(check, repo_dir) {
   test_notes_check(check, valid_notes)
 }
 
-#' Check package
+#' Check R package
+#'
+#' Used in gDR platform pacakges' CI/CD pipelines to check that the package
+#' abides by gDRstyle stylistic requirements, passes \code{rcmdcheck}, and
+#' ensures that the \code{dependencies.yml} file used to build 
+#' gDR platform's docker image is kept up-to-date with the dependencies 
+#' listed in the package's \code{DESCRIPTION} file.
 #'
 #' @param pkgName String of package name.
 #' @param repoDir String of path to repository directory.
-#' @param subdir String of subpath to package directory.
+#' @param subdir String of relative path to the R package root directory from the \code{repoDir}.
 #' @param fail_on String specifying the level at which check fail.
-#' Supported values: `note`, `warning`(default) and `error`
+#' Supported values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.
 #'
+#' @examples
+#' \dontrun{
+#'   checkPackage("gDRutils", fail_on = "error")
+#'   checkPackage("gDRutils", fail_on = "warning")
+#'   checkPackage("gDRutils", fail_on = "note")
+#' }
+#' @return \code{NULL} invisibly.
 #' @export
 checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
+  fail_on <- match.arg(fail_on, c("error", "warning", "note"))
 
   pkgDir <- if (is.null(subdir) || subdir == "~") {
     file.path(repoDir)
@@ -78,11 +92,7 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
   }
 
   # stop on warning in tests if 'fail_on' level is below 'error'
-  stopOnWarning <- if (fail_on %in% c("warning", "note")) {
-    TRUE
-  } else {
-    FALSE
-  }
+  stopOnWarning <- fail_on %in% c("warning", "note")
 
   stopifnot(
     dir.exists(repoDir),
@@ -96,9 +106,12 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
   testthat::test_local(pkgDir, stop_on_failure = TRUE, stop_on_warning = stopOnWarning)
 
   cat("Check")
+  if (fail_on == "note") {
+    fail_on <- "warning" # rcmdcheck gets warning instead of note
+  }
   check <- rcmdcheck::rcmdcheck(
     pkgDir,
-    error_on = if (fail_on == "note") "warning" else fail_on,
+    error_on = fail_on,
     args = c("--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests")
   )
 
@@ -114,4 +127,6 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
       dep_path = depsYaml
     )
   }
+
+  invisible(NULL)
 }
