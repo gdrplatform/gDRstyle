@@ -4,12 +4,13 @@ Title: A package with style requirements for the gDR suite
 Version: 1.16.14
 Date: 2023-03-15
 Authors@R: c(
-    person("Allison", "Vuong", role=c("cre", "aut"), email="vuong.allison@gene.com"),
-    person("Dariusz", "Scigocki", role=c("aut", "ctb")),
-    person("Marcin", "Kamianowski", role=c("aut", "ctb")),
+    person("Allison", "Vuong", role=c("aut")),
+    person("Dariusz", "Scigocki", role=c("aut")),
+    person("Marcin", "Kamianowski", role=c("aut")),
     person("Aleksander", "Chlebowski", role=c("ctb")),
     person("Arkadiusz", "Gladki", role=c("ctb")),
-    person("Bartosz", "Czech", role=c("ctb")))
+    person("Bartosz", "Czech", role=c("ctb")),
+    person("gDR", "Support team", role=c("cre"), email="gdr-support-d@gene.com"))
 Description: Package fills a helper package role for whole gDR suite. It helps to 
     support good development practices by keeping style requirements and style tests for 
     other packages. It also contains build helpers to make all package requirements met.
