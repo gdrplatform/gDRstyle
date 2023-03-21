@@ -14,5 +14,5 @@ Defaults to the current directory.}
 \code{NULL} invisibly.
 }
 \description{
-Convenience function with embedded gDRplatform linting configuration.
+Convenience function which uses the gDR platform linting configuration.
 }

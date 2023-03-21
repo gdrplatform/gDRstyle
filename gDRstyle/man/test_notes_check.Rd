@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{test_notes_check}
 \alias{test_notes_check}
-\title{Let's assume there is a valid note:}
+\title{Assume there is a valid note:}
 \usage{
 test_notes_check(check_results, valid_notes_list)
 }
@@ -18,7 +18,7 @@ check whether the content of this NOTE is correct, so we take one of the lines
 (eg. text_to_check = "assignment to" )
 This will result in any other NOTE failing check
 
-For instance if we take:
+Take:
 
   list(
     list(length = 2, index_to_check = 2, text_to_check = "assignment to")

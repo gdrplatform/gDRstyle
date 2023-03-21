@@ -2,7 +2,7 @@
 % Please edit documentation in R/dependencies.R
 \name{compare_versions}
 \alias{compare_versions}
-\title{Compare listed package versions in the dependencies.yaml file as compared to the package DESCRIPTION file.}
+\title{Compare listed package versions dependencies.}
 \usage{
 compare_versions(rp, desc)
 }
