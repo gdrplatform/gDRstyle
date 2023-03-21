@@ -9,16 +9,19 @@ roxygen_tag_linter(tag = "@author")
 \arguments{
 \item{tag}{character (default \code{@author})}
 }
+\value{
+linter class function
+}
 \description{
-Check that function has documented specific tag in Roxygen skeleton (default \code{@author}).
+Check that function has documented specific tag in Roxygen
+skeleton (default \code{@author}).
 }
 \examples{
-\donttest{
-  linters_config <- lintr::with_defaults(
+linters_config <- lintr::with_defaults(
   line_length_linter = lintr::line_length_linter(120),
   roxygen_tag_linter = roxygen_tag_linter()
-  )
-}
+)
+
 }
 \author{
 Kamil Foltynski <kamil.foltynski@contractors.roche.com>

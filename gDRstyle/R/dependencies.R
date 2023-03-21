@@ -4,12 +4,19 @@
 #' Check the package depedency version specifications in the
 #' \code{rplatform/dependencies.yaml} and \code{DESCRIPTION}.
 #'
-#' @param dep_path String of path to the rplatform \code{dependencies.yaml} file.
+#' @param dep_path String of path to the rplatform \code{dependencies.yaml}
+#' file.
 #' @param desc_path String of the path to the package \code{DESCRIPTION} file.
 #' @param skip_pkgs vector of packages from \code{DESCRIPTION} to skip;
 #' defaults to \code{R}
-#' @param combo_dep_path String of path to the combo image
+#' @param combo_path String of path to the combo image
 #' \code{dependencies.yaml} file. Defaults to the current directory.
+#'
+#' @examples
+#' checkDependencies(
+#'   dep_path = "testdata/dependencies.yaml",
+#'   desc_path = "."
+#' )
 #'
 #' @return \code{NULL} invisibly.
 #' @details This function is used for its side effects in the event that
@@ -20,7 +27,7 @@
 checkDependencies <- function(dep_path,
                               desc_path,
                               skip_pkgs = "R",
-                              combo_dep_path = "/mnt/vol/dependencies_combo.yaml") {
+                              combo_path = "/mnt/vol/dependencies_combo.yaml") {
   if (file.exists(dep_path)) {
     rp_deps <- read_yaml(dep_path)
   } else {
@@ -36,7 +43,7 @@ checkDependencies <- function(dep_path,
   desc_deps <- desc_get_deps(desc_path)
   # Subset to those with version requirements.
   rp_pkgs <- rp_deps$pkgs
-  all_pkgs <- get_all_pkgs(combo_dep_path = combo_dep_path, rp_pkgs = rp_pkgs)
+  all_pkgs <- get_all_pkgs(combo_dep_path = combo_path, rp_pkgs = rp_pkgs)
 
   # Skip defined packages
   skipped_packages <- lapply(rp_pkgs, function(x) {isTRUE(x$NonDescription)})
@@ -122,8 +129,9 @@ get_all_pkgs <- function(combo_dep_path, rp_pkgs) {
 pkgs_search <- function(rp_ver, desc_deps) {
   idx <- match(names(rp_ver), desc_deps$package)
   if (any(na_idx <- is.na(idx))) {
-    stop(sprintf(
-      "packages specified in 'dependencies.yaml' not present in 'DESCRIPTION': %s",
+    stop(sprintf(avoid_new_lines(
+      "packages specified in 'dependencies.yaml'
+      not present in 'DESCRIPTION': %s"),
       paste0(names(rp_ver)[na_idx], collapse = ", ")
     ))
   }

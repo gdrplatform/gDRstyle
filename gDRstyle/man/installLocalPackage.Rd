@@ -13,6 +13,9 @@ installLocalPackage(repo_path, additionalRepos = NULL, base_dir = "/mnt/vol")
 
 \item{base_dir}{String of base working directory.}
 }
+\value{
+\code{NULL}
+}
 \description{
 Install locally cloned repo for builiding image purposes
 }

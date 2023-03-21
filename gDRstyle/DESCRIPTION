@@ -16,7 +16,6 @@ Description: Package fills a helper package role for whole gDR suite. It helps t
 License: file LICENSE
 LazyLoad: yes
 Imports:
-    BiocCheck,
     BiocManager,
     desc,
     git2r,
@@ -28,6 +27,7 @@ Suggests:
     knitr,
     testthat,
     withr
+biocViews: Software, Infrastructure
 VignetteBuilder: knitr
 ByteCompile: TRUE
 RoxygenNote: 7.2.3

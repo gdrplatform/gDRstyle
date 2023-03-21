@@ -7,14 +7,17 @@
 compare_versions(rp, desc)
 }
 \arguments{
-\item{rp}{Named list of package version requirements specified by rplatform \code{dependencies.yaml}.}
+\item{rp}{Named list of package version requirements specified
+by rplatform \code{dependencies.yaml}.}
 
-\item{desc}{Named list of package version requirements specified by package \code{DESCRIPTION} file.}
+\item{desc}{Named list of package version requirements specified
+by package \code{DESCRIPTION} file.}
 }
 \value{
-Character vector of any misaligned package versions between rplatform \code{dependencies.yaml}
-and package \code{DESCRIPTION}.
+Character vector of any misaligned package versions between
+rplatform \code{dependencies.yaml} and package \code{DESCRIPTION}.
 }
 \description{
-Compare listed package versions in the dependencies.yaml file as compared to the package DESCRIPTION file.
+Compare listed package versions in the dependencies.yaml file as
+compared to the package DESCRIPTION file.
 }

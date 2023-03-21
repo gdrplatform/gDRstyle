@@ -1,24 +1,3 @@
-#' Lint a package.
-#'
-#' Convenience function which uses the gDR platform linting configuration.
-#'
-#' @param pkg_dir String of path to package directory.
-#' Defaults to the current directory.
-#'
-#' @return \code{NULL} invisibly.
-#'
-#' @importFrom lintr lint_package
-#' @export
-lintPkg <- function(pkg_dir = ".") {
-  result <- lint_package(pkg_dir, linters = linters_config)
-  if (length(result) > 0L) {
-    message(result)
-    stop("Found lints")
-  }
-  invisible(NULL)
-}
-
-
 #' Lint select subdirectories in a package directory.
 #'
 #' @param pkg_dir String of path to package directory.
@@ -26,10 +5,14 @@ lintPkg <- function(pkg_dir = ".") {
 #' also be lint.
 #' Defaults to the current directory.
 #'
+#' @examples
+#' lintPkgDirs(pkg_dir= ".")
+#'
 #' @return \code{NULL} invisibly.
 #' @details
 #' Will look for files in the following directories:
-#' \code{"R"}, \code{"tests"}, and conditionally \code{"inst/shiny"} if \code{shiny} is \code{TRUE}.
+#' \code{"R"}, \code{"tests"}, and conditionally \code{"inst/shiny"}
+#' if \code{shiny} is \code{TRUE}.
 #' @export
 lintPkgDirs <- function(pkg_dir = ".", shiny = FALSE) {
   dirs <- c("R", "tests")
@@ -67,7 +50,7 @@ lintDir <- function(pkg_dir = ".", sub_dir) {
     )
     failures <- NULL
     for (f in files) {
-      message(paste("Linting file:", f))
+      message(sprintf("Linting file: %s", f))
       result <- lint(f, linters = linters_config)
       if (length(result) > 0L) {
         message(result)
@@ -81,4 +64,22 @@ lintDir <- function(pkg_dir = ".", sub_dir) {
     return(failures)
   }
   return(invisible(NULL))
+}
+
+#' Avoid new lines in sprintf output. Function helps to avoid line lenght
+#' limits without affecting sprintf output
+#'
+#' @param fmt string, formatted as sprintf input
+#'
+#' @examples
+#' sprintf(avoid_new_lines(
+#'   "Lorem ipsum dolor sit amet, %s adipiscing elit, sed do eiusmod
+#'   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+#'   veniam."
+#' ), "consectetur")
+#'
+#' @return string
+#' @export
+avoid_new_lines <- function(fmt) {
+  gsub("[[:space:]]{2,}", " ", fmt)
 }

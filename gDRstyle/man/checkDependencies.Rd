@@ -2,31 +2,43 @@
 % Please edit documentation in R/dependencies.R
 \name{checkDependencies}
 \alias{checkDependencies}
-\title{Check for alignment of package dependencies across Rplatform and package specifications.}
+\title{Check for alignment of package dependencies across Rplatform and
+package specifications.}
 \usage{
 checkDependencies(
   dep_path,
   desc_path,
   skip_pkgs = "R",
-  combo_dep_path = "/mnt/vol/dependencies_combo.yaml"
+  combo_path = "/mnt/vol/dependencies_combo.yaml"
 )
 }
 \arguments{
-\item{dep_path}{String of path to the rplatform \code{dependencies.yaml} file.}
+\item{dep_path}{String of path to the rplatform \code{dependencies.yaml}
+file.}
 
 \item{desc_path}{String of the path to the package \code{DESCRIPTION} file.}
 
-\item{skip_pkgs}{vector of packages from \code{DESCRIPTION} to skip; defaults to \code{R}}
+\item{skip_pkgs}{vector of packages from \code{DESCRIPTION} to skip;
+defaults to \code{R}}
 
-\item{combo_dep_path}{String of path to the combo image \code{dependencies.yaml} file.
-Defaults to the current directory.}
+\item{combo_path}{String of path to the combo image
+\code{dependencies.yaml} file. Defaults to the current directory.}
 }
 \value{
 \code{NULL} invisibly.
 }
 \description{
-Check the package depedency version specifications in the \code{rplatform/dependencies.yaml} and \code{DESCRIPTION}.
+Check the package depedency version specifications in the
+\code{rplatform/dependencies.yaml} and \code{DESCRIPTION}.
 }
 \details{
-This function is used for its side effects in the event that there are dependency clashes.
+This function is used for its side effects in the event that
+there are dependency clashes.
+}
+\examples{
+checkDependencies(
+  dep_path = "testdata/dependencies.yaml",
+  desc_path = "."
+)
+
 }

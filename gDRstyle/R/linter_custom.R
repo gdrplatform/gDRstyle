@@ -5,17 +5,16 @@
 #'
 #' @param tag character (default \code{@author})
 #'
-#' @export
-#'
 #' @author Kamil Foltynski <kamil.foltynski@contractors.roche.com>
 #'
 #' @examples
-#' \donttest{
-#'   linters_config <- lintr::with_defaults(
+#' linters_config <- lintr::with_defaults(
 #'   line_length_linter = lintr::line_length_linter(120),
 #'   roxygen_tag_linter = roxygen_tag_linter()
-#'   )
-#' }
+#' )
+#'
+#' @return linter class function
+#' @export
 roxygen_tag_linter <- function(tag = "@author") {
 
   stopifnot(length(tag) == 1, nzchar(tag))

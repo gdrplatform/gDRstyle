@@ -23,6 +23,7 @@
 #' ‘pcg_path’
 #' Undefined global functions or variables:
 #'  pcg_path
+#' @return \code{NULL}
 #' @keywords internal
 test_notes_check <- function(check_results, valid_notes_list) {
   if (!is.null(check_results$notes)) {
@@ -62,6 +63,22 @@ test_notes <- function(check, repo_dir) {
   test_notes_check(check, valid_notes)
 }
 
+rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on) {
+  # rcmdcheck gets warning instead of note
+  error_on <- `if`(fail_on == "note", "warning", fail_on)
+  check <- rcmdcheck::rcmdcheck(
+    pkgDir,
+    error_on = error_on,
+    args = c(
+      "--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests"
+    )
+  )
+
+  if (fail_on == "note") {
+    test_notes(check, repoDir)
+  }
+}
+
 #' Check R package
 #'
 #' Used in gDR platform pacakges' CI/CD pipelines to check that the package
@@ -78,11 +95,13 @@ test_notes <- function(check, repo_dir) {
 #' values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.
 #'
 #' @examples
-#' \dontrun{
-#'   checkPackage("gDRutils", fail_on = "error")
-#'   checkPackage("gDRutils", fail_on = "warning")
-#'   checkPackage("gDRutils", fail_on = "note")
-#' }
+#' checkPackage(
+#'   pkgName = "gDRstyle",
+#'   repoDir = ".",
+#'   subdir = "gDRstyle",
+#'   fail_on = "error"
+#' )
+#'
 #' @return \code{NULL} invisibly.
 #' @export
 checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
@@ -94,14 +113,10 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
     options(pkgSubdir = subdir)
     file.path(repoDir, subdir)
   }
+  stopifnot(dir.exists(repoDir),dir.exists(pkgDir))
 
   # stop on warning in tests if 'fail_on' level is below 'error'
   stopOnWarning <- fail_on %in% c("warning", "note")
-
-  stopifnot(
-    dir.exists(repoDir),
-    dir.exists(pkgDir)
-  )
 
   message("Lint")
   gDRstyle::lintPkgDirs(pkgDir)
@@ -114,19 +129,7 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
   )
 
   message("Check")
-  # rcmdcheck gets warning instead of note
-  error_on <- `if`(fail_on == "note", "warning", fail_on)
-  check <- rcmdcheck::rcmdcheck(
-    pkgDir,
-    error_on = error_on,
-    args = c(
-      "--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests"
-    )
-  )
-
-  if (fail_on == "note") {
-    test_notes(check, repoDir)
-  }
+  rcmd_check_with_notes(pkgDir = pkgDir, repoDir = repoDir, fail_on = fail_on)
 
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
   if (file.exists(depsYaml)) {

@@ -58,6 +58,7 @@ getSshKeys <- function(use_ssh) {
 #' @param additionalRepos List of additional Repos
 #' @param base_dir String of base working directory.
 #'
+#' @return \code{NULL}
 #' @export
 installLocalPackage <- function(repo_path,
                                 additionalRepos = NULL,
@@ -68,12 +69,22 @@ installLocalPackage <- function(repo_path,
   remotes::install_local(path = repo_path)
 }
 
-#' Install all package dependencies from yaml file for builiding image purposes
+#' Install all package dependencies from yaml file for
+#' building image purposes
 #'
 #' @param additionalRepos List of additional Repos
 #' @param base_dir String of base working directory.
 #' @param use_ssh logical, if use ssh keys
 #'
+#' @examples
+#' installAllDeps(
+#'   base_dir = "testdata/",
+#'   additionalRepos = c(
+#'     CRAN = "https://cran.microsoft.com/snapshot/2023-01-20"
+#'   )
+#' )
+#'
+#' @return \code{NULL}
 #' @export
 installAllDeps <- function(additionalRepos = NULL,
                            base_dir = "/mnt/vol",
@@ -163,10 +174,10 @@ install_gitlab <- function(name, pkg, url, repo) {
   } else {
     pkg$url
   }
-  system2(
-    "git",
-    c("clone", url, "--branch", pkg$ref, "--single-branch", "--depth", "1", repo)
+  git_args <- c(
+    "clone", url, "--branch", pkg$ref, "--single-branch", "--depth", "1", repo
   )
+  system2("git", git_args)
   remotes::install_local(
     paste(repo, pkg$subdir, sep = .Platform$file.sep),
     dependencies = TRUE,

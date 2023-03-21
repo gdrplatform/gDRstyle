@@ -11,10 +11,11 @@ checkPackage(pkgName, repoDir, subdir = NULL, fail_on = "warning")
 
 \item{repoDir}{String of path to repository directory.}
 
-\item{subdir}{String of relative path to the R package root directory from the \code{repoDir}.}
+\item{subdir}{String of relative path to the R package root directory
+from the \code{repoDir}.}
 
-\item{fail_on}{String specifying the level at which check fail.
-Supported values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.}
+\item{fail_on}{String specifying the level at which check fail. Supported
+values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.}
 }
 \value{
 \code{NULL} invisibly.
@@ -22,14 +23,16 @@ Supported values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.}
 \description{
 Used in gDR platform pacakges' CI/CD pipelines to check that the package
 abides by gDRstyle stylistic requirements, passes \code{rcmdcheck}, and
-ensures that the \code{dependencies.yml} file used to build 
-gDR platform's docker image is kept up-to-date with the dependencies 
+ensures that the \code{dependencies.yml} file used to build
+gDR platform's docker image is kept up-to-date with the dependencies
 listed in the package's \code{DESCRIPTION} file.
 }
 \examples{
-\dontrun{
-  checkPackage("gDRutils", fail_on = "error")
-  checkPackage("gDRutils", fail_on = "warning")
-  checkPackage("gDRutils", fail_on = "note")
-}
+checkPackage(
+  pkgName = "gDRstyle",
+  repoDir = ".",
+  subdir = "gDRstyle",
+  fail_on = "error"
+)
+
 }
