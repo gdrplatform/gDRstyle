@@ -4,7 +4,13 @@
 \alias{checkPackage}
 \title{Check R package}
 \usage{
-checkPackage(pkgName, repoDir, subdir = NULL, fail_on = "warning")
+checkPackage(
+  pkgName,
+  repoDir,
+  subdir = NULL,
+  fail_on = "warning",
+  bioc_check = FALSE
+)
 }
 \arguments{
 \item{pkgName}{String of package name.}
@@ -16,6 +22,8 @@ from the \code{repoDir}.}
 
 \item{fail_on}{String specifying the level at which check fail. Supported
 values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.}
+
+\item{bioc_check}{Logical whether bioc check should be performed}
 }
 \value{
 \code{NULL} invisibly.

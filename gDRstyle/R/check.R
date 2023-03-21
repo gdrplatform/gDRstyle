@@ -93,6 +93,7 @@ rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on) {
 #' from the \code{repoDir}.
 #' @param fail_on String specifying the level at which check fail. Supported
 #' values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.
+#' @param bioc_check Logical whether bioc check should be performed
 #'
 #' @examples
 #' checkPackage(
@@ -104,7 +105,11 @@ rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on) {
 #'
 #' @return \code{NULL} invisibly.
 #' @export
-checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
+checkPackage <- function(pkgName,
+                         repoDir,
+                         subdir = NULL,
+                         fail_on = "warning",
+                         bioc_check = FALSE) {
   fail_on <- match.arg(fail_on, c("error", "warning", "note"))
 
   pkgDir <- if (is.null(subdir) || subdir == "~") {
@@ -130,6 +135,14 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
 
   message("Check")
   rcmd_check_with_notes(pkgDir = pkgDir, repoDir = repoDir, fail_on = fail_on)
+
+  if (bioc_check) {
+    BiocCheck::BiocCheck(
+      package = pkgDir,
+      `no-check-unit-tests` = TRUE, # unit tests are called in previous step
+      `no-check-formatting` = TRUE # follow gDR syle guides
+    )
+  }
 
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
   if (file.exists(depsYaml)) {
