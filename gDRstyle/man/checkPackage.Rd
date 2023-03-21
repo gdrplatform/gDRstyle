@@ -20,8 +20,8 @@ checkPackage(
 \item{subdir}{String of relative path to the R package root directory
 from the \code{repoDir}.}
 
-\item{fail_on}{String specifying the level at which check fail.
-Supported values: `note`, `warning`(default) and `error`}
+\item{fail_on}{String specifying the level at which check fail. Supported
+values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.}
 
 \item{bioc_check}{Logical whether bioc check should be performed}
 }

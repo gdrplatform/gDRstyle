@@ -91,8 +91,8 @@ rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on) {
 #' @param repoDir String of path to repository directory.
 #' @param subdir String of relative path to the R package root directory
 #' from the \code{repoDir}.
-#' @param fail_on String specifying the level at which check fail.
-#' Supported values: `note`, `warning`(default) and `error`
+#' @param fail_on String specifying the level at which check fail. Supported
+#' values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.
 #' @param bioc_check Logical whether bioc check should be performed
 #'
 #' @examples
