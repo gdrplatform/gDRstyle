@@ -8,6 +8,12 @@ testthat::test_that("set repos properly", {
 })
 
 testthat::test_that("set tokens properly", {
+  on.exit({
+    Sys.unsetenv("DUMMY_TOKEN")
+    Sys.unsetenv("DUMMY_ENV")
+    Sys.unsetenv("DUMMY_ENV_2")
+  })
+  
   base_dir <- system.file(package = "gDRstyle", "tst_tokens")
   # SINGLE TOKEN
   setTokenVar(base_dir, "dummy_single_token.txt")
@@ -43,6 +49,7 @@ testthat::test_that("verify version properly", {
 })
 
 testthat::test_that("install local properly", {
+  on.exit(remove.packages("fakePkg"))
   testthat::expect_error(
     packageVersion("fakePkg"),
     regexp = "there is no package called"
@@ -50,7 +57,6 @@ testthat::test_that("install local properly", {
   pkg_path <- system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg")
   installLocalPackage(pkg_path)
   testthat::expect_no_error(packageVersion("fakePkg"))
-  remove.packages("fakePkg")
 })
 
 testthat::test_that("install deps properly", {

@@ -70,7 +70,7 @@ skip_lines_withou_prefix <- function(flines) {
   for (i in seq_len(length(flines))) {
     if (grepl(pattern = "@noRd", flines[i]))
       # skip check if @noRd tag is present
-      return()
+      return(NA)
     else if (grepl(pattern = "^#'", flines[i]))
       idx <- i
     else

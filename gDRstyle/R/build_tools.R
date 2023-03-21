@@ -14,7 +14,9 @@ setTokenVar <- function(base_dir, filename = ".github_access_token.txt") {
     stopifnot(length(secrets) > 0)
 
     if (length(secrets) == 1) {
-      do.call(Sys.setenv, list(GITHUB_PAT = secrets))
+      args <- list(secrets)
+      names(args) <- "GITHUB_PAT"
+      do.call(Sys.setenv, args)
     } else {
       tokens <- strsplit(secrets, "=")
       lapply(tokens, function(x) {

@@ -43,7 +43,7 @@ checkDependencies <- function(dep_path,
   desc_deps <- desc_get_deps(desc_path)
   # Subset to those with version requirements.
   rp_pkgs <- rp_deps$pkgs
-  all_pkgs <- get_all_pkgs(combo_dep_path = combo_path, rp_pkgs = rp_pkgs)
+  all_pkgs <- get_all_pkgs(combo_path = combo_path, rp_pkgs = rp_pkgs)
 
   # Skip defined packages
   skipped_packages <-
@@ -117,9 +117,9 @@ compare_versions <- function(rp, desc) {
   gsub("\\s|==", "", ver)
 }
 
-get_all_pkgs <- function(combo_dep_path, rp_pkgs) {
-  if (file.exists(combo_dep_path)) {
-    combo_deps <- yaml::read_yaml(combo_dep_path)
+get_all_pkgs <- function(combo_path, rp_pkgs) {
+  if (file.exists(combo_path)) {
+    combo_deps <- yaml::read_yaml(combo_path)
 
     combo_pkgs <- combo_deps$pkgs
 
