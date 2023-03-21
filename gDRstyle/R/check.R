@@ -113,7 +113,7 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning") {
     options(pkgSubdir = subdir)
     file.path(repoDir, subdir)
   }
-  stopifnot(dir.exists(repoDir),dir.exists(pkgDir))
+  stopifnot(dir.exists(repoDir), dir.exists(pkgDir))
 
   # stop on warning in tests if 'fail_on' level is below 'error'
   stopOnWarning <- fail_on %in% c("warning", "note")
