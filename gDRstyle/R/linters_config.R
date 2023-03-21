@@ -25,6 +25,7 @@ linters_config <- lintr::with_defaults(
   #assignment_linter = NULL,
   object_usage_linter = NULL,
   object_length_linter = NULL
-  # commented out, because will require a lot of work to make it work with all repos
+  # commented out, because will require a lot of work to make it
+  # work with all repos
   # roxygen_tag_linter = roxygen_tag_linter() # nolint
 )

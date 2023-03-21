@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{checkPackage}
 \alias{checkPackage}
-\title{Check package}
+\title{Check R package}
 \usage{
 checkPackage(
   pkgName,
@@ -17,13 +17,30 @@ checkPackage(
 
 \item{repoDir}{String of path to repository directory.}
 
-\item{subdir}{String of subpath to package directory.}
+\item{subdir}{String of relative path to the R package root directory
+from the \code{repoDir}.}
 
-\item{fail_on}{String specifying the level at which check fail.}
-
-\item{bioc_check}{Logical whether bioc check should be performed
+\item{fail_on}{String specifying the level at which check fail.
 Supported values: `note`, `warning`(default) and `error`}
+
+\item{bioc_check}{Logical whether bioc check should be performed}
+}
+\value{
+\code{NULL} invisibly.
 }
 \description{
-Check package
+Used in gDR platform pacakges' CI/CD pipelines to check that the package
+abides by gDRstyle stylistic requirements, passes \code{rcmdcheck}, and
+ensures that the \code{dependencies.yml} file used to build
+gDR platform's docker image is kept up-to-date with the dependencies
+listed in the package's \code{DESCRIPTION} file.
+}
+\examples{
+checkPackage(
+  pkgName = "gDRstyle",
+  repoDir = ".",
+  subdir = "gDRstyle",
+  fail_on = "error"
+)
+
 }

@@ -1,16 +1,16 @@
-#' Let's assume there is a valid note:
+#' Assume there is a valid note:
 #'
 #' > checking R code for possible problems ... NOTE
 #' mini_facile_app: no visible binding for '<<-' assignment to ‘CONFIG’
 #'
 #' and we want every other note in this section (and others) to fail check.
 #' Accepted NOTE has 2 lines, therefore the length = 2. Then we want to
-#' check whether the content of this NOTE is correct, so we take one of the lines
-#' (eg. index_to_check = 2) and grep for content of this line
+#' check whether the content of this NOTE is correct, so we take one of
+#' the lines (eg. index_to_check = 2) and grep for content of this line
 #' (eg. text_to_check = "assignment to" )
 #' This will result in any other NOTE failing check
 #'
-#' For instance if we take:
+#' Take:
 #'
 #'   list(
 #'     list(length = 2, index_to_check = 2, text_to_check = "assignment to")
@@ -23,6 +23,7 @@
 #' ‘pcg_path’
 #' Undefined global functions or variables:
 #'  pcg_path
+#' @return \code{NULL}
 #' @keywords internal
 test_notes_check <- function(check_results, valid_notes_list) {
   if (!is.null(check_results$notes)) {
@@ -31,7 +32,10 @@ test_notes_check <- function(check_results, valid_notes_list) {
     is_note_valid <- vapply(NOTEs, function(note) {
       any(vapply(valid_notes_list, function(valid_note) {
         length_check <- length(note) == valid_note$length
-        text_check <- grepl(valid_note$text_to_check, note[valid_note$index_to_check])
+        text_check <- grepl(
+          valid_note$text_to_check,
+          note[valid_note$index_to_check]
+        )
         length_check && text_check
       }, FUN.VALUE = logical(1)))
     }, FUN.VALUE = logical(1))
@@ -59,17 +63,54 @@ test_notes <- function(check, repo_dir) {
   test_notes_check(check, valid_notes)
 }
 
-#' Check package
+rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on) {
+  # rcmdcheck gets warning instead of note
+  error_on <- `if`(fail_on == "note", "warning", fail_on)
+  check <- rcmdcheck::rcmdcheck(
+    pkgDir,
+    error_on = error_on,
+    args = c(
+      "--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests"
+    )
+  )
+
+  if (fail_on == "note") {
+    test_notes(check, repoDir)
+  }
+}
+
+#' Check R package
+#'
+#' Used in gDR platform pacakges' CI/CD pipelines to check that the package
+#' abides by gDRstyle stylistic requirements, passes \code{rcmdcheck}, and
+#' ensures that the \code{dependencies.yml} file used to build
+#' gDR platform's docker image is kept up-to-date with the dependencies
+#' listed in the package's \code{DESCRIPTION} file.
 #'
 #' @param pkgName String of package name.
 #' @param repoDir String of path to repository directory.
-#' @param subdir String of subpath to package directory.
+#' @param subdir String of relative path to the R package root directory
+#' from the \code{repoDir}.
 #' @param fail_on String specifying the level at which check fail.
-#' @param bioc_check Logical whether bioc check should be performed
 #' Supported values: `note`, `warning`(default) and `error`
+#' @param bioc_check Logical whether bioc check should be performed
 #'
+#' @examples
+#' checkPackage(
+#'   pkgName = "gDRstyle",
+#'   repoDir = ".",
+#'   subdir = "gDRstyle",
+#'   fail_on = "error"
+#' )
+#'
+#' @return \code{NULL} invisibly.
 #' @export
-checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning", bioc_check = FALSE) {
+checkPackage <- function(pkgName,
+                         repoDir,
+                         subdir = NULL,
+                         fail_on = "warning",
+                         bioc_check = FALSE) {
+  fail_on <- match.arg(fail_on, c("error", "warning", "note"))
 
   pkgDir <- if (is.null(subdir) || subdir == "~") {
     file.path(repoDir)
@@ -77,35 +118,23 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning", b
     options(pkgSubdir = subdir)
     file.path(repoDir, subdir)
   }
+  stopifnot(dir.exists(repoDir), dir.exists(pkgDir))
 
   # stop on warning in tests if 'fail_on' level is below 'error'
-  stopOnWarning <- if (fail_on %in% c("warning", "note")) {
-    TRUE
-  } else {
-    FALSE
-  }
+  stopOnWarning <- fail_on %in% c("warning", "note")
 
-  stopifnot(
-    dir.exists(repoDir),
-    dir.exists(pkgDir)
-  )
-
-  cat("Lint")
+  message("Lint")
   gDRstyle::lintPkgDirs(pkgDir)
 
-  cat("Tests")
-  testthat::test_local(pkgDir, stop_on_failure = TRUE, stop_on_warning = stopOnWarning)
-
-  cat("Check")
-  check <- rcmdcheck::rcmdcheck(
+  message("Tests")
+  testthat::test_local(
     pkgDir,
-    error_on = if (fail_on == "note") "warning" else fail_on,
-    args = c("--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests")
+    stop_on_failure = TRUE,
+    stop_on_warning = stopOnWarning
   )
 
-  if (fail_on == "note") {
-    test_notes(check, repoDir)
-  }
+  message("Check")
+  rcmd_check_with_notes(pkgDir = pkgDir, repoDir = repoDir, fail_on = fail_on)
 
   if (bioc_check) {
     BiocCheck::BiocCheck(
@@ -116,10 +145,12 @@ checkPackage <- function(pkgName, repoDir, subdir = NULL, fail_on = "warning", b
 
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
   if (file.exists(depsYaml)) {
-    cat("Deps")
+    message("Deps")
     gDRstyle::checkDependencies(
       desc_path = file.path(pkgDir, "DESCRIPTION"),
       dep_path = depsYaml
     )
   }
+
+  invisible(NULL)
 }

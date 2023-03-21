@@ -1,34 +1,18 @@
-#' Lint a package.
-#'
-#' Convenience function with embedded gDRplatform linting configuration.
-#'
-#' @param pkg_dir String of path to package directory.
-#' Defaults to the current directory.
-#'
-#' @return \code{NULL} invisibly.
-#'
-#' @importFrom lintr lint_package
-#' @export
-lintPkg <- function(pkg_dir = ".") {
-  result <- lint_package(pkg_dir, linters = linters_config)
-  if (length(result) > 0L) {
-    print(result)
-    stop("Found lints")
-  }
-  invisible(NULL)
-}
-
-
 #' Lint select subdirectories in a package directory.
+#'
 #' @param pkg_dir String of path to package directory.
 #' @param shiny Boolean of whether or not a \code{shiny} directory should
 #' also be lint.
 #' Defaults to the current directory.
 #'
+#' @examples
+#' lintPkgDirs(pkg_dir= ".")
+#'
 #' @return \code{NULL} invisibly.
 #' @details
 #' Will look for files in the following directories:
-#'
+#' \code{"R"}, \code{"tests"}, and conditionally \code{"inst/shiny"}
+#' if \code{shiny} is \code{TRUE}.
 #' @export
 lintPkgDirs <- function(pkg_dir = ".", shiny = FALSE) {
   dirs <- c("R", "tests")
@@ -42,9 +26,12 @@ lintPkgDirs <- function(pkg_dir = ".", shiny = FALSE) {
     failures <- c(failures, failure)
   }
   if (!is.null(failures)) {
-    stop(sprintf("Found linter failures in files: '%s'", paste0(failures, collapse = ", ")))
+    stop(sprintf(
+      "Found linter failures in files: '%s'",
+      paste0(failures, collapse = ", ")
+    ))
   } else {
-    print("All files OK!")
+    message("All files OK!")
   }
   invisible(NULL)
 }
@@ -55,13 +42,18 @@ lintPkgDirs <- function(pkg_dir = ".", shiny = FALSE) {
 lintDir <- function(pkg_dir = ".", sub_dir) {
   path <- file.path(pkg_dir, sub_dir)
   if (dir.exists(path)) {
-    files <- list.files(path, full.names = TRUE, recursive = TRUE, pattern = "*.R")
+    files <- list.files(
+      path,
+      full.names = TRUE,
+      recursive = TRUE,
+      pattern = "*.R"
+    )
     failures <- NULL
     for (f in files) {
-      print(paste("Linting file:", f))
+      message(sprintf("Linting file: %s", f))
       result <- lint(f, linters = linters_config)
       if (length(result) > 0L) {
-        print(result)
+        message(result)
         failures <- c(failures, f)
       }
     }
@@ -74,3 +66,20 @@ lintDir <- function(pkg_dir = ".", sub_dir) {
   return(invisible(NULL))
 }
 
+#' Avoid new lines in sprintf output. Function helps to avoid line lenght
+#' limits without affecting sprintf output
+#'
+#' @param fmt string, formatted as sprintf input
+#'
+#' @examples
+#' sprintf(avoid_new_lines(
+#'   "Lorem ipsum dolor sit amet, %s adipiscing elit, sed do eiusmod
+#'   tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+#'   veniam."
+#' ), "consectetur")
+#'
+#' @return string
+#' @export
+avoid_new_lines <- function(fmt) {
+  gsub("[[:space:]]{2,}", " ", fmt)
+}

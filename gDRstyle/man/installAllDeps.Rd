@@ -2,7 +2,8 @@
 % Please edit documentation in R/build_tools.R
 \name{installAllDeps}
 \alias{installAllDeps}
-\title{Install all package dependencies from yaml file for builiding image purposes}
+\title{Install all package dependencies from yaml file for
+building image purposes}
 \usage{
 installAllDeps(additionalRepos = NULL, base_dir = "/mnt/vol", use_ssh = FALSE)
 }
@@ -13,6 +14,19 @@ installAllDeps(additionalRepos = NULL, base_dir = "/mnt/vol", use_ssh = FALSE)
 
 \item{use_ssh}{logical, if use ssh keys}
 }
+\value{
+\code{NULL}
+}
 \description{
-Install all package dependencies from yaml file for builiding image purposes
+Install all package dependencies from yaml file for
+building image purposes
+}
+\examples{
+installAllDeps(
+  base_dir = "testdata/",
+  additionalRepos = c(
+    CRAN = "https://cran.microsoft.com/snapshot/2023-01-20"
+  )
+)
+
 }
