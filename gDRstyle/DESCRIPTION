@@ -25,6 +25,7 @@ Imports:
     remotes,
     yaml
 Suggests:
+    BiocStyle,
     knitr,
     testthat,
     withr

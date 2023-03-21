@@ -31,7 +31,7 @@ setTokenVar <- function(base_dir, filename = ".github_access_token.txt") {
 
 # Auxiliary functions
 verify_version <- function(name, required_version) {
-  pkg_version <- packageVersion(name)
+  pkg_version <- utils::packageVersion(name)
   ## '>=1.2.3' => '>= 1.2.3'
   required_version <-
     gsub("^([><=]+)([0-9.]+)$", "\\1 \\2", required_version, perl = TRUE)
@@ -98,11 +98,19 @@ installAllDeps <- function(additionalRepos = NULL,
   deps_yaml <- file.path(base_dir, "/dependencies.yaml")
   deps <- yaml::read_yaml(deps_yaml)$pkgs
 
+
   for (name in names(deps)) {
     pkg <- deps[[name]]
     if (is.null(pkg$source)) {
       pkg$source <- "Git"
     }
+    repo <- paste(tempdir(), "install_pkg_git", name, sep = .Platform$file.sep)
+    url <- if (grepl("code.roche.com", pkg$url)) {
+      sprintf("https://%s@%s", Sys.getenv("GITLAB_PAT"), pkg$url)
+    } else {
+      pkg$url
+    }
+
     switch(
       EXPR = toupper(pkg$source),
 
@@ -170,12 +178,6 @@ install_git <- function(name, pkg, keys) {
 }
 
 install_gitlab <- function(name, pkg, url, repo) {
-  repo <- paste(tempdir(), "install_pkg_git", name, sep = .Platform$file.sep)
-  url <- if (grepl("code.roche.com", pkg$url)) {
-    sprintf("https://%s@%s", Sys.getenv("GITLAB_PAT"), pkg$url)
-  } else {
-    pkg$url
-  }
   git_args <- c(
     "clone", url, "--branch", pkg$ref, "--single-branch", "--depth", "1", repo
   )

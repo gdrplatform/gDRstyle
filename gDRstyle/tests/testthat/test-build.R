@@ -51,12 +51,12 @@ testthat::test_that("verify version properly", {
 testthat::test_that("install local properly", {
   on.exit(remove.packages("fakePkg"))
   testthat::expect_error(
-    packageVersion("fakePkg"),
+    utils::packageVersion("fakePkg"),
     regexp = "there is no package called"
   )
   pkg_path <- system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg")
   installLocalPackage(pkg_path)
-  testthat::expect_no_error(packageVersion("fakePkg"))
+  testthat::expect_no_error(utils::packageVersion("fakePkg"))
 })
 
 testthat::test_that("install deps properly", {
