@@ -50,7 +50,7 @@ checkDependencies <- function(dep_path,
       isTRUE(x$NonDescription)
     })
   rp_pkgs <- rp_pkgs[!unlist(skipped_packages)]
-  rp_ver <-lapply(rp_pkgs, function(x) {`if`(is.null(x$ver), "*", x$ver)})
+  rp_ver <- lapply(rp_pkgs, function(x) {`if`(is.null(x$ver), "*", x$ver)})
 
   # Bad pkgs search
   bad_pkgs <- pkgs_search(rp_ver = rp_ver, desc_deps = desc_deps)
