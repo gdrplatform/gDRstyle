@@ -97,9 +97,8 @@ rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on) {
 #'
 #' @examples
 #' checkPackage(
-#'   pkgName = "gDRstyle",
-#'   repoDir = ".",
-#'   subdir = "gDRstyle",
+#'   pkgName = "fakePkg",
+#'   repoDir = "gDRstyle/tst_pkgs/dummy_pkg",
 #'   fail_on = "error"
 #' )
 #'
@@ -119,7 +118,6 @@ checkPackage <- function(pkgName,
     file.path(repoDir, subdir)
   }
   stopifnot(dir.exists(repoDir), dir.exists(pkgDir))
-
   # stop on warning in tests if 'fail_on' level is below 'error'
   stopOnWarning <- fail_on %in% c("warning", "note")
 
@@ -140,7 +138,7 @@ checkPackage <- function(pkgName,
     BiocCheck::BiocCheck(
       package = pkgDir,
       `no-check-unit-tests` = TRUE, # unit tests are called in previous step
-      `no-check-formatting` = TRUE # follow gDR syle guides
+      `no-check-formatting` = TRUE # follow gDR style guides
     )
   }
 

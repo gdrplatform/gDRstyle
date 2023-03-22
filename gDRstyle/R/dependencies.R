@@ -14,8 +14,8 @@
 #'
 #' @examples
 #' checkDependencies(
-#'   dep_path = "testdata/dependencies.yaml",
-#'   desc_path = "."
+#'   dep_path = "gDRstyle/testdata/dependencies.yaml",
+#'   desc_path = "gDRstyle/"
 #' )
 #'
 #' @return \code{NULL} invisibly.
@@ -33,7 +33,6 @@ checkDependencies <- function(dep_path,
   } else {
     stop(sprintf("'%s' file not found", dep_path))
   }
-
   if (length(desc_path) > 1L) {
     stop("more than one 'DESCRIPTION' file found")
   }
@@ -51,12 +50,8 @@ checkDependencies <- function(dep_path,
       isTRUE(x$NonDescription)
     })
   rp_pkgs <- rp_pkgs[!unlist(skipped_packages)]
+  rp_ver <-lapply(rp_pkgs, function(x) {`if`(is.null(x$ver), "*", x$ver)})
 
-  rp_ver <-
-    lapply(rp_pkgs, function(x) {
-      `if`(is.null(x$ver), "*", x$ver)
-    })
-  
   # Bad pkgs search
   bad_pkgs <- pkgs_search(rp_ver = rp_ver, desc_deps = desc_deps)
 
@@ -68,9 +63,9 @@ checkDependencies <- function(dep_path,
 
   if (length(bad_pkgs) != 0L) {
     stop(
-      sprintf(
+      sprintf(avoid_new_lines(
         "misaligned package versions between 'rplatform/dependencies.yaml'
-        and package 'DESCRIPTION' file: %s",
+        and package 'DESCRIPTION' file: %s"),
         paste0(bad_pkgs, collapse = ", ")
       )
     )

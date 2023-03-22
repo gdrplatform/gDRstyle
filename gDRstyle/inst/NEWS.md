@@ -1,3 +1,6 @@
+[1.16.16] - 2023-03-22
+- fix examples
+
 [1.16.15] - 2023-03-21
 - handle BiocCheck
 

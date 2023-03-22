@@ -19,3 +19,9 @@ installLocalPackage(repo_path, additionalRepos = NULL, base_dir = "/mnt/vol")
 \description{
 Install locally cloned repo for builiding image purposes
 }
+\examples{
+installLocalPackage(
+  repo_path = "gDRstyle/tst_pkgs/dummy_pkg"
+)
+
+}
