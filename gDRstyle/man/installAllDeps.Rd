@@ -23,7 +23,7 @@ building image purposes
 }
 \examples{
 installAllDeps(
-  base_dir = "testdata/",
+  base_dir = "gDRstyle/testdata",
   additionalRepos = c(
     CRAN = "https://cran.microsoft.com/snapshot/2023-01-20"
   )

@@ -37,8 +37,8 @@ there are dependency clashes.
 }
 \examples{
 checkDependencies(
-  dep_path = "testdata/dependencies.yaml",
-  desc_path = "."
+  dep_path = "gDRstyle/testdata/dependencies.yaml",
+  desc_path = "gDRstyle/"
 )
 
 }

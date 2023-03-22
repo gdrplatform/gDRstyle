@@ -1,8 +1,8 @@
 Package: gDRstyle
 Type: Package
 Title: A package with style requirements for the gDR suite 
-Version: 1.16.15
-Date: 2023-03-21
+Version: 1.16.16
+Date: 2023-03-22
 Authors@R: c(
     person("Allison", "Vuong", role=c("aut")),
     person("Dariusz", "Scigocki", role=c("aut")),
@@ -28,7 +28,7 @@ Imports:
 Suggests:
     BiocStyle,
     knitr,
-    testthat,
+    testthat (>= 3.0.0),
     withr
 biocViews: Software, Infrastructure
 VignetteBuilder: knitr

@@ -60,6 +60,11 @@ getSshKeys <- function(use_ssh) {
 #' @param additionalRepos List of additional Repos
 #' @param base_dir String of base working directory.
 #'
+#' @examples
+#' installLocalPackage(
+#'   repo_path = "gDRstyle/tst_pkgs/dummy_pkg"
+#' )
+#'
 #' @return \code{NULL}
 #' @export
 installLocalPackage <- function(repo_path,
@@ -80,7 +85,7 @@ installLocalPackage <- function(repo_path,
 #'
 #' @examples
 #' installAllDeps(
-#'   base_dir = "testdata/",
+#'   base_dir = "gDRstyle/testdata",
 #'   additionalRepos = c(
 #'     CRAN = "https://cran.microsoft.com/snapshot/2023-01-20"
 #'   )
@@ -104,12 +109,6 @@ installAllDeps <- function(additionalRepos = NULL,
     if (is.null(pkg$source)) {
       pkg$source <- "Git"
     }
-    repo <- paste(tempdir(), "install_pkg_git", name, sep = .Platform$file.sep)
-    url <- if (grepl("code.roche.com", pkg$url)) {
-      sprintf("https://%s@%s", Sys.getenv("GITLAB_PAT"), pkg$url)
-    } else {
-      pkg$url
-    }
 
     switch(
       EXPR = toupper(pkg$source),
@@ -123,7 +122,7 @@ installAllDeps <- function(additionalRepos = NULL,
 
       "GIT" = install_git(name = name, pkg = pkg, keys = keys),
 
-      "GITLAB" = install_gitlab(name = name, pkg = pkg, url = url, repo = repo),
+      "GITLAB" = install_gitlab(name = name, pkg = pkg),
       # nocov end
 
       stop("Invalid or unsupported source attribute")
@@ -177,7 +176,14 @@ install_git <- function(name, pkg, keys) {
   verify_version(name, pkg$ver)
 }
 
-install_gitlab <- function(name, pkg, url, repo) {
+install_gitlab <- function(name, pkg) {
+  repo <- paste(tempdir(), "install_pkg_git", name, sep = .Platform$file.sep)
+  url <- if (!is.null(pkg$url) && grepl("code.roche.com", pkg$url)) {
+    sprintf("https://%s@%s", Sys.getenv("GITLAB_PAT"), pkg$url)
+  } else {
+    pkg$url
+  }
+
   git_args <- c(
     "clone", url, "--branch", pkg$ref, "--single-branch", "--depth", "1", repo
   )
