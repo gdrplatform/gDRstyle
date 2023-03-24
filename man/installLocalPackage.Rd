@@ -23,5 +23,6 @@ Install locally cloned repo for builiding image purposes
 installLocalPackage(
   repo_path = "gDRstyle/tst_pkgs/dummy_pkg"
 )
+remove.packages("fakePkg")
 
 }

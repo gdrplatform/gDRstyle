@@ -64,6 +64,7 @@ getSshKeys <- function(use_ssh) {
 #' installLocalPackage(
 #'   repo_path = "gDRstyle/tst_pkgs/dummy_pkg"
 #' )
+#' remove.packages("fakePkg")
 #'
 #' @return \code{NULL}
 #' @export
