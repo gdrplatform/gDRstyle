@@ -1,5 +1,9 @@
-[1.16.17] - 2023-03-22
+[0.99.0] - 2023-03-24
+- downgrade version to make it Bioconductor compatible
 - fix unit tests
+
+[1.16.17] - 2023-03-23
+- move R package from subdir to the maindir
 
 [1.16.16] - 2023-03-22
 - fix examples
