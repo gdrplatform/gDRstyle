@@ -138,7 +138,8 @@ checkPackage <- function(pkgName,
     BiocCheck::BiocCheck(
       package = pkgDir,
       `no-check-unit-tests` = TRUE, # unit tests are called in previous step
-      `no-check-formatting` = TRUE # follow gDR style guides
+      `no-check-formatting` = TRUE, # follow gDR style guides
+      `new-package` = TRUE 
     )
   }
 
