@@ -60,12 +60,6 @@ getSshKeys <- function(use_ssh) {
 #' @param additionalRepos List of additional Repos
 #' @param base_dir String of base working directory.
 #'
-#' @examples
-#' installLocalPackage(
-#'   repo_path = "gDRstyle/tst_pkgs/dummy_pkg"
-#' )
-#' remove.packages("fakePkg")
-#'
 #' @return \code{NULL}
 #' @export
 installLocalPackage <- function(repo_path,
@@ -73,7 +67,6 @@ installLocalPackage <- function(repo_path,
                                 base_dir = "/mnt/vol") {
   setReposOpt(additionalRepos)
   setTokenVar(base_dir)
-
   remotes::install_local(path = repo_path)
 }
 
@@ -83,20 +76,21 @@ installLocalPackage <- function(repo_path,
 #' @param additionalRepos List of additional Repos
 #' @param base_dir String of base working directory.
 #' @param use_ssh logical, if use ssh keys
+#' @param test_mode logical, whether to run the function in the test mode
+#'        (if TRUE the dependencies are not installed but only listed)
 #'
 #' @examples
 #' installAllDeps(
-#'   base_dir = "gDRstyle/testdata",
-#'   additionalRepos = c(
-#'     CRAN = "https://cran.microsoft.com/snapshot/2023-01-20"
-#'   )
+#'   base_dir = system.file(package = "gDRstyle", "testdata"),
+#'   test_mode = TRUE
 #' )
 #'
 #' @return \code{NULL}
 #' @export
 installAllDeps <- function(additionalRepos = NULL,
                            base_dir = "/mnt/vol",
-                           use_ssh = FALSE) {
+                           use_ssh = FALSE,
+                           test_mode = FALSE) {
   setReposOpt(additionalRepos)
   setTokenVar(base_dir)
   keys <- getSshKeys(use_ssh)
@@ -104,7 +98,10 @@ installAllDeps <- function(additionalRepos = NULL,
   deps_yaml <- file.path(base_dir, "/dependencies.yaml")
   deps <- yaml::read_yaml(deps_yaml)$pkgs
 
-
+  if (test_mode) {
+    return(deps)
+  }
+  
   for (name in names(deps)) {
     pkg <- deps[[name]]
     if (is.null(pkg$source)) {
