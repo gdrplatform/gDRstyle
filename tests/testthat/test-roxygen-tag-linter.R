@@ -1,5 +1,5 @@
 test_that("custom linter `roxygen_tag_linter` works as expected", {
-  linters_config <- lintr::with_defaults(
+  linters_config <- lintr::linters_with_defaults(
     roxygen_tag_linter = roxygen_tag_linter()
   )
   file <- system.file("testdata", "dummy_functions.R", package = "gDRstyle")
