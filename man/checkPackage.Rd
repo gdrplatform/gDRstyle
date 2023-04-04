@@ -38,7 +38,7 @@ listed in the package's \code{DESCRIPTION} file.
 \examples{
 checkPackage(
   pkgName = "fakePkg",
-  repoDir = "gDRstyle/tst_pkgs/dummy_pkg",
+  repoDir = system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg"),
   fail_on = "error"
 )
 
