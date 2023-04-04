@@ -1,3 +1,8 @@
+[0.99.2] - 2023-04-04
+- update examples
+- switch to lintr::linters_with_defaults
+- add 'test_mode' parameter in installAllDeps
+
 [0.99.1] - 2023-04-04
 - change location of NEW.md file
 
