@@ -1,3 +1,6 @@
+[0.99.1] - 2023-04-04
+- change location of NEW.md file
+
 [0.99.0] - 2023-03-24
 - downgrade version to make it Bioconductor compatible
 - fix unit tests
