@@ -136,7 +136,8 @@ install_cran <- function(name, pkg) {
   remotes::install_version(
     package = name,
     version = pkg$ver,
-    repos = pkg$repos
+    repos = pkg$repos,
+    upgrade = "never"
   )
 }
 
@@ -159,7 +160,8 @@ install_github <- function(name, pkg) {
     repo = pkg$url,
     ref = pkg$ref,
     subdir = pkg$subdir,
-    host = ifelse(!is.null(pkg$host), pkg$host, "api.github.com")
+    host = ifelse(!is.null(pkg$host), pkg$host, "api.github.com"),
+    upgrade = "never"
   )
   verify_version(name, pkg$ver)
 }
@@ -169,7 +171,8 @@ install_git <- function(name, pkg, keys) {
     url = pkg$url,
     subdir = pkg$subdir,
     ref = pkg$ref,
-    credentials = keys
+    credentials = keys,
+    upgrade = "never"
   )
   verify_version(name, pkg$ver)
 }
