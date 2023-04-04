@@ -98,7 +98,7 @@ rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on) {
 #' @examples
 #' checkPackage(
 #'   pkgName = "fakePkg",
-#'   repoDir = "gDRstyle/tst_pkgs/dummy_pkg",
+#'   repoDir = system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg"),
 #'   fail_on = "error"
 #' )
 #'

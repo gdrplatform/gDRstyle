@@ -14,8 +14,9 @@
 #'
 #' @examples
 #' checkDependencies(
-#'   dep_path = "gDRstyle/testdata/dependencies.yaml",
-#'   desc_path = "gDRstyle/"
+#'   dep_path = system.file(package = "gDRstyle", "testdata", "dependencies.yaml"),
+#'   desc_path = system.file(package = "gDRstyle", "DESCRIPTION"),
+#'   skip_pkgs = "testthat"
 #' )
 #'
 #' @return \code{NULL} invisibly.
