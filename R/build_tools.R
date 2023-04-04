@@ -76,7 +76,8 @@ installLocalPackage <- function(repo_path,
 #' @param additionalRepos List of additional Repos
 #' @param base_dir String of base working directory.
 #' @param use_ssh logical, if use ssh keys
-#' @param test_mode logical, whether to to run the function in the test mode
+#' @param test_mode logical, whether to run the function in the test mode
+#'        (if TRUE the dependencies are not installed but only listed)
 #'
 #' @examples
 #' installAllDeps(

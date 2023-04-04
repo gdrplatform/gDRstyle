@@ -19,7 +19,8 @@ installAllDeps(
 
 \item{use_ssh}{logical, if use ssh keys}
 
-\item{test_mode}{logical, whether to to run the function in the test mode}
+\item{test_mode}{logical, whether to run the function in the test mode
+(if TRUE the dependencies are not installed but only listed)}
 }
 \value{
 \code{NULL}
