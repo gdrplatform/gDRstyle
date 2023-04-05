@@ -6,7 +6,8 @@
 #' Defaults to the current directory.
 #'
 #' @examples
-#' lintPkgDirs(pkg_dir= "gDRstyle/tst_pkgs/dummy_pkg")
+#' lintPkgDirs(
+#'     pkg_dir= system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg"))
 #'
 #' @return \code{NULL} invisibly.
 #' @details
