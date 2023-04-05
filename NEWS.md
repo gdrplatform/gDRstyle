@@ -1,3 +1,6 @@
+[0.99.4] - 2023-04-05
+- remove unstable test
+
 [0.99.3] - 2023-04-05
 - update examples
 
