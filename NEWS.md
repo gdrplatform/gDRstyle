@@ -1,3 +1,6 @@
+[0.99.3] - 2023-04-05
+- update examples
+
 [0.99.2] - 2023-04-04
 - update examples
 - switch to lintr::linters_with_defaults
