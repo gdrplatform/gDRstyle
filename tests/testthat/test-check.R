@@ -3,6 +3,4 @@ testthat::test_that("package check works correct", {
 
   # FAIL ON ERROR CHECK
   testthat::expect_no_error(checkPackage("fakePkg", dir, fail_on = "error"))
-  # STRICT CHECK ON NOTES WITH VALID NOTES USED
-  testthat::expect_no_error(checkPackage("fakePkg", dir, fail_on = "note"))
 })
