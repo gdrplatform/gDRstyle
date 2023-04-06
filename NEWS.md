@@ -1,3 +1,6 @@
+[0.99.5] - 2023-04-06
+- update maintainer
+
 [0.99.4] - 2023-04-05
 - remove unstable test
 
