@@ -1,3 +1,6 @@
+[0.99.7] - 2023-04-07
+- update maintainer
+
 [0.99.6] - 2023-04-07
 - update the license
 
