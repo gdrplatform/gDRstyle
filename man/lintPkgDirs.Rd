@@ -25,6 +25,6 @@ Will look for files in the following directories:
 if \code{shiny} is \code{TRUE}.
 }
 \examples{
-lintPkgDirs(pkg_dir= "gDRstyle/tst_pkgs/dummy_pkg")
+lintPkgDirs(pkg_dir= system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg"))
 
 }

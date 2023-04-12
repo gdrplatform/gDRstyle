@@ -1,5 +1,20 @@
-[0.99.3] - 2023-04-04
+[0.99.8] - 2023-04-12
 - avoid dependencies upgrade
+
+[0.99.7] - 2023-04-07
+- update maintainer
+
+[0.99.6] - 2023-04-07
+- update the license
+
+[0.99.5] - 2023-04-06
+- update maintainer
+
+[0.99.4] - 2023-04-05
+- remove unstable test
+
+[0.99.3] - 2023-04-05
+- update examples
 
 [0.99.2] - 2023-04-04
 - update examples
