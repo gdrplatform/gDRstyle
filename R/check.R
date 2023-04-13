@@ -69,9 +69,7 @@ rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on) {
   check <- rcmdcheck::rcmdcheck(
     pkgDir,
     error_on = error_on,
-    args = c(
-      "--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests"
-    )
+    args = c("--no-build-vignettes", "--no-manual", "--no-tests")
   )
 
   if (fail_on == "note") {
