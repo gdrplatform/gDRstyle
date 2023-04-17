@@ -132,8 +132,9 @@ if (length(foo()) == 1) {
 "_PACKAGE"
 ```
 3. Add in the DESCRIPTION `Roxygen: list(markdown = TRUE)`
-4. All constants, imports and side-effects tools should be in file `package.R`. Do not use _zzz.R_
-5. Executes Bioconductor-specific package checks with `BiocCheck::BiocCheck()`
+4. All constants, imports and side-effects tools should be in file _package.R_. Do not use _zzz.R_
+5. Executes gDRstyle specific package checks with `gDRstyle::checkPackage()` (use `bioc_check = TRUE` to verify
+if the requirements for Bioconductor are also met)
 
 ## Git best practices
 1. Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
