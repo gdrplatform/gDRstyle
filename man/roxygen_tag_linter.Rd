@@ -29,5 +29,5 @@ linters_config <- linter_helper_function(
 
 }
 \author{
-Kamil Foltynski <kamil.foltynski@contractors.roche.com>
+Kamil Foltynski \href{mailto:kamil.foltynski@contractors.roche.com}{kamil.foltynski@contractors.roche.com}
 }

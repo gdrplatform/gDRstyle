@@ -1,31 +1,31 @@
 #' Assume there is a valid note:
-#'
+#' ```
 #' > checking R code for possible problems ... NOTE
-#' mini_facile_app: no visible binding for '<<-' assignment to ‘CONFIG’
-#'
+#' mini_app: no visible binding for '<<-' assignment to ‘CONFIG’
+#' ```
 #' and we want every other note in this section (and others) to fail check.
 #' Accepted NOTE has 2 lines, therefore the length = 2. Then we want to
 #' check whether the content of this NOTE is correct, so we take one of
 #' the lines (eg. index_to_check = 2) and grep for content of this line
 #' (eg. text_to_check = "assignment to" )
 #' This will result in any other NOTE failing check
-#'
 #' Take:
-#'
+#' ````
 #'   list(
 #'     list(length = 2, index_to_check = 2, text_to_check = "assignment to")
 #'   )
-#'
+#' ``
 #' then following NOTE will be treated as invalid
 #' > checking R code for possible problems ... NOTE
-#' mini_facile_app: no visible binding for '<<-' assignment to ‘CONFIG’
+#' mini_app: no visible binding for '<<-' assignment to ‘CONFIG’
 #' sandbox_app : sandboxUI: no visible binding for global variable
 #' ‘pcg_path’
 #' Undefined global functions or variables:
 #'  pcg_path
 #' @return \code{NULL}
 #' @keywords internal
-test_notes_check <- function(check_results, valid_notes_list) {
+test_notes_check <- function(check_results, 
+                             valid_notes_list) {
   if (!is.null(check_results$notes)) {
     NOTEs <- strsplit(check_results$notes, "\n")
 
@@ -47,6 +47,13 @@ test_notes_check <- function(check_results, valid_notes_list) {
   }
 }
 
+#' Load notes
+#'
+#' @param repo_dir String of path to repository directory.
+#'
+#' @return \code{NULL}
+#' @keywords internal
+#' @noRd
 load_valid_notes <- function(repo_dir) {
   file_dir <- file.path(repo_dir, "rplatform", "valid_notes2.R")
 
@@ -57,13 +64,36 @@ load_valid_notes <- function(repo_dir) {
   }
 }
 
-test_notes <- function(check, repo_dir) {
+#' Test notes
+#'
+#' @param check 
+#' @param repo_dir String of path to repository directory.
+#'
+#' @return \code{NULL}
+#' @keywords internal
+#' @noRd
+test_notes <- function(check, 
+                       repo_dir) {
   valid_notes <- load_valid_notes(repo_dir)
 
   test_notes_check(check, valid_notes)
 }
 
-rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on) {
+#' Run check
+#'
+#' Run R CMD check from R programmatically
+#'
+#' @param pkgName String of package name.
+#' @param repoDir String of path to repository directory.
+#' @param fail_on String specifying the level at which check fail. Supported
+#' values: \code{"note"}, \code{"warning"} and \code{"error"}.
+#'
+#' @return \code{NULL}
+#' @keywords internal
+#' @noRd
+rcmd_check_with_notes <- function(pkgDir, 
+                                  repoDir, 
+                                  fail_on) {
   # rcmdcheck gets warning instead of note
   error_on <- `if`(fail_on == "note", "warning", fail_on)
   check <- rcmdcheck::rcmdcheck(

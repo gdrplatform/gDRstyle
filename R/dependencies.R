@@ -90,7 +90,8 @@ checkDependencies <- function(dep_path,
 #'
 #' @return Character vector of any misaligned package versions between
 #' rplatform \code{dependencies.yaml} and package \code{DESCRIPTION}.
-compare_versions <- function(rp, desc) {
+compare_versions <- function(rp, 
+                             desc) {
   stopifnot(all(names(rp) == names(desc)))
   misaligned_ver_pkgs <- NULL
   for (pkg in names(rp)) {
@@ -107,7 +108,6 @@ compare_versions <- function(rp, desc) {
 #' Tidy version strings, often to make them comparable.
 #'
 #' @param ver String of a package version.
-#'
 #' @return Tidied string of package version.
 #'
 #' @keywords internal
@@ -116,7 +116,10 @@ compare_versions <- function(rp, desc) {
   gsub("\\s|==", "", ver)
 }
 
-get_all_pkgs <- function(combo_path, rp_pkgs) {
+#' @keywords internal
+#' @noRd
+get_all_pkgs <- function(combo_path, 
+                         rp_pkgs) {
   if (file.exists(combo_path)) {
     combo_deps <- yaml::read_yaml(combo_path)
 
@@ -131,7 +134,10 @@ get_all_pkgs <- function(combo_path, rp_pkgs) {
   }
 }
 
-pkgs_search <- function(rp_ver, desc_deps) {
+#' @keywords internal
+#' @noRd
+pkgs_search <- function(rp_ver, 
+                        desc_deps) {
   idx <- match(names(rp_ver), desc_deps$package)
   if (any(na_idx <- is.na(idx))) {
     stop(sprintf(avoid_new_lines(
@@ -146,8 +152,12 @@ pkgs_search <- function(rp_ver, desc_deps) {
   compare_versions(rp_ver, xrp_ver)
 }
 
-pkgs_reverse_search <- function(desc, skip, all) {
-  cond <- desc$version != "*" & !desc$package %in% skip
+#' @keywords internal
+#' @noRd
+pkgs_reverse_search <- function(desc, 
+                                skip, 
+                                all) {
+  cond <- desc[["version"]] != "*" & !desc[["package"]] %in% skip
   pkgs <- desc[cond, c("package")]
 
   setdiff(pkgs, names(all))
