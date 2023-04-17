@@ -87,21 +87,27 @@ test_notes <- function(check,
 #' @param repoDir String of path to repository directory.
 #' @param fail_on String specifying the level at which check fail. Supported
 #' values: \code{"note"}, \code{"warning"} and \code{"error"}.
+#' @param run_examples Logical whether examples check should be performed
 #'
 #' @return \code{NULL}
 #' @keywords internal
 #' @noRd
 rcmd_check_with_notes <- function(pkgDir, 
                                   repoDir, 
-                                  fail_on) {
+                                  fail_on,
+                                  run_examples) {
   # rcmdcheck gets warning instead of note
   error_on <- `if`(fail_on == "note", "warning", fail_on)
+  check_args <- c("--no-manual", "--no-tests")
+
+  if (!run_examples) {
+    check_args <- c(check_args, "--no-examples")
+  }
+
   check <- rcmdcheck::rcmdcheck(
     pkgDir,
     error_on = error_on,
-    args = c(
-      "--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests"
-    )
+    args = check_args
   )
 
   if (fail_on == "note") {
@@ -124,6 +130,7 @@ rcmd_check_with_notes <- function(pkgDir,
 #' @param fail_on String specifying the level at which check fail. Supported
 #' values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.
 #' @param bioc_check Logical whether bioc check should be performed
+#' @param run_examples Logical whether examples check should be performed
 #'
 #' @examples
 #' checkPackage(
@@ -138,7 +145,8 @@ checkPackage <- function(pkgName,
                          repoDir,
                          subdir = NULL,
                          fail_on = "warning",
-                         bioc_check = FALSE) {
+                         bioc_check = FALSE,
+                         run_examples = TRUE) {
   fail_on <- match.arg(fail_on, c("error", "warning", "note"))
 
   pkgDir <- if (is.null(subdir) || subdir == "~") {
@@ -162,7 +170,12 @@ checkPackage <- function(pkgName,
   )
 
   message("Check")
-  rcmd_check_with_notes(pkgDir = pkgDir, repoDir = repoDir, fail_on = fail_on)
+  rcmd_check_with_notes(
+    pkgDir = pkgDir, 
+    repoDir = repoDir, 
+    fail_on = fail_on,
+    run_examples = run_examples
+  )
 
   if (bioc_check) {
     BiocCheck::BiocCheck(

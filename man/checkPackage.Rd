@@ -9,7 +9,8 @@ checkPackage(
   repoDir,
   subdir = NULL,
   fail_on = "warning",
-  bioc_check = FALSE
+  bioc_check = FALSE,
+  run_examples = TRUE
 )
 }
 \arguments{
@@ -24,6 +25,8 @@ from the \code{repoDir}.}
 values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.}
 
 \item{bioc_check}{Logical whether bioc check should be performed}
+
+\item{run_examples}{Logical whether examples check should be performed}
 }
 \value{
 \code{NULL} invisibly.

@@ -1,3 +1,7 @@
+## [0.99.11] - 2023-04-17
+- avoid dependencies upgrade
+- add examples check
+
 ## [0.99.10] - 2023-04-17
 - update style guide (package doc)
 

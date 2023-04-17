@@ -2,3 +2,6 @@ pkgs:
   testthat:
     source: CRAN
     ver: '>= 3.0.0'
+  R:
+    source: CRAN
+    ver: '>= 4.2'
