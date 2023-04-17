@@ -83,7 +83,7 @@ test_notes <- function(check,
 #'
 #' Run R CMD check from R programmatically
 #'
-#' @param pkgName String of package name.
+#' @param pkgDir String of path to package directory
 #' @param repoDir String of path to repository directory.
 #' @param fail_on String specifying the level at which check fail. Supported
 #' values: \code{"note"}, \code{"warning"} and \code{"error"}.
