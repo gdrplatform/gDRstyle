@@ -63,13 +63,18 @@ test_notes <- function(check, repo_dir) {
   test_notes_check(check, valid_notes)
 }
 
-rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on) {
+rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on, run_examples) {
   # rcmdcheck gets warning instead of note
   error_on <- `if`(fail_on == "note", "warning", fail_on)
+  check_args <- c("--no-manual", "--no-tests")
+  if (!run_examples) {
+    check_args <- c(check_results, "--no-examples")
+  }
+
   check <- rcmdcheck::rcmdcheck(
     pkgDir,
     error_on = error_on,
-    args = c("--no-build-vignettes", "--no-manual", "--no-tests")
+    args = check_args
   )
 
   if (fail_on == "note") {
@@ -106,7 +111,8 @@ checkPackage <- function(pkgName,
                          repoDir,
                          subdir = NULL,
                          fail_on = "warning",
-                         bioc_check = FALSE) {
+                         bioc_check = FALSE,
+                         run_examples = TRUE) {
   fail_on <- match.arg(fail_on, c("error", "warning", "note"))
 
   pkgDir <- if (is.null(subdir) || subdir == "~") {
@@ -130,7 +136,12 @@ checkPackage <- function(pkgName,
   )
 
   message("Check")
-  rcmd_check_with_notes(pkgDir = pkgDir, repoDir = repoDir, fail_on = fail_on)
+  rcmd_check_with_notes(
+    pkgDir = pkgDir, 
+    repoDir = repoDir, 
+    fail_on = fail_on,
+    run_examples = run_examples
+  )
 
   if (bioc_check) {
     BiocCheck::BiocCheck(
