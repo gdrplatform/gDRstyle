@@ -68,7 +68,7 @@ rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on, run_examples) {
   error_on <- `if`(fail_on == "note", "warning", fail_on)
   check_args <- c("--no-manual", "--no-tests")
   if (!run_examples) {
-    check_args <- c(check_results, "--no-examples")
+    check_args <- c(check_args, "--no-examples")
   }
 
   check <- rcmdcheck::rcmdcheck(
@@ -97,6 +97,7 @@ rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on, run_examples) {
 #' @param fail_on String specifying the level at which check fail. Supported
 #' values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.
 #' @param bioc_check Logical whether bioc check should be performed
+#' @param run_examples Logical whether examples check should be performed
 #'
 #' @examples
 #' checkPackage(
