@@ -34,5 +34,6 @@ Suggests:
 biocViews: Software, Infrastructure
 VignetteBuilder: knitr
 ByteCompile: TRUE
+Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
 Encoding: UTF-8

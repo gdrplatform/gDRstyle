@@ -2,7 +2,32 @@
 % Please edit documentation in R/check.R
 \name{test_notes_check}
 \alias{test_notes_check}
-\title{Assume there is a valid note:}
+\title{Assume there is a valid note:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{> checking R code for possible problems ... NOTE
+mini_app: no visible binding for '<<-' assignment to ‘CONFIG’
+}\if{html}{\out{</div>}}
+
+and we want every other note in this section (and others) to fail check.
+Accepted NOTE has 2 lines, therefore the length = 2. Then we want to
+check whether the content of this NOTE is correct, so we take one of
+the lines (eg. index_to_check = 2) and grep for content of this line
+(eg. text_to_check = "assignment to" )
+This will result in any other NOTE failing check
+Take:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  list(
+    list(length = 2, index_to_check = 2, text_to_check = "assignment to")
+  )
+``
+then following NOTE will be treated as invalid
+> checking R code for possible problems ... NOTE
+mini_app: no visible binding for '<<-' assignment to ‘CONFIG’
+sandbox_app : sandboxUI: no visible binding for global variable
+‘pcg_path’
+Undefined global functions or variables:
+ pcg_path
+}\if{html}{\out{</div>}}}
 \usage{
 test_notes_check(check_results, valid_notes_list)
 }
@@ -10,29 +35,31 @@ test_notes_check(check_results, valid_notes_list)
 \code{NULL}
 }
 \description{
-> checking R code for possible problems ... NOTE
-mini_facile_app: no visible binding for '<<-' assignment to ‘CONFIG’
-}
-\details{
+Assume there is a valid note:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{> checking R code for possible problems ... NOTE
+mini_app: no visible binding for '<<-' assignment to ‘CONFIG’
+}\if{html}{\out{</div>}}
+
 and we want every other note in this section (and others) to fail check.
 Accepted NOTE has 2 lines, therefore the length = 2. Then we want to
 check whether the content of this NOTE is correct, so we take one of
 the lines (eg. index_to_check = 2) and grep for content of this line
 (eg. text_to_check = "assignment to" )
 This will result in any other NOTE failing check
-
 Take:
 
-  list(
+\if{html}{\out{<div class="sourceCode">}}\preformatted{  list(
     list(length = 2, index_to_check = 2, text_to_check = "assignment to")
   )
-
+``
 then following NOTE will be treated as invalid
 > checking R code for possible problems ... NOTE
-mini_facile_app: no visible binding for '<<-' assignment to ‘CONFIG’
+mini_app: no visible binding for '<<-' assignment to ‘CONFIG’
 sandbox_app : sandboxUI: no visible binding for global variable
 ‘pcg_path’
 Undefined global functions or variables:
  pcg_path
+}\if{html}{\out{</div>}}
 }
 \keyword{internal}

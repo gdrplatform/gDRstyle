@@ -1,3 +1,10 @@
+#' Add additional repo to global option
+#'
+#' @param additionalRepos list of additional repos
+#'
+#' @return \code{NULL}
+#' @keywords internal
+#' @noRd
 setReposOpt <- function(additionalRepos = NULL) {
   repos <- c(
     CRAN = "https://cran.microsoft.com/snapshot/2023-01-20",
@@ -6,7 +13,16 @@ setReposOpt <- function(additionalRepos = NULL) {
   options(repos = repos)
 }
 
-setTokenVar <- function(base_dir, filename = ".github_access_token.txt") {
+#' Set environment variable GITHUB_PAT
+#'
+#' @param base_dir String, path to dir with token file
+#' @param filename String, name of file with token
+#'
+#' @return \code{NULL} or info about error
+#' @keywords internal
+#' @noRd
+setTokenVar <- function(base_dir, 
+                        filename = ".github_access_token.txt") {
   # Use GitHub access_token if available
   gh_access_token_file <- file.path(base_dir, filename)
   if (file.exists(gh_access_token_file)) {
@@ -30,7 +46,16 @@ setTokenVar <- function(base_dir, filename = ".github_access_token.txt") {
 }
 
 # Auxiliary functions
-verify_version <- function(name, required_version) {
+#' Check if the given package version is valid and exists
+#'
+#' @param name String, name of the package to install
+#' @param required_version String, version of the package to install
+#'
+#' @return \code{NULL} or info about error
+#' @keywords internal
+#' @noRd
+verify_version <- function(name, 
+                           required_version) {
   pkg_version <- utils::packageVersion(name)
   ## '>=1.2.3' => '>= 1.2.3'
   required_version <-
@@ -45,6 +70,14 @@ verify_version <- function(name, required_version) {
   }
 }
 
+
+#' Create a new ssh key credential object
+#' 
+#' @param use_ssh logical, if use ssh keys 
+#'
+#' @return A list of class cred_ssh_key
+#' @keywords internal
+#' @noRd
 getSshKeys <- function(use_ssh) {
   if (isTRUE(use_ssh)) {
     git2r::cred_ssh_key(
@@ -101,7 +134,7 @@ installAllDeps <- function(additionalRepos = NULL,
   if (test_mode) {
     return(deps)
   }
-  
+
   for (name in names(deps)) {
     pkg <- deps[[name]]
     if (is.null(pkg$source)) {
@@ -129,7 +162,17 @@ installAllDeps <- function(additionalRepos = NULL,
 }
 
 # nocov start
-install_cran <- function(name, pkg) {
+#' Install specific version of a package
+#'
+#' @param name String, name of the package to install
+#' @param pkg List with package version and URL repo
+#' @seealso \code{\link[remotes::install_version]{remotes::install_version()}}
+#'
+#' @return \code{NULL}
+#' @keywords internal
+#' @noRd
+install_cran <- function(name, 
+                         pkg) {
   if (is.null(pkg$repos)) {
     pkg$repos <- getOption("repos")
   }
@@ -141,7 +184,17 @@ install_cran <- function(name, pkg) {
   )
 }
 
-install_bioc <- function(name, pkg) {
+#' Install package from Bioconductor
+#'
+#' @param name String, name of the package to install
+#' @param pkg List with package version and URL repo
+#' @seealso \code{\link[remotes::install_bioc]{remotes::install_bioc()}}
+#'
+#' @return \code{NULL}
+#' @keywords internal
+#' @noRd
+install_bioc <- function(name, 
+                         pkg) {
   if (is.null(pkg$ver)) {
     pkg$ver <- BiocManager::version()
   }
@@ -152,7 +205,17 @@ install_bioc <- function(name, pkg) {
   verify_version(name, pkg$ver)
 }
 
-install_github <- function(name, pkg) {
+#' Install package from github
+#'
+#' @param name String, name of the package to install
+#' @param pkg List with package version and URL repo
+#' @seealso \code{\link[remotes::install_github]{remotes::install_github()}}
+#'
+#' @return \code{NULL}
+#' @keywords internal
+#' @noRd
+install_github <- function(name, 
+                           pkg) {
   if (is.null(pkg$ref)) {
     pkg$ref <- "HEAD"
   }
@@ -166,7 +229,19 @@ install_github <- function(name, pkg) {
   verify_version(name, pkg$ver)
 }
 
-install_git <- function(name, pkg, keys) {
+#' Install package from git repository
+#'
+#' @param name String, name of the package to install
+#' @param pkg List with package version, URL repo and name of branch
+#' @param keys String of credential
+#' @seealso \code{\link[remotes::install_git]{remotes::install_version()}}
+#'
+#' @return \code{NULL}
+#' @keywords internal
+#' @noRd
+install_git <- function(name, 
+                        pkg, 
+                        keys) {
   remotes::install_git(
     url = pkg$url,
     subdir = pkg$subdir,
@@ -177,7 +252,17 @@ install_git <- function(name, pkg, keys) {
   verify_version(name, pkg$ver)
 }
 
-install_gitlab <- function(name, pkg) {
+#' Install package from gitlab
+#'
+#' @param name String, name of the package to install
+#' @param pkg List with package version and URL repo
+#' @seealso \code{\link[remotes::install_version]{remotes::install_version()}}
+#'
+#' @return \code{NULL}
+#' @keywords internal
+#' @noRd
+install_gitlab <- function(name, 
+                           pkg) {
   repo <- paste(tempdir(), "install_pkg_git", name, sep = .Platform$file.sep)
   url <- if (!is.null(pkg$url) && grepl("code.roche.com", pkg$url)) {
     sprintf("https://%s@%s", Sys.getenv("GITLAB_PAT"), pkg$url)
