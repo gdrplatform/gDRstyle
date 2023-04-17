@@ -1,3 +1,6 @@
+## [0.99.9] - 2023-04-17
+- update style guide (package doc)
+
 ## [0.99.8] - 2023-04-13
 - fix format in NEWS.md
 
