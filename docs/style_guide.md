@@ -133,6 +133,8 @@ if (length(foo()) == 1) {
 ```
 3. Add in the DESCRIPTION `Roxygen: list(markdown = TRUE)`
 4. All constants, imports and side-effects tools should be in file _package.R_. Do not use _zzz.R_
+  * if some functions/packages are often used within the package, add `@import` or `@importFrom` always in one place - file _package.R_
+  * if using function from another package, use `namespace::function_name`
 5. Executes gDRstyle specific package checks with `gDRstyle::checkPackage()` (use `bioc_check = TRUE` to verify
 if the requirements for Bioconductor are also met)
 
