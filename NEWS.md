@@ -1,3 +1,6 @@
+## [0.99.10] - 2023-04-17
+- update style guide (package doc)
+
 ## [0.99.9] - 2023-04-17
 - add R 4.2 as a dependency
 
