@@ -1,13 +1,12 @@
 args <- commandArgs(trailingOnly = TRUE)
-print("ARGS:")
-print(args) # DEBUG
+
 PKG_NAME <- args[1]
 REPO_DIR <- args[2]
 PKG_SUBDIR <- args[3]
 LIB_DIR <- args[4]
 FAIL_ON <- args[5]
 BIOC_CHECK <- args[6]
-RUN_EXAMPLES <- args[7]
+RUN_EXAMPLES <- as.logical(args[7])
 
 # Load libraries
 stopifnot(dir.exists(LIB_DIR))

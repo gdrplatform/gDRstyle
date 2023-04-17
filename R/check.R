@@ -67,7 +67,7 @@ rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on, run_examples) {
   # rcmdcheck gets warning instead of note
   error_on <- `if`(fail_on == "note", "warning", fail_on)
   check_args <- c("--no-manual", "--no-tests")
-  print(paste("RUN_EXAMPLES:", run_examples))
+
   if (!run_examples) {
     check_args <- c(check_args, "--no-examples")
   }
@@ -138,7 +138,6 @@ checkPackage <- function(pkgName,
   )
 
   message("Check")
-  print(paste("RUN RUN_EXAMPLES:", run_examples))
   rcmd_check_with_notes(
     pkgDir = pkgDir, 
     repoDir = repoDir, 
