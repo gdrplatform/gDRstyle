@@ -1,3 +1,6 @@
+## [0.99.12] - 2023-04-18
+- add check for BiocCheck's notes
+
 ## [0.99.11] - 2023-04-17
 - avoid dependencies upgrade
 - add examples check
