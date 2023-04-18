@@ -71,8 +71,8 @@ load_valid_notes <- function(repo_dir) {
 
 #' Test notes
 #'
-#' @param check 
-#' @param biocCheck
+#' @param check rcmdcheck object with R CMD check results
+#' @param biocCheck BiocCheck object with BiocCheck results
 #' @param repo_dir String of path to repository directory.
 #'
 #' @return \code{NULL}

@@ -29,7 +29,7 @@ Undefined global functions or variables:
  pcg_path
 }\if{html}{\out{</div>}}}
 \usage{
-test_notes_check(check_results, valid_notes_list)
+test_notes_check(check_results, bioccheck_results, valid_notes_list)
 }
 \value{
 \code{NULL}
