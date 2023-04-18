@@ -1,4 +1,5 @@
-# gDR style
+# gDR style guide
+A style guide for the gdrplatform organization.
 
 ## General R code
 
@@ -40,7 +41,6 @@ fun <- function(param1,
 fun <- function(param1, param2, param_with_dir_for_st_important = file.path(system.file(paste(param1, "SE", "rds", sep = "."), package = "important_package"))) {
   ...
 }
-
 ```
 
   * Function assignment
@@ -58,7 +58,6 @@ fun <- function(param1, param2, param_with_dir_for_st_important = file.path(syst
     # Do stuff.
     x
   }
-
   # Bad.
   foo <- function() {
     # Do stuff.
@@ -110,7 +109,6 @@ idx <- foo()
 if (length(idx) == 1) {
   f <- c(f[idx], f[-idx])
 }
-
 # Bad.
 if (length(foo()) == 1) {
   f <- c(f[foo()], f[foo()])
@@ -123,3 +121,30 @@ if (length(foo()) == 1) {
 3. Avoid inline CSS styles.
 4. In CSS file, each rule should be on its own line.
 5. Avoid using percentages for widths; instead, use bootstrap's grid system by specifying columns.
+
+## General package code
+1. Create file _{pkgname}-package.R_ with `usethis::use_package_doc()`
+2. Update _{pkgname}-package.R_ - it should have such lines:
+```
+#' @note To learn more about functions start with `help(package = "{pkgname}")` 
+#' @keywords internal
+#' @return package help page
+"_PACKAGE"
+```
+3. Add in the DESCRIPTION `Roxygen: list(markdown = TRUE)`
+4. All constants, imports and side-effects tools should be in file _package.R_. Do not use _zzz.R_
+  * if some functions/packages are often used within the package, add `@import` or `@importFrom` always in one place - file _package.R_
+  * if using function from another package, use `namespace::function_name`
+5. Executes gDRstyle specific package checks with `gDRstyle::checkPackage()` (use `bioc_check = TRUE` to verify
+if the requirements for Bioconductor are also met)
+
+## Git best practices
+1. Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
+  * Commit messages should look like `<type>: <description>` where `type` can be one of:
+    * `fix`: for bugfixes; this should be accompanied by a bumped `PATCH` version
+    * `feat`: for new features; this should be accompanied by a bumped `MINOR` version
+    * `docs`: for documentation changes; no version changes
+    * `style`: for formatting changes that do not affect the meaning of the code; no version changes
+    * `test`: for adding missing tests or correcting existing tests; no version changes
+    * `refactor`: for code changes that neither fixes a bug nor adds a feature
+    * `ci`: for changes to CI configuration

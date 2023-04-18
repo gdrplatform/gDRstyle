@@ -17,12 +17,17 @@ Check that function has documented specific tag in Roxygen
 skeleton (default \code{@author}).
 }
 \examples{
-linters_config <- lintr::with_defaults(
+ linter_helper_function <- if (packageVersion("lintr") >= "3.0.0") {
+   lintr::linters_with_defaults
+ } else {
+   lintr::with_defaults
+ }
+linters_config <- linter_helper_function(
   line_length_linter = lintr::line_length_linter(120),
   roxygen_tag_linter = roxygen_tag_linter()
 )
 
 }
 \author{
-Kamil Foltynski <kamil.foltynski@contractors.roche.com>
+Kamil Foltynski \href{mailto:kamil.foltynski@contractors.roche.com}{kamil.foltynski@contractors.roche.com}
 }

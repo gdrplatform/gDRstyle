@@ -6,15 +6,17 @@
 #' Defaults to the current directory.
 #'
 #' @examples
-#' lintPkgDirs(pkg_dir= "gDRstyle/tst_pkgs/dummy_pkg")
+#' lintPkgDirs(
+#'     pkg_dir= system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg"))
 #'
 #' @return \code{NULL} invisibly.
-#' @details
+#' @details 
 #' Will look for files in the following directories:
 #' \code{"R"}, \code{"tests"}, and conditionally \code{"inst/shiny"}
 #' if \code{shiny} is \code{TRUE}.
 #' @export
-lintPkgDirs <- function(pkg_dir = ".", shiny = FALSE) {
+lintPkgDirs <- function(pkg_dir = ".", 
+                        shiny = FALSE) {
   dirs <- c("R", "tests")
   if (shiny) {
     dirs <- c(dirs, file.path("inst", "shiny"))
@@ -39,7 +41,8 @@ lintPkgDirs <- function(pkg_dir = ".", shiny = FALSE) {
 
 #' @importFrom lintr lint
 #' @keywords internal
-lintDir <- function(pkg_dir = ".", sub_dir) {
+lintDir <- function(pkg_dir = ".", 
+                    sub_dir) {
   path <- file.path(pkg_dir, sub_dir)
   if (dir.exists(path)) {
     files <- list.files(

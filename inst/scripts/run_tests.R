@@ -1,9 +1,12 @@
-PKG_NAME <- commandArgs(trailingOnly = TRUE)[1]
-REPO_DIR <- commandArgs(trailingOnly = TRUE)[2]
-PKG_SUBDIR <- commandArgs(trailingOnly = TRUE)[3]
-LIB_DIR <- commandArgs(trailingOnly = TRUE)[4]
-FAIL_ON <- commandArgs(trailingOnly = TRUE)[5]
-BIOC_CHECK <- commandArgs(trailingOnly = TRUE)[6]
+args <- commandArgs(trailingOnly = TRUE)
+
+PKG_NAME <- args[1]
+REPO_DIR <- args[2]
+PKG_SUBDIR <- args[3]
+LIB_DIR <- args[4]
+FAIL_ON <- args[5]
+BIOC_CHECK <- args[6]
+RUN_EXAMPLES <- as.logical(args[7])
 
 # Load libraries
 stopifnot(dir.exists(LIB_DIR))
@@ -16,4 +19,11 @@ invisible(
 )
 
 # Check package
-gDRstyle::checkPackage(PKG_NAME, REPO_DIR, PKG_SUBDIR, FAIL_ON, BIOC_CHECK)
+gDRstyle::checkPackage(
+  PKG_NAME, 
+  REPO_DIR, 
+  PKG_SUBDIR, 
+  FAIL_ON, 
+  BIOC_CHECK, 
+  RUN_EXAMPLES
+)

@@ -1,24 +1,23 @@
 #' Assume there is a valid note:
-#'
+#' ```
 #' > checking R code for possible problems ... NOTE
-#' mini_facile_app: no visible binding for '<<-' assignment to ‘CONFIG’
-#'
+#' mini_app: no visible binding for '<<-' assignment to ‘CONFIG’
+#' ```
 #' and we want every other note in this section (and others) to fail check.
 #' Accepted NOTE has 2 lines, therefore the length = 2. Then we want to
 #' check whether the content of this NOTE is correct, so we take one of
 #' the lines (eg. index_to_check = 2) and grep for content of this line
 #' (eg. text_to_check = "assignment to" )
 #' This will result in any other NOTE failing check
-#'
 #' Take:
-#'
+#' ````
 #'   list(
 #'     list(length = 2, index_to_check = 2, text_to_check = "assignment to")
 #'   )
-#'
+#' ``
 #' then following NOTE will be treated as invalid
 #' > checking R code for possible problems ... NOTE
-#' mini_facile_app: no visible binding for '<<-' assignment to ‘CONFIG’
+#' mini_app: no visible binding for '<<-' assignment to ‘CONFIG’
 #' sandbox_app : sandboxUI: no visible binding for global variable
 #' ‘pcg_path’
 #' Undefined global functions or variables:
@@ -32,7 +31,6 @@ test_notes_check <- function(check_results,
     check_results$notes <- c(check_results$notes,
                              unlist(bioccheck_results$note))
   }
-  
   if (!is.null(check_results$notes)) {
     NOTEs <- strsplit(check_results$notes, "\n")
 
@@ -54,6 +52,13 @@ test_notes_check <- function(check_results,
   }
 }
 
+#' Load notes
+#'
+#' @param repo_dir String of path to repository directory.
+#'
+#' @return \code{NULL}
+#' @keywords internal
+#' @noRd
 load_valid_notes <- function(repo_dir) {
   file_dir <- file.path(repo_dir, "rplatform", "valid_notes2.R")
 
@@ -64,23 +69,58 @@ load_valid_notes <- function(repo_dir) {
   }
 }
 
-test_notes <- function(check, biocCheck, repo_dir) {
+#' Test notes
+#'
+#' @param check 
+#' @param biocCheck
+#' @param repo_dir String of path to repository directory.
+#'
+#' @return \code{NULL}
+#' @keywords internal
+#' @noRd
+test_notes <- function(check,
+                       biocCheck,
+                       repo_dir) {
+  
   valid_notes <- load_valid_notes(repo_dir)
   test_notes_check(check, biocCheck, valid_notes)
 }
 
-rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on, bioc_check) {
+
+#' Run check
+#'
+#' Run R CMD check from R programmatically
+#'
+#' @param pkgDir String of path to package directory
+#' @param repoDir String of path to repository directory.
+#' @param fail_on String specifying the level at which check fail. Supported
+#' values: \code{"note"}, \code{"warning"} and \code{"error"}.
+#' @param run_examples Logical whether examples check should be performed
+#' @param bioc_check Logical whether bioc check should be performed
+#'
+#' @return \code{NULL}
+#' @keywords internal
+#' @noRd
+rcmd_check_with_notes <- function(pkgDir, 
+                                  repoDir, 
+                                  fail_on,
+                                  run_examples,
+                                  bioc_check) {
   # rcmdcheck gets warning instead of note
   error_on <- `if`(fail_on == "note", "warning", fail_on)
+  check_args <- c("--no-manual", "--no-tests")
+
+  if (!run_examples) {
+    check_args <- c(check_args, "--no-examples")
+  }
+
   check <- rcmdcheck::rcmdcheck(
     pkgDir,
     error_on = error_on,
-    args = c(
-      "--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests"
-    )
+    args = check_args
   )
   
-  biocCheck <-   if (bioc_check) {
+  biocCheck <- if (bioc_check) {
     BiocCheck::BiocCheck(
       package = pkgDir,
       `no-check-unit-tests` = TRUE, # unit tests are called in previous step
@@ -111,11 +151,12 @@ rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on, bioc_check) {
 #' @param fail_on String specifying the level at which check fail. Supported
 #' values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.
 #' @param bioc_check Logical whether bioc check should be performed
+#' @param run_examples Logical whether examples check should be performed
 #'
 #' @examples
 #' checkPackage(
 #'   pkgName = "fakePkg",
-#'   repoDir = "gDRstyle/tst_pkgs/dummy_pkg",
+#'   repoDir = system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg"),
 #'   fail_on = "error"
 #' )
 #'
@@ -125,7 +166,8 @@ checkPackage <- function(pkgName,
                          repoDir,
                          subdir = NULL,
                          fail_on = "warning",
-                         bioc_check = FALSE) {
+                         bioc_check = FALSE,
+                         run_examples = TRUE) {
   fail_on <- match.arg(fail_on, c("error", "warning", "note"))
 
   pkgDir <- if (is.null(subdir) || subdir == "~") {
@@ -149,11 +191,13 @@ checkPackage <- function(pkgName,
   # )
 
   message("Check")
-  rcmd_check_with_notes(pkgDir = pkgDir,
-                        repoDir = repoDir,
-                        fail_on = fail_on,
-                        bioc_check = bioc_check)
-
+  rcmd_check_with_notes(
+    pkgDir = pkgDir, 
+    repoDir = repoDir, 
+    fail_on = fail_on,
+    run_examples = run_examples,
+    bioc_check = bioc_check
+  )
 
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
   if (file.exists(depsYaml)) {

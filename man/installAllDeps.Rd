@@ -5,7 +5,12 @@
 \title{Install all package dependencies from yaml file for
 building image purposes}
 \usage{
-installAllDeps(additionalRepos = NULL, base_dir = "/mnt/vol", use_ssh = FALSE)
+installAllDeps(
+  additionalRepos = NULL,
+  base_dir = "/mnt/vol",
+  use_ssh = FALSE,
+  test_mode = FALSE
+)
 }
 \arguments{
 \item{additionalRepos}{List of additional Repos}
@@ -13,6 +18,9 @@ installAllDeps(additionalRepos = NULL, base_dir = "/mnt/vol", use_ssh = FALSE)
 \item{base_dir}{String of base working directory.}
 
 \item{use_ssh}{logical, if use ssh keys}
+
+\item{test_mode}{logical, whether to run the function in the test mode
+(if TRUE the dependencies are not installed but only listed)}
 }
 \value{
 \code{NULL}
@@ -23,10 +31,8 @@ building image purposes
 }
 \examples{
 installAllDeps(
-  base_dir = "gDRstyle/testdata",
-  additionalRepos = c(
-    CRAN = "https://cran.microsoft.com/snapshot/2023-01-20"
-  )
+  base_dir = system.file(package = "gDRstyle", "testdata"),
+  test_mode = TRUE
 )
 
 }
