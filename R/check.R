@@ -183,12 +183,12 @@ checkPackage <- function(pkgName,
   message("Lint")
   gDRstyle::lintPkgDirs(pkgDir)
 
-  # message("Tests")
-  # testthat::test_local(
-  #   pkgDir,
-  #   stop_on_failure = TRUE,
-  #   stop_on_warning = stopOnWarning
-  # )
+  message("Tests")
+  testthat::test_local(
+    pkgDir,
+    stop_on_failure = TRUE,
+    stop_on_warning = stopOnWarning
+  )
 
   message("Check")
   rcmd_check_with_notes(
