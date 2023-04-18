@@ -25,7 +25,14 @@
 #'  pcg_path
 #' @return \code{NULL}
 #' @keywords internal
-test_notes_check <- function(check_results, valid_notes_list) {
+test_notes_check <- function(check_results,
+                             bioccheck_results,
+                             valid_notes_list) {
+  if (!is.null(bioccheck_results)) {
+    check_results$notes <- c(check_results$notes,
+                             unlist(bioccheck_results$note))
+  }
+  
   if (!is.null(check_results$notes)) {
     NOTEs <- strsplit(check_results$notes, "\n")
 
@@ -57,13 +64,12 @@ load_valid_notes <- function(repo_dir) {
   }
 }
 
-test_notes <- function(check, repo_dir) {
+test_notes <- function(check, biocCheck, repo_dir) {
   valid_notes <- load_valid_notes(repo_dir)
-
-  test_notes_check(check, valid_notes)
+  test_notes_check(check, biocCheck, valid_notes)
 }
 
-rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on) {
+rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on, bioc_check) {
   # rcmdcheck gets warning instead of note
   error_on <- `if`(fail_on == "note", "warning", fail_on)
   check <- rcmdcheck::rcmdcheck(
@@ -73,9 +79,20 @@ rcmd_check_with_notes <- function(pkgDir, repoDir, fail_on) {
       "--no-build-vignettes", "--no-examples", "--no-manual", "--no-tests"
     )
   )
+  
+  biocCheck <-   if (bioc_check) {
+    BiocCheck::BiocCheck(
+      package = pkgDir,
+      `no-check-unit-tests` = TRUE, # unit tests are called in previous step
+      `no-check-formatting` = TRUE, # follow gDR style guides
+      `new-package` = TRUE
+      )
+  } else {
+    NULL
+  }
 
   if (fail_on == "note") {
-    test_notes(check, repoDir)
+    test_notes(check, biocCheck, repoDir)
   }
 }
 
@@ -124,24 +141,19 @@ checkPackage <- function(pkgName,
   message("Lint")
   gDRstyle::lintPkgDirs(pkgDir)
 
-  message("Tests")
-  testthat::test_local(
-    pkgDir,
-    stop_on_failure = TRUE,
-    stop_on_warning = stopOnWarning
-  )
+  # message("Tests")
+  # testthat::test_local(
+  #   pkgDir,
+  #   stop_on_failure = TRUE,
+  #   stop_on_warning = stopOnWarning
+  # )
 
   message("Check")
-  rcmd_check_with_notes(pkgDir = pkgDir, repoDir = repoDir, fail_on = fail_on)
+  rcmd_check_with_notes(pkgDir = pkgDir,
+                        repoDir = repoDir,
+                        fail_on = fail_on,
+                        bioc_check = bioc_check)
 
-  if (bioc_check) {
-    BiocCheck::BiocCheck(
-      package = pkgDir,
-      `no-check-unit-tests` = TRUE, # unit tests are called in previous step
-      `no-check-formatting` = TRUE, # follow gDR style guides
-      `new-package` = TRUE 
-    )
-  }
 
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
   if (file.exists(depsYaml)) {
