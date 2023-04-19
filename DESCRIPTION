@@ -25,7 +25,8 @@ Imports:
     lintr,
     rcmdcheck,
     remotes,
-    yaml
+    yaml,
+    rjson
 Suggests:
     BiocStyle,
     knitr,
