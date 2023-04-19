@@ -1,0 +1,19 @@
+{
+  "global": [
+    {
+      "length": 1,
+      "index_to_check": 1,
+      "text_to_check": "Consider adding the maintainer's ORCID iD"
+    },
+    {
+      "length": 1,
+      "index_to_check": 1,
+      "text_to_check": "licenses cannot restrict use"
+    },
+    {
+      "length": 1,
+      "index_to_check": 1,
+      "text_to_check": "Cannot determine whether maintainer is subscribed to the Bioc-Devel mailing list"
+    }
+  ]
+}
