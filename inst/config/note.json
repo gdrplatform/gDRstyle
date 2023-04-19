@@ -14,6 +14,16 @@
       "length": 1,
       "index_to_check": 1,
       "text_to_check": "Cannot determine whether maintainer is subscribed to the Bioc-Devel mailing list"
+    },
+    {
+      "length": 1,
+      "index_to_check": 1,
+      "text_to_check": "The recommended function length is 50 lines or less"
+    },
+    {
+      "length": 1,
+      "index_to_check": 1,
+      "text_to_check": "Consider multiples of 4 spaces for line indents"
     }
   ]
 }
