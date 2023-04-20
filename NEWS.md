@@ -1,3 +1,6 @@
+## [0.99.12] - 2023-04-20
+- switch to OSI license
+
 ## [0.99.11] - 2023-04-17
 - avoid dependencies upgrade
 - add examples check
