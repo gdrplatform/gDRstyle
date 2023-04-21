@@ -93,6 +93,12 @@ getSshKeys <- function(use_ssh) {
 #' @param additionalRepos List of additional Repos
 #' @param base_dir String of base working directory.
 #'
+#' @examples
+#' \dontrun{
+#' installLocalPackage(
+#'   repo_path = system.file(package = "gDRstyle", "testdata"),
+#' )
+#' }
 #' @return \code{NULL}
 #' @export
 installLocalPackage <- function(repo_path,
