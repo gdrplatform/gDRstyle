@@ -26,7 +26,8 @@ Imports:
     rcmdcheck,
     remotes,
     yaml,
-    rjson
+    rjson,
+    pkgbuild
 Suggests:
     BiocStyle,
     knitr,
