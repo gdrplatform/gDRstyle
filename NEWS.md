@@ -1,5 +1,8 @@
-## [0.99.12] - 2023-04-18
+## [0.99.13] - 2023-04-21
 - add check for BiocCheck's notes
+
+## [0.99.12] - 2023-04-20
+- switch to OSI license
 
 ## [0.99.11] - 2023-04-17
 - avoid dependencies upgrade
