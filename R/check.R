@@ -70,6 +70,7 @@ load_valid_notes <- function(repo_dir) {
       list()
     }
   globalPath <- system.file(package = "gDRstyle",
+                            lib.loc = withr::local_libpaths(),
                             "config",
                             "note.json")
   global <- rjson::fromJSON(file = globalPath)$global

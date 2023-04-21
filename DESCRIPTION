@@ -27,12 +27,12 @@ Imports:
     remotes,
     yaml,
     rjson,
-    pkgbuild
+    pkgbuild,
+    withr
 Suggests:
     BiocStyle,
     knitr,
-    testthat (>= 3.0.0),
-    withr
+    testthat (>= 3.0.0)
 biocViews: Software, Infrastructure
 VignetteBuilder: knitr
 ByteCompile: TRUE
