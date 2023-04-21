@@ -20,9 +20,8 @@ installLocalPackage(repo_path, additionalRepos = NULL, base_dir = "/mnt/vol")
 Install locally cloned repo for builiding image purposes
 }
 \examples{
-\dontrun{
-installLocalPackage(
-  repo_path = system.file(package = "gDRstyle", "testdata"),
-)
-}
+installLocalPackage(system.file(
+package = "gDRstyle", "tst_pkgs", "dummy_pkg"
+))
+
 }
