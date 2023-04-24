@@ -24,8 +24,15 @@
 #'  pcg_path
 #' @return \code{NULL}
 #' @keywords internal
-test_notes_check <- function(check_results, 
+test_notes_check <- function(check_results,
+                             bioccheck_results,
                              valid_notes_list) {
+  
+  if (!is.null(bioccheck_results)) {
+    check_results$notes <- c(check_results$notes,
+                             unlist(bioccheck_results$note))
+  }
+  
   if (!is.null(check_results$notes)) {
     NOTEs <- strsplit(check_results$notes, "\n")
 
@@ -57,26 +64,33 @@ test_notes_check <- function(check_results,
 load_valid_notes <- function(repo_dir) {
   file_dir <- file.path(repo_dir, "rplatform", "valid_notes2.R")
 
-  if (file.exists(file_dir)) {
+  local <- if (file.exists(file_dir)) {
     source(file_dir)$value
-  } else {
-    list()
-  }
+    } else {
+      list()
+    }
+  globalPath <- system.file(package = "gDRstyle",
+                            lib.loc = withr::local_libpaths(),
+                            "config",
+                            "note.json")
+  global <- rjson::fromJSON(file = globalPath)$global
+  c(local, global)
 }
 
 #' Test notes
 #'
-#' @param check 
-#' @param repo_dir String of path to repository directory.
+#' @param check rcmdcheck object with R CMD check results
+#' @param biocCheck BiocCheck object with BiocCheck results
 #'
 #' @return \code{NULL}
 #' @keywords internal
 #' @noRd
-test_notes <- function(check, 
+test_notes <- function(check,
+                       biocCheck,
                        repo_dir) {
   valid_notes <- load_valid_notes(repo_dir)
 
-  test_notes_check(check, valid_notes)
+  test_notes_check(check, biocCheck, valid_notes)
 }
 
 #' Run check
@@ -88,6 +102,7 @@ test_notes <- function(check,
 #' @param fail_on String specifying the level at which check fail. Supported
 #' values: \code{"note"}, \code{"warning"} and \code{"error"}.
 #' @param run_examples Logical whether examples check should be performed
+#' @param bioc_check Logical whether bioc check should be performed
 #'
 #' @return \code{NULL}
 #' @keywords internal
@@ -95,7 +110,8 @@ test_notes <- function(check,
 rcmd_check_with_notes <- function(pkgDir, 
                                   repoDir, 
                                   fail_on,
-                                  run_examples) {
+                                  run_examples,
+                                  bioc_check) {
   # rcmdcheck gets warning instead of note
   error_on <- `if`(fail_on == "note", "warning", fail_on)
   check_args <- c("--no-manual", "--no-tests")
@@ -109,9 +125,21 @@ rcmd_check_with_notes <- function(pkgDir,
     error_on = error_on,
     args = check_args
   )
+  
+  biocCheck <- if (bioc_check) {
+    build_file <- pkgbuild::build(pkgDir)
+    BiocCheck::BiocCheck(
+      package = build_file,
+      `no-check-unit-tests` = TRUE, # unit tests are called in previous step
+      `no-check-formatting` = TRUE, # follow gDR style guides
+      `new-package` = TRUE
+    )
+  } else {
+    NULL
+  }
 
   if (fail_on == "note") {
-    test_notes(check, repoDir)
+    test_notes(check, biocCheck, repoDir)
   }
 }
 
@@ -174,17 +202,9 @@ checkPackage <- function(pkgName,
     pkgDir = pkgDir, 
     repoDir = repoDir, 
     fail_on = fail_on,
+    bioc_check = bioc_check,
     run_examples = run_examples
   )
-
-  if (bioc_check) {
-    BiocCheck::BiocCheck(
-      package = pkgDir,
-      `no-check-unit-tests` = TRUE, # unit tests are called in previous step
-      `no-check-formatting` = TRUE, # follow gDR style guides
-      `new-package` = TRUE 
-    )
-  }
 
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
   if (file.exists(depsYaml)) {
