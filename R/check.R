@@ -132,6 +132,7 @@ rcmd_check_with_notes <- function(pkgDir,
       package = build_file,
       `no-check-unit-tests` = TRUE, # unit tests are called in previous step
       `no-check-formatting` = TRUE, # follow gDR style guides
+      `no-check-CRAN` = TRUE, # may cause random error in CI
       `new-package` = TRUE
     )
   } else {

@@ -1,3 +1,6 @@
+## [0.99.14] - 2023-04-27
+- removed CRAN check from biocCheck
+
 ## [0.99.13] - 2023-04-21
 - add check for BiocCheck's notes
 
