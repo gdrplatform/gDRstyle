@@ -49,6 +49,7 @@ testthat::test_that("verify version properly", {
 })
 
 testthat::test_that("install local properly", {
+  skip_if(requireNamespace("fakePkg", quietly = TRUE), "skip, if there is instaled fakePkg")
   on.exit(remove.packages("fakePkg"))
   testthat::expect_error(
     utils::packageVersion("fakePkg"),
