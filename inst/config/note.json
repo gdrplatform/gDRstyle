@@ -28,6 +28,11 @@
     {
       "length": 1,
       "index_to_check": 1,
+      "text_to_check": "The longest 5 functions are"
+    },
+    {
+      "length": 1,
+      "index_to_check": 1,
       "text_to_check": "Update R version dependency from 4.2 to 4.3.0."
     }
   ]
