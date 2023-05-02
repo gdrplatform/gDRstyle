@@ -1,3 +1,6 @@
+## [0.99.15] - 2023-05-02
+- ignore note for 50 lines per function in biocCheck
+
 ## [0.99.14] - 2023-04-27
 - removed CRAN check from biocCheck
 
