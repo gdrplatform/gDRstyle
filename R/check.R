@@ -27,8 +27,14 @@
 test_notes_check <- function(check_results,
                              bioccheck_results,
                              valid_notes_list) {
-  
+
   if (!is.null(bioccheck_results)) {
+    
+    # assure the length of each Bioc note will be always == 1
+    bioccheck_results$note <-
+      lapply(bioccheck_results$note, function(x) {
+        toString(unlist(x))
+      })
     check_results$notes <- c(check_results$notes,
                              unlist(bioccheck_results$note))
   }

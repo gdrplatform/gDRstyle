@@ -33,6 +33,11 @@
     {
       "length": 1,
       "index_to_check": 1,
+      "text_to_check": "Consider adding runnable examples to man pages"
+    },
+    {
+      "length": 1,
+      "index_to_check": 1,
       "text_to_check": "Update R version dependency from 4.2 to 4.3.0."
     }
   ]
