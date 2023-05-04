@@ -1,3 +1,7 @@
+## [0.99.16] - 2023-05-04
+- ignore note for exported functions without examples
+- handle properly BiocCheck notes with mulitple lines (notes to be ignored)
+
 ## [0.99.15] - 2023-05-02
 - ignore note for 50 lines per function in biocCheck
 
