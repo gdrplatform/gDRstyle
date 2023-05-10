@@ -1,8 +1,8 @@
 Package: gDRstyle
 Type: Package
 Title: A package with style requirements for the gDR suite 
-Version: 0.99.16
-Date: 2023-05-04
+Version: 0.99.17
+Date: 2023-05-10
 Authors@R: c(
     person("Allison", "Vuong", role=c("aut")),
     person("Dariusz", "Scigocki", role=c("aut")),
@@ -22,7 +22,7 @@ Imports:
     BiocManager,
     desc,
     git2r,
-    lintr,
+    lintr (>= 3.0.0),
     rcmdcheck,
     remotes,
     yaml,

@@ -1,3 +1,7 @@
+## [0.99.17] - 2023-05-10
+- add check for data.frame-related functions
+- update package versioning rules
+
 ## [0.99.16] - 2023-05-04
 - ignore note for exported functions without examples
 - handle properly BiocCheck notes with mulitple lines (notes to be ignored)
