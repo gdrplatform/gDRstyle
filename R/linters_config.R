@@ -3,8 +3,8 @@ gDR_undesirable_functions <-
     defaults = lintr::default_undesirable_functions,
     "library" = NULL,
     # we prefer not to use these functions because we use data.table as the primary data format
-    "assert_data_frame",
-    "rbind.fill"
+    "assert_data_frame" = "please use 'checkmate::assert_data_table' instead (data.table is primary data format)",
+    "rbind.fill" = "please use 'data.table::rbindlist' instead (data.table is primary data format)"
   )
 
 #' @noRd
