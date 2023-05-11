@@ -2,6 +2,11 @@ gDR_undesirable_functions <-
   lintr::modify_defaults(
     defaults = lintr::default_undesirable_functions,
     "library" = NULL,
+    # we use also these functions in our code but it would be cleaned eventually
+    "mapply" = NULL,
+    "options" = NULL,
+    "source" = NULL,
+    "Sys.setenv" = NULL,
     # we prefer not to use these functions because we use data.table as the primary data format
     "assert_data_frame" = "please use 'checkmate::assert_data_table' instead (data.table is primary data format)",
     "rbind.fill" = "please use 'data.table::rbindlist' instead (data.table is primary data format)",
