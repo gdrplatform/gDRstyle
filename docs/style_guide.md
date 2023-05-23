@@ -29,6 +29,7 @@ A style guide for the gdrplatform organization.
     * Functions definition should start on the same line as function name
     * Every parameter should be in separate line
     * Prepare separate functions for complicated defaults (of function parameters)
+
 ```{r}
  # Good
 fun <- function(param1,
@@ -52,7 +53,8 @@ fun <- function(param1, param2, param_with_dir_for_st_important = file.path(syst
   * Do not use `apply` on data.frame(s) (`mapply` is good for row-wise operations) 
   * Function returns
     * Use implicit returns over explicit
-```
+
+```{r}
   # Good.
   foo <- function() {
     # Do stuff.
@@ -64,9 +66,9 @@ fun <- function(param1, param2, param_with_dir_for_st_important = file.path(syst
     return(x)
   }
 ```
+
 6. Use of curly braces
   * `if` and `else` statements should be surrounded by curly braces on the same line
-
 ```{r}
 if (TRUE) {
   NULL
@@ -103,7 +105,7 @@ what_is_going_on <- if (is_check()) {
   * If anything is hardcoded (i.e. numbers or strings), consider refactoring by introducing additional function arguments or inserting logic over numbers.
     * `df[, fxn_that_returns_idx(x):length(x)] <- NA` over `df[, 2:length(x)] <- NA`
   * Reassign repeated logic to a variable computed only once.
-```
+```{r}
 # Good.
 idx <- foo()
 if (length(idx) == 1) {
@@ -125,7 +127,7 @@ if (length(foo()) == 1) {
 ## General package code
 1. Create file _{pkgname}-package.R_ with `usethis::use_package_doc()`
 2. Update _{pkgname}-package.R_ - it should have such lines:
-```
+```{r}
 #' @note To learn more about functions start with `help(package = "{pkgname}")` 
 #' @keywords internal
 #' @return package help page
@@ -141,10 +143,15 @@ if the requirements for Bioconductor are also met)
 ## Git best practices
 1. Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
   * Commit messages should look like `<type>: <description>` where `type` can be one of:
-    * `fix`: for bugfixes; this should be accompanied by a bumped `PATCH` version
-    * `feat`: for new features; this should be accompanied by a bumped `MINOR` version
-    * `docs`: for documentation changes; no version changes
-    * `style`: for formatting changes that do not affect the meaning of the code; no version changes
-    * `test`: for adding missing tests or correcting existing tests; no version changes
+    * `fix`: for bugfixes; 
+    * `feat`: for new features;
+    * `docs`: for documentation changes;
+    * `style`: for formatting changes that do not affect the meaning of the code;
+    * `test`: for adding missing tests or correcting existing tests;
     * `refactor`: for code changes that neither fixes a bug nor adds a feature
     * `ci`: for changes to CI configuration
+2. Any change in code should be accompanied by a bumped version.
+  * new features - `PATCH` version;
+  * bugfixes and other changes - `MINOR` version.
+*Exceptions*: All public packages - as to-be-released on Bioconductor have version 0.99.x.  
+Any changes in code should be accompanied by a bumped `MINOR` version regardless of the nature of the changes.
