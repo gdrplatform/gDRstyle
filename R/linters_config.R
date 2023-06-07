@@ -11,7 +11,8 @@ gDR_undesirable_functions <-
     "assert_data_frame" = "please use `checkmate::assert_data_table` instead (data.table is primary data format)",
     "rbind.fill" = "please use `data.table::rbindlist` instead (data.table is primary data format)",
     "read.csv" = "pleae use `data.table::fread` instead (data.table is primary data format)",
-    "as.data.frame" = "please use `data.table::as.data.table` instead (data.table is primary data format)"
+    "as.data.frame" = "please use `data.table::as.data.table` instead (data.table is primary data format)",
+    "order" = "please use `data.table::setorder` instead (data.table is primary data format)"
   )
 
 #' @noRd
