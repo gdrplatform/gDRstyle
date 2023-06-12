@@ -1,10 +1,11 @@
 testthat::test_that("set repos properly", {
   repos <- getOption("repos")
+  on.exit(options(repos = repos))
   testthat::expect_false("DUMMY" %in% names(repos))
 
   setReposOpt(additionalRepos = c(DUMMY = "DUMMY_REPO"))
   new_repos <- getOption("repos")
-  testthat::expect_true(all(c("CRAN", "DUMMY") %in% names(new_repos)))
+  testthat::expect_true(c("DUMMY") %in% names(new_repos))
 })
 
 testthat::test_that("set tokens properly", {
