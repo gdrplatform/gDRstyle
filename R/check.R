@@ -194,17 +194,17 @@ checkPackage <- function(pkgName,
   # stop on warning in tests if 'fail_on' level is below 'error'
   stopOnWarning <- fail_on %in% c("warning", "note")
 
-  message("Lint")
+  message(timestamp(), " - Lint")
   gDRstyle::lintPkgDirs(pkgDir)
 
-  message("Tests")
+  message(timestamp(), " - Tests")
   testthat::test_local(
     pkgDir,
     stop_on_failure = TRUE,
     stop_on_warning = stopOnWarning
   )
 
-  message("Check")
+  message(timestamp(), " - Check")
   rcmd_check_with_notes(
     pkgDir = pkgDir, 
     repoDir = repoDir, 
@@ -215,12 +215,14 @@ checkPackage <- function(pkgName,
 
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
   if (file.exists(depsYaml)) {
-    message("Deps")
+    message(timestamp(), " - Deps")
     gDRstyle::checkDependencies(
       desc_path = file.path(pkgDir, "DESCRIPTION"),
       dep_path = depsYaml
     )
   }
-
+  
+  message(timestamp(), " - Finished")
+  
   invisible(NULL)
 }
