@@ -1,3 +1,6 @@
+## [0.99.18] - 2023-06-09
+- add reshape2 to lintr config
+
 ## [0.99.17] - 2023-05-10
 - add check for data.frame-related functions
 - update package versioning rules

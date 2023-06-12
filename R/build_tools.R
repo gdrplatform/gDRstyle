@@ -6,10 +6,7 @@
 #' @keywords internal
 #' @noRd
 setReposOpt <- function(additionalRepos = NULL) {
-  repos <- c(
-    CRAN = "https://cran.microsoft.com/snapshot/2023-01-20",
-    additionalRepos
-  )
+  repos <- append(options("repos")$repos, additionalRepos)
   options(repos = repos)
 }
 
