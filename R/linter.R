@@ -49,7 +49,7 @@ lintDir <- function(pkg_dir = ".",
       path,
       full.names = TRUE,
       recursive = TRUE,
-      pattern = "*.R"
+      pattern = "*\\.R$"
     )
     failures <- NULL
     for (f in files) {
