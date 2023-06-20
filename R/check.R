@@ -196,8 +196,9 @@ checkPackage <- function(pkgName,
 
   message("Lint")
   utils::timestamp()
-  gDRstyle::lintPkgDirs(pkgDir)
-
+  with_shiny <- file.exists(file.path(pkgDir, "inst", "shiny"))
+  gDRstyle::lintPkgDirs(pkgDir, shiny = with_shiny)
+  
   message("Tests")
   utils::timestamp()
   testthat::test_local(

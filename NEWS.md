@@ -1,3 +1,7 @@
+## [0.99.19] - 2023-06-15
+- fix pattern for finding *.R files
+- lintr R files from 'inst/shiny' (if present)
+
 ## [0.99.18] - 2023-06-09
 - add reshape2 to lintr config
 
