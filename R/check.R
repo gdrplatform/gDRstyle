@@ -50,14 +50,14 @@ test_notes_check <- function(check_results,
           note[valid_note$index_to_check]
         )
         if (!length_check) {
-          warning(sprintf(
+          message(sprintf(
             "Actual note length (%s) not match expected (%s)",
             length(note),
             valid_note$length
           ))
         }
         if (!length_check) {
-          warning(
+          message(
             sprintf(
               "Actual note message (`%s`) not match expected (`%s`)",
               valid_note$text_to_check,
