@@ -90,9 +90,8 @@ jobs:
       BRANCH_NAME: ${{ github.head_ref }}
     steps:
       - run: |
-        curl -s -X POST \
-          -F token=${{ secrets.GDRVIZ_TRIGGER_TOKEN }} \
-          -F ref=master \
-          -F "variables[SOURCE_BRANCH]=${{ env.BRANCH_NAME }}" \
-          "https://code.roche.com/api/v4/projects/181632/trigger/pipeline"
-
+          curl -s -X POST \
+            -F token=${{ secrets.GDRVIZ_TRIGGER_TOKEN }} \
+            -F ref=master \
+            -F "variables[SOURCE_BRANCH]=${{ env.BRANCH_NAME }}" \
+            "https://code.roche.com/api/v4/projects/181632/trigger/pipeline"
