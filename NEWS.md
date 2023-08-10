@@ -1,3 +1,6 @@
+## [0.99.20] - 2023-08-08
+- add deploy trigger to workflow template
+
 ## [0.99.19] - 2023-06-15
 - fix pattern for finding *.R files
 - lintr R files from 'inst/shiny' (if present)

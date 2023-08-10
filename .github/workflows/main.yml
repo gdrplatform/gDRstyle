@@ -26,6 +26,8 @@ on:
         required: true
       GDRGENESIS_TRIGGER_TOKEN:
         required: true
+      GDRVIZ_TRIGGER_TOKEN:
+        required: true
 
 jobs:
   package_test:
@@ -81,3 +83,16 @@ jobs:
             -F "variables[BRANCH_NAME]=${{ env.BRANCH_NAME }}" \
             "https://code.roche.com/api/v4/projects/167859/trigger/pipeline"
           exit 1
+  deploy-dev:
+    if: github.event.pull_request.merged
+    runs-on: ubuntu-20.04
+    env:
+      BRANCH_NAME: ${{ github.head_ref }}
+    steps:
+      - run: |
+        curl -s -X POST \
+          -F token=${{ secrets.GDRVIZ_TRIGGER_TOKEN }} \
+          -F ref=master \
+          -F "variables[SOURCE_BRANCH]=${{ env.BRANCH_NAME }}" \
+          "https://code.roche.com/api/v4/projects/181632/trigger/pipeline"
+
