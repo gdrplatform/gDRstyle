@@ -10,6 +10,7 @@ name: main
 
 on:
   pull_request:
+    types: [opened, reopened, closed, synchronize]
   workflow_call:
     inputs:
       USERNAME:
@@ -32,6 +33,7 @@ on:
 jobs:
   package_test:
     runs-on: ubuntu-20.04
+    if: github.event.pull_request.merged == false
     env:
       TEST_TAG: user/app:latest-${{ github.sha }}
       USERNAME: ${{ github.actor }}
