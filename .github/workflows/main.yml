@@ -96,4 +96,5 @@ jobs:
             -F token=${{ secrets.GDRVIZ_TRIGGER_TOKEN }} \
             -F ref=master \
             -F "variables[SOURCE_BRANCH]=${{ env.BRANCH_NAME }}" \
+            -F "variables[TESTS_RESULT]=SUCCESSFUL" \
             "https://code.roche.com/api/v4/projects/181632/trigger/pipeline"
