@@ -22,12 +22,6 @@ on:
       BRANCH_NAME:
         required: true
         type: string
-      COMMIT_HASH:
-        required: true
-        type: string
-      COMMIT_MSG:
-        required: true
-        type: string
     secrets:
       PRIVATE_ACCESS_TOKEN:
         required: true
