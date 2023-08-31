@@ -22,6 +22,12 @@ on:
       BRANCH_NAME:
         required: true
         type: string
+      COMMIT_HASH:
+        required: true
+        type: string
+      COMMIT_MSG:
+        required: true
+        type: string
     secrets:
       PRIVATE_ACCESS_TOKEN:
         required: true
@@ -90,11 +96,15 @@ jobs:
     runs-on: ubuntu-20.04
     env:
       BRANCH_NAME: ${{ github.head_ref }}
+      COMMIT_HASH: ${{ github.sha }}
+      COMMIT_MSG: ${{ github.event.head_commit.message }}
     steps:
       - run: |
           curl -s -X POST \
             -F token=${{ secrets.GDRVIZ_TRIGGER_TOKEN }} \
             -F ref=master \
             -F "variables[SOURCE_BRANCH]=${{ env.BRANCH_NAME }}" \
+            -F "variables[COMMIT_HASH]=${{ env.COMMIT_HASH }}" \
+            -F "variables[COMMIT_MSG]=${{ env.COMMIT_MSG }}" \
             -F "variables[TESTS_RESULT]=SUCCESSFUL" \
             "https://code.roche.com/api/v4/projects/181632/trigger/pipeline"
