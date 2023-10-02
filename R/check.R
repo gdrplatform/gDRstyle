@@ -117,19 +117,31 @@ rcmd_check_with_notes <- function(pkgDir,
                                   repoDir, 
                                   fail_on,
                                   run_examples,
-                                  bioc_check) {
+                                  bioc_check,
+                                  build_vignettes, 
+                                  check_vignettes) {
   # rcmdcheck gets warning instead of note
   error_on <- `if`(fail_on == "note", "warning", fail_on)
   check_args <- c("--no-manual", "--no-tests")
+  build_args <- character(0)
 
   if (!run_examples) {
     check_args <- c(check_args, "--no-examples")
+  }
+  
+  if (!check_vignettes) {
+    check_args <- c(check_args, "--ignore-vignettes")
+  }
+  
+  if (!build_vignettes) {
+    build_args <- c(build_args, "--no-build-vignettes")
   }
 
   check <- rcmdcheck::rcmdcheck(
     pkgDir,
     error_on = error_on,
-    args = check_args
+    args = check_args,
+    build_args = build_args
   )
   
   biocCheck <- if (bioc_check) {
@@ -166,6 +178,10 @@ rcmd_check_with_notes <- function(pkgDir,
 #' values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.
 #' @param bioc_check Logical whether bioc check should be performed
 #' @param run_examples Logical whether examples check should be performed
+#' @param skip_lint skip lint checks
+#' @param skip_tests skip tests
+#' @param build_vignettes build vignettes
+#' @param check_vignettes check vignettes
 #'
 #' @examples
 #' checkPackage(
@@ -181,31 +197,44 @@ checkPackage <- function(pkgName,
                          subdir = NULL,
                          fail_on = "warning",
                          bioc_check = FALSE,
-                         run_examples = TRUE) {
+                         run_examples = TRUE,
+                         skip_lint = FALSE,
+                         skip_tests = FALSE,
+                         build_vignettes = TRUE,
+                         check_vignettes = TRUE) {
+
   fail_on <- match.arg(fail_on, c("error", "warning", "note"))
 
   pkgDir <- if (is.null(subdir) || subdir == "~") {
     file.path(repoDir)
   } else {
-    options(pkgSubdir = subdir)
+    withr::local_options(list(pkgSubdir = subdir))
     file.path(repoDir, subdir)
   }
   stopifnot(dir.exists(repoDir), dir.exists(pkgDir))
   # stop on warning in tests if 'fail_on' level is below 'error'
   stopOnWarning <- fail_on %in% c("warning", "note")
 
-  message("Lint")
-  utils::timestamp()
-  with_shiny <- file.exists(file.path(pkgDir, "inst", "shiny"))
-  gDRstyle::lintPkgDirs(pkgDir, shiny = with_shiny)
-  
-  message("Tests")
-  utils::timestamp()
-  testthat::test_local(
-    pkgDir,
-    stop_on_failure = TRUE,
-    stop_on_warning = stopOnWarning
-  )
+  if (!skip_lint) {
+    message("Lint")
+    utils::timestamp()
+    with_shiny <- file.exists(file.path(pkgDir, "inst", "shiny"))
+    gDRstyle::lintPkgDirs(pkgDir, shiny = with_shiny)
+  } else {
+    message("Lint skipped")
+  }
+
+ 
+  if (!skip_tests &&
+      file.exists(file.path(pkgDir, "tests"))) {
+    message("Tests")
+    utils::timestamp()
+    testthat::test_local(pkgDir,
+                         stop_on_failure = TRUE,
+                         stop_on_warning = stopOnWarning)
+  } else {
+    message("Tests skipped")
+  }
 
   message("Check")
   utils::timestamp()
@@ -214,7 +243,9 @@ checkPackage <- function(pkgName,
     repoDir = repoDir, 
     fail_on = fail_on,
     bioc_check = bioc_check,
-    run_examples = run_examples
+    run_examples = run_examples,
+    build_vignettes = build_vignettes,
+    check_vignettes = check_vignettes
   )
 
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
