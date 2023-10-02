@@ -1,3 +1,6 @@
+## [0.99.21] - 2023-10-02
+- add options to skip tests/lintering in checkPackage
+
 ## [0.99.20] - 2023-08-08
 - add deploy trigger to workflow template
 
