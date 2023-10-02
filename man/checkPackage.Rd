@@ -10,7 +10,9 @@ checkPackage(
   subdir = NULL,
   fail_on = "warning",
   bioc_check = FALSE,
-  run_examples = TRUE
+  run_examples = TRUE,
+  skip_lint = FALSE,
+  skip_tests = FALSE
 )
 }
 \arguments{
@@ -27,6 +29,10 @@ values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.}
 \item{bioc_check}{Logical whether bioc check should be performed}
 
 \item{run_examples}{Logical whether examples check should be performed}
+
+\item{skip_lint}{skip lint checks}
+
+\item{skip_tests}{skip tests}
 }
 \value{
 \code{NULL} invisibly.
