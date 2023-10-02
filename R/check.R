@@ -166,6 +166,8 @@ rcmd_check_with_notes <- function(pkgDir,
 #' values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.
 #' @param bioc_check Logical whether bioc check should be performed
 #' @param run_examples Logical whether examples check should be performed
+#' @param skip_lint skip lint checks
+#' @param skip_tests skip tests
 #'
 #' @examples
 #' checkPackage(
@@ -181,24 +183,33 @@ checkPackage <- function(pkgName,
                          subdir = NULL,
                          fail_on = "warning",
                          bioc_check = FALSE,
-                         run_examples = TRUE) {
+                         run_examples = TRUE,
+                         skip_lint = FALSE,
+                         skip_tests = FALSE) {
+
   fail_on <- match.arg(fail_on, c("error", "warning", "note"))
 
   pkgDir <- if (is.null(subdir) || subdir == "~") {
     file.path(repoDir)
   } else {
-    options(pkgSubdir = subdir)
+    withr::local_options(list(pkgSubdir = subdir))
     file.path(repoDir, subdir)
   }
   stopifnot(dir.exists(repoDir), dir.exists(pkgDir))
   # stop on warning in tests if 'fail_on' level is below 'error'
   stopOnWarning <- fail_on %in% c("warning", "note")
 
+  if (!skip_lint) {
   message("Lint")
   utils::timestamp()
   with_shiny <- file.exists(file.path(pkgDir, "inst", "shiny"))
   gDRstyle::lintPkgDirs(pkgDir, shiny = with_shiny)
-  
+  } else { 
+  message("Lint skipped")
+  }
+
+ 
+  if (!skip_tests && file.exists(file.path(pkgDir, "tests"))) { 
   message("Tests")
   utils::timestamp()
   testthat::test_local(
@@ -206,6 +217,9 @@ checkPackage <- function(pkgName,
     stop_on_failure = TRUE,
     stop_on_warning = stopOnWarning
   )
+  } else { 
+  message("Tests skipped")
+  }
 
   message("Check")
   utils::timestamp()
