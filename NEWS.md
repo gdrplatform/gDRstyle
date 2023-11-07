@@ -1,5 +1,5 @@
 ## 0.99.23 (2023-11-07)
-- removed new package flag in Bioccheck
+- removed new package flag in Bioccheck 
 
 ## 0.99.22 (2023-10-17)
 - adjust NEWS to Bioc format
