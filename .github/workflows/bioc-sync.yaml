@@ -1,0 +1,33 @@
+name: bioc-sync
+
+on:
+  pull_request:
+    types: [opened, reopened, closed, synchronize]
+  push:
+    branches:
+      - 'GDR-2318'
+
+jobs:
+  bioc-sync:
+#    if: github.event.pull_request.merged
+    runs-on: ubuntu-20.04
+    steps:
+      - run: |
+          test -f ${{ secrets.BIOC_SSH_KEY }} && cp ${{ secrets.BIOC_SSH_KEY }} ci/id_rsa
+          group=$(id -gn root)
+          ssh_dir=$(getent passwd root | cut -f6 -d:)/.ssh
+          mkdir -p $ssh_dir
+          cp ci/id_rsa $ssh_dir
+          echo -e "Host *\n  StrictHostKeyChecking no\n" > $ssh_dir/config
+          chown -R root:$group $ssh_dir
+          cp /opt/id_rsa ~/.ssh/id_rsa
+          RUN echo "Host git.bioconductor.org\n\tStrictHostKeyChecking no \n\tIdentityFile ~/.ssh/id-rsa\n" >> ~/.ssh/config
+          
+          git config --local user.email "gdr-support-d@gene.com"
+          git config --local user.name "gDR team"
+          git remote add upstream git@git.bioconductor.org:packages/gDRstyle.git
+          git fetch upstream devel
+          git checkout devel
+          git merge master
+          git push upstream devel
+        shell: bash {0}
