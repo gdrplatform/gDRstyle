@@ -11,23 +11,28 @@ jobs:
   bioc-sync:
 #    if: github.event.pull_request.merged
     runs-on: ubuntu-20.04
-    env:
-      BIOC_SSH_KEY: ${{ secrets.BIOC_SSH_KEY }}
     steps:
-      #- name: config ssh
+      - name: config ssh
       #  uses: webfactory/ssh-agent@v0.8.0
       #  with:
       #    ssh-private-key: ${{ secrets.BIOC_SSH_KEY }}
+        env:
+          BIOC_SSH_KEY: ${{ secrets.BIOC_SSH_KEY }}
+          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+        run: |
+          mkdir ~/.ssh
+          ssh-keyscan git.bioconductor.org >> ~/.ssh/known_hosts
+          echo "$BIOC_SSH_KEY" >> ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          cat ~/.ssh/id_rsa
+          ssh-agent -a $SSH_AUTH_SOCK > /dev/null 
+          ssh-add ~/.ssh/id_rsa
+
       - name: checkout repo
         uses: actions/checkout@v4
 
       - name: bioc sync
         run: |
-          mkdir ~/.ssh
-          echo "$BIOC_SSH_KEY" >> ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          cat ~/.ssh/id_rsa
-          
           git config --local user.email "gdr-support-d@gene.com"
           git config --local user.name "gDR team"
           git remote add upstream git@git.bioconductor.org:packages/gDRstyle.git
