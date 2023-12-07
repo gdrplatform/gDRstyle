@@ -20,7 +20,6 @@ jobs:
           echo "$BIOC_SSH_KEY" >> ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           cat ~/.ssh/id_rsa
-          cat ~/.ssh/config
         shell: bash {0}
 
       - name: checkout repo
