@@ -3,19 +3,24 @@ name: bioc-sync
 on:
   pull_request:
     types: [closed]
-  push:
-    branches:
-      - 'GDR-2318'
+  workflow_call:
+    inputs:
+      PACKAGE_NAME:
+        required: true
+        type: string
+      DEFAULT_BRANCH:
+        required: true
+        type: string
+    secrets:
+      BIOC_SSH_KEY:
+        required: true
 
 jobs:
   bioc-sync:
-#    if: github.event.pull_request.merged
+    if: github.event.pull_request.merged
     runs-on: ubuntu-20.04
     steps:
       - name: config ssh
-      #  uses: webfactory/ssh-agent@v0.8.0
-      #  with:
-      #    ssh-private-key: ${{ secrets.BIOC_SSH_KEY }}
         env:
           BIOC_SSH_KEY: ${{ secrets.BIOC_SSH_KEY }}
           SSH_AUTH_SOCK: /tmp/ssh_agent.sock
@@ -32,12 +37,15 @@ jobs:
         uses: actions/checkout@v4
 
       - name: bioc sync
+        env:
+          PACKAGE_NAME: ${{ github.event.repository.name }}
+          DEFAULT_BRANCH: "main"
         run: |
           git config --local user.email "gdr-support-d@gene.com"
           git config --local user.name "gDR team"
-          git remote add upstream git@git.bioconductor.org:packages/gDRstyle.git
+          git remote add upstream git@git.bioconductor.org:packages/${{ env.PACKAGE_NAME }}.git
           git fetch upstream devel
           git checkout devel
-          git merge master
+          git merge ${{ env.DEFAULT_BRANCH }}
           git push upstream devel
         shell: bash {0}
