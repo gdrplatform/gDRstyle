@@ -29,7 +29,6 @@ jobs:
           ssh-keyscan git.bioconductor.org >> ~/.ssh/known_hosts
           echo "$BIOC_SSH_KEY" >> ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-          cat ~/.ssh/id_rsa
           ssh-agent -a $SSH_AUTH_SOCK > /dev/null 
           ssh-add ~/.ssh/id_rsa
 
