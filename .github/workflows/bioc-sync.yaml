@@ -14,12 +14,19 @@ jobs:
     env:
       BIOC_SSH_KEY: ${{ secrets.BIOC_SSH_KEY }}
     steps:
-      - run: |
+      - name: config ssh
+        run: |
           echo $BIOC_SSH_KEY >> /opt/id_rsa
           mkdir -p ~/.ssh
           cp /opt/id_rsa ~/.ssh
           echo "Host git.bioconductor.org\n\tStrictHostKeyChecking no \n\tIdentityFile ~/.ssh/id-rsa\n" >> ~/.ssh/config
-          
+        shell: bash {0}
+
+      - name: checkout repo
+        uses: actions/checkout@v2
+
+      - name: bioc sync
+        run: |
           git config --local user.email "gdr-support-d@gene.com"
           git config --local user.name "gDR team"
           git remote add upstream git@git.bioconductor.org:packages/gDRstyle.git
