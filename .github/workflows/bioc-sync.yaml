@@ -24,7 +24,7 @@ jobs:
       - name: bioc sync
         run: |
           mkdir ~/.ssh
-          echo $BIOC_SSH_KEY >> ~/.ssh/id_rsa
+          echo "$BIOC_SSH_KEY" >> ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
           cat ~/.ssh/id_rsa
           
