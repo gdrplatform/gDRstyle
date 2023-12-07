@@ -14,19 +14,16 @@ jobs:
     env:
       BIOC_SSH_KEY: ${{ secrets.BIOC_SSH_KEY }}
     steps:
-      - name: config ssh
-        run: |
-          mkdir ~/.ssh
-          echo "$BIOC_SSH_KEY" >> ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          cat ~/.ssh/id_rsa
-        shell: bash {0}
-
       - name: checkout repo
         uses: actions/checkout@v4
 
       - name: bioc sync
         run: |
+          mkdir ~/.ssh
+          echo "$BIOC_SSH_KEY" >> ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          cat ~/.ssh/id_rsa
+          
           git config --local user.email "gdr-support-d@gene.com"
           git config --local user.name "gDR team"
           git remote add upstream git@git.bioconductor.org:packages/gDRstyle.git
