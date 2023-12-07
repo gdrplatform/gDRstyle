@@ -39,7 +39,7 @@ jobs:
       - name: bioc sync
         env:
           PACKAGE_NAME: ${{ github.event.repository.name }}
-          DEFAULT_BRANCH: "main"
+          DEFAULT_BRANCH: main
         run: |
           git config --local user.email "gdr-support-d@gene.com"
           git config --local user.name "gDR team"
