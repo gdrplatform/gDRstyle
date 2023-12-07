@@ -17,7 +17,7 @@ jobs:
       - name: config ssh
         run: |
           mkdir ~/.ssh
-          echo "$BIOC_SSH_KEY" >> ~/.ssh/id_rsa
+          printf "$BIOC_SSH_KEY" >> ~/.ssh/id_rsa
           echo "Host git.bioconductor.org\n\tStrictHostKeyChecking no \n\tIdentityFile ~/.ssh/id-rsa\n" >> ~/.ssh/config
           cat ~/.ssh/id_rsa
           cat ~/.ssh/config
