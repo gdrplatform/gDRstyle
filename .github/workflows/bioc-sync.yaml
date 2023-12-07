@@ -12,7 +12,7 @@ jobs:
 #    if: github.event.pull_request.merged
     runs-on: ubuntu-20.04
     env:
-      BIOC_SSH_KEY: ${{ secrets.BIOC_SSH_KEY }}
+      BIOC_SSH_KEY: "${{ secrets.BIOC_SSH_KEY }}"
     steps:
       - name: config ssh
         run: |
