@@ -14,19 +14,19 @@ jobs:
     env:
       BIOC_SSH_KEY: ${{ secrets.BIOC_SSH_KEY }}
     steps:
-      - name: config ssh
-        uses: webfactory/ssh-agent@v0.8.0
-        with:
-          ssh-private-key: ${{ secrets.BIOC_SSH_KEY }}
+      #- name: config ssh
+      #  uses: webfactory/ssh-agent@v0.8.0
+      #  with:
+      #    ssh-private-key: ${{ secrets.BIOC_SSH_KEY }}
       - name: checkout repo
         uses: actions/checkout@v4
 
       - name: bioc sync
         run: |
-          #mkdir ~/.ssh
-          #echo "$BIOC_SSH_KEY" >> ~/.ssh/id_rsa
-          #chmod 600 ~/.ssh/id_rsa
-          #cat ~/.ssh/id_rsa
+          mkdir ~/.ssh
+          echo $BIOC_SSH_KEY >> ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          cat ~/.ssh/id_rsa
           
           git config --local user.email "gdr-support-d@gene.com"
           git config --local user.name "gDR team"
