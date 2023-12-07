@@ -14,12 +14,9 @@ jobs:
     steps:
       - run: |
           test -f ${{ secrets.BIOC_SSH_KEY }} && cp ${{ secrets.BIOC_SSH_KEY }} ci/id_rsa
-          group=$(id -gn root)
-          ssh_dir=$(getent passwd root | cut -f6 -d:)/.ssh
-          mkdir -p $ssh_dir
-          cp ci/id_rsa $ssh_dir
-          echo -e "Host *\n  StrictHostKeyChecking no\n" > $ssh_dir/config
-          chown -R root:$group $ssh_dir
+          mkdir -p ~/.ssh
+          cp ci/id_rsa ~/.ssh
+          echo -e "Host *\n  StrictHostKeyChecking no\n" > ~/.ssh/config
           cp /opt/id_rsa ~/.ssh/id_rsa
           RUN echo "Host git.bioconductor.org\n\tStrictHostKeyChecking no \n\tIdentityFile ~/.ssh/id-rsa\n" >> ~/.ssh/config
           
