@@ -12,18 +12,19 @@ jobs:
 #    if: github.event.pull_request.merged
     runs-on: ubuntu-20.04
     env:
-      BIOC_SSH_KEY: "${{ secrets.BIOC_SSH_KEY }}"
+      BIOC_SSH_KEY: ${{ secrets.BIOC_SSH_KEY }}
     steps:
       - name: config ssh
         run: |
-          echo $BIOC_SSH_KEY >> /opt/id_rsa
-          mkdir -p ~/.ssh
-          cp /opt/id_rsa ~/.ssh
+          mkdir ~/.ssh
+          echo "$BIOC_SSH_KEY" >> ~/.ssh/id_rsa
           echo "Host git.bioconductor.org\n\tStrictHostKeyChecking no \n\tIdentityFile ~/.ssh/id-rsa\n" >> ~/.ssh/config
+          cat ~/.ssh/id_rsa
+          cat ~/.ssh/config
         shell: bash {0}
 
       - name: checkout repo
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: bioc sync
         run: |
