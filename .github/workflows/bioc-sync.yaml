@@ -11,11 +11,13 @@ jobs:
   bioc-sync:
 #    if: github.event.pull_request.merged
     runs-on: ubuntu-20.04
+    env:
+      BIOC_SSH_KEY: ${{ secrets.BIOC_SSH_KEY }}
     steps:
       - run: |
-          echo ${{ secrets.BIOC_SSH_KEY }} >> ci/id_rsa
+          echo $BIOC_SSH_KEY >> /opt/id_rsa
           mkdir -p ~/.ssh
-          cp ci/id_rsa ~/.ssh
+          cp /opt/id_rsa ~/.ssh
           echo "Host git.bioconductor.org\n\tStrictHostKeyChecking no \n\tIdentityFile ~/.ssh/id-rsa\n" >> ~/.ssh/config
           
           git config --local user.email "gdr-support-d@gene.com"
