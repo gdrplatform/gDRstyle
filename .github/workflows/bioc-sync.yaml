@@ -2,7 +2,7 @@ name: bioc-sync
 
 on:
   pull_request:
-    types: [opened, reopened, closed, synchronize]
+    types: [closed]
   push:
     branches:
       - 'GDR-2318'
