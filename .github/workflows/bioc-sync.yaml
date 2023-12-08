@@ -1,3 +1,7 @@
+# This is template workflow which is responsible for syncronization between repository default branch and 
+# Bioconductor devel branch. It's triggered by gDE bioc packages on every pull request merge, then it merge
+# default branch to bioc devel branch and push changes to bioc remote.
+
 name: bioc-sync
 
 on:
