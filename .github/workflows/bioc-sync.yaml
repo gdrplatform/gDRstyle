@@ -49,6 +49,6 @@ jobs:
           git remote add upstream git@git.bioconductor.org:packages/${{ env.PACKAGE_NAME }}.git
           git fetch upstream devel
           git checkout devel
-          git merge ${{ env.DEFAULT_BRANCH }}
+          git merge --allow-unrelated-histories origin/${{ env.DEFAULT_BRANCH }}
           git push upstream devel
         shell: bash {0}
