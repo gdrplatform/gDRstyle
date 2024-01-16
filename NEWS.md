@@ -1,3 +1,6 @@
+## 1.1.2 (2024-01-16)
+- adjust lintr configs
+
 ## 1.1.1 (2023-11-22)
 - sync main with devel branch
 
