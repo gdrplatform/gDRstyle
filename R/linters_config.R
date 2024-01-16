@@ -7,6 +7,7 @@ gDR_undesirable_functions <-
     "options" = NULL,
     "source" = NULL,
     "Sys.setenv" = NULL,
+    "structure" = NULL,
     # we prefer not to use these functions because we use data.table as the primary data format
     "assert_data_frame" = "please use `checkmate::assert_data_table` instead (data.table is primary data format)",
     "rbind.fill" = "please use `data.table::rbindlist` instead (data.table is primary data format)",
@@ -19,6 +20,7 @@ gDR_undesirable_functions <-
 linters_config <- 
   lintr::linters_with_defaults(
     cyclocomp_linter = NULL,
+    indentation_linter = NULL,
     line_length_linter = lintr::line_length_linter(120),
     object_name_linter = NULL,
     seq_linter = NULL,
