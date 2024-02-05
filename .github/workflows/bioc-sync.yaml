@@ -23,11 +23,13 @@ jobs:
   bioc-sync:
     if: github.event.pull_request.merged
     runs-on: ubuntu-20.04
+    env:
+      BIOC_SSH_KEY: ${{ secrets.BIOC_SSH_KEY }}
+      SSH_AUTH_SOCK: /tmp/ssh_agent.sock
+      PACKAGE_NAME: ${{ github.event.repository.name }}
+      DEFAULT_BRANCH: main
     steps:
       - name: config ssh
-        env:
-          BIOC_SSH_KEY: ${{ secrets.BIOC_SSH_KEY }}
-          SSH_AUTH_SOCK: /tmp/ssh_agent.sock
         run: |
           mkdir ~/.ssh
           ssh-keyscan git.bioconductor.org >> ~/.ssh/known_hosts
@@ -42,9 +44,6 @@ jobs:
           fetch-depth: 0
 
       - name: bioc sync
-        env:
-          PACKAGE_NAME: ${{ github.event.repository.name }}
-          DEFAULT_BRANCH: main
         run: |
           git config --local user.email "gdr-support-d@gene.com"
           git config --local user.name "gDR team"
