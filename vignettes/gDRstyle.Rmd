@@ -33,6 +33,7 @@ for package dependency installation during gDR platform image building.
 See the written [Style guide](https://gdrplatform.github.io/gDRstyle/articles/style_guide.html). 
 The function `lintPkgDirs` can be used to ensure the package is appropriately 
 linted. 
+
 ## CI/CD
 The `checkPackage` function will check that the package abides by gDRstyle 
 stylistic requirements, passes `rcmdcheck`, and ensures that the 
