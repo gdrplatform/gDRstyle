@@ -1,3 +1,6 @@
+## 1.1.3 (2024-02-12)
+- update documentation (pkdown compatibility)
+
 ## 1.1.2 (2024-01-16)
 - adjust lintr configs
 
