@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=marcinkam/gdrshiny:0.11
+ARG BASE_IMAGE=marcinkam/gdrshiny:0.20
 FROM ${BASE_IMAGE}
 
 # temporary fix
