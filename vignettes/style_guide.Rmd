@@ -1,7 +1,7 @@
 ---
 title: gDR style guide
 author:
-- name: Allison Vuong 
+- name: gDR team
   email: gdr-support-d@gene.com
 package: gDRstyle
 date: 
@@ -171,3 +171,9 @@ if the requirements for Bioconductor are also met)
   * bugfixes and other changes - `MINOR` version.
 *Exceptions*: All public packages - as to-be-released on Bioconductor have version 0.99.x.  
 Any changes in code should be accompanied by a bumped `MINOR` version regardless of the nature of the changes.
+
+# SessionInfo {-}
+
+```{r sessionInfo}
+sessionInfo()
+```
