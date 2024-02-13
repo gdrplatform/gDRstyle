@@ -37,6 +37,7 @@ jobs:
     concurrency:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
       TEST_TAG: user/app:latest-${{ github.sha }}
       USERNAME: ${{ github.actor }}
       PACKAGE_NAME: ${{ github.event.repository.name }}
@@ -57,7 +58,7 @@ jobs:
           ref: ${{ env.BRANCH_NAME }}
           tags: ${{ env.TEST_TAG }}
           build-args: |
-            GITHUB_TOKEN=${{ secrets.PRIVATE_ACCESS_TOKEN }}
+            GITHUB_TOKEN=${{ env.GITHUB_PAT }}
             BASE_IMAGE=${{ env.BASE_IMAGE }}
       - name: Run pkgdown
         run: |
