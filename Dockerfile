@@ -1,4 +1,4 @@
-ARG BASE_IMAGE=marcinkam/gdrshiny:1.0
+ARG BASE_IMAGE=bioconductor/bioconductor_docker:devel
 FROM ${BASE_IMAGE}
 
 # temporary fix
