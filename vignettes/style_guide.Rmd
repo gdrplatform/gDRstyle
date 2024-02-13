@@ -1,3 +1,19 @@
+---
+title: gDR style guide
+author:
+- name: gDR team
+  email: gdr-support-d@gene.com
+package: gDRstyle
+date: 
+output:
+  BiocStyle::html_document:
+    toc_float: yes
+vignette: >
+  %\VignetteIndexEntry{gDR-style-guide}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
 # gDR style guide
 A style guide for the gdrplatform organization.
 
@@ -78,7 +94,7 @@ if (TRUE) {
 ```
 
   * Assign simple if-else statements to a variable.
-```{r}
+```{r, eval=FALSE}
 what_is_going_on <- if (is_check()) {
   flog <- "it's getting hot..."
 } else if (is_mate()) {
@@ -105,7 +121,7 @@ what_is_going_on <- if (is_check()) {
   * If anything is hardcoded (i.e. numbers or strings), consider refactoring by introducing additional function arguments or inserting logic over numbers.
     * `df[, fxn_that_returns_idx(x):length(x)] <- NA` over `df[, 2:length(x)] <- NA`
   * Reassign repeated logic to a variable computed only once.
-```{r}
+```{r, eval=FALSE}
 # Good.
 idx <- foo()
 if (length(idx) == 1) {
@@ -155,3 +171,9 @@ if the requirements for Bioconductor are also met)
   * bugfixes and other changes - `MINOR` version.
 *Exceptions*: All public packages - as to-be-released on Bioconductor have version 0.99.x.  
 Any changes in code should be accompanied by a bumped `MINOR` version regardless of the nature of the changes.
+
+# SessionInfo {-}
+
+```{r sessionInfo}
+sessionInfo()
+```

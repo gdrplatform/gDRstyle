@@ -1,7 +1,7 @@
 ---
 title: Using gDRstyle
 author:
-- name: Allison Vuong 
+- name: gDR team
   email: gdr-support-d@gene.com
 package: gDRstyle
 date: 
@@ -9,7 +9,7 @@ output:
   BiocStyle::html_document:
     toc_float: yes
 vignette: >
-  %\VignetteIndexEntry{gDRstyle}
+  %\VignetteIndexEntry{gDRstyle-package}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -30,9 +30,10 @@ for package dependency installation during gDR platform image building.
 # Use Cases
 
 ## Style guide
-See the written [Style guide](https://github.com/gdrplatform/gDRstyle/blob/gh-pages/style_guide.md). 
+See the written [Style guide](https://gdrplatform.github.io/gDRstyle/articles/style_guide.html). 
 The function `lintPkgDirs` can be used to ensure the package is appropriately 
 linted. 
+
 ## CI/CD
 The `checkPackage` function will check that the package abides by gDRstyle 
 stylistic requirements, passes `rcmdcheck`, and ensures that the 
