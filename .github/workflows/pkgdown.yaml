@@ -20,9 +20,6 @@ on:
       BRANCH_NAME:
         required: true
         type: string
-      DEFAULT_BRANCH:
-        required: true
-        type: string
     secrets:
       PRIVATE_ACCESS_TOKEN:
         required: true
