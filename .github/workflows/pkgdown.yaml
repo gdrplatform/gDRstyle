@@ -71,8 +71,8 @@ jobs:
       - name: Run pkgdown (R package as subdirectory)
         if: ${{ inputs.IS_SUBDIR  == 'true' }}
         run: |
-          docker run -v $GITHUB_WORKSPACE:/mnt/vol ${{ env.TEST_TAG }} bash  -c "find /mnt/vol/"
-          docker run -v `pwd`/{{ env.PACKAGE_NAME }}:/mnt/vol ${{ env.TEST_TAG }} Rscript -e 'pkgdown::build_site_github_pages("/mnt/vol", new_process = FALSE, install = FALSE)'
+          docker run -v $GITHUB_WORKSPACE:/mnt/vol ${{ env.TEST_TAG }} bash  -c "find /mnt/vol/${{ env.PACKAGE_NAME }}"
+          docker run -v `pwd`:/mnt/vol ${{ env.TEST_TAG }} Rscript -e 'pkgdown::build_site_github_pages("/mnt/vol/${{ env.PACKAGE_NAME }}", new_process = FALSE, install = FALSE)'
 
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
