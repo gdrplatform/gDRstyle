@@ -23,8 +23,8 @@ on:
       IS_SUBDIR:
         description: "Is the R package stored as the subdirectory of the repository?"
         required: false
-        type: boolean
-        default: false
+        type: string
+        default: 'false'
     secrets:
       PRIVATE_ACCESS_TOKEN:
         required: true
