@@ -20,6 +20,11 @@ on:
       BRANCH_NAME:
         required: true
         type: string
+      IS_SUBDIR:
+        description: "Is the R package stored as the subdirectory of the repository?"
+        required: false
+        type: booleana
+        default: false
     secrets:
       PRIVATE_ACCESS_TOKEN:
         required: true
@@ -55,9 +60,18 @@ jobs:
           build-args: |
             GITHUB_TOKEN=${{ env.GITHUB_PAT }}
             BASE_IMAGE=${{ env.BASE_IMAGE }}
+
       - name: Run pkgdown
+        if: {{ env.IS_SUBDIR  == 'false'}}
         run: |
           docker run -v `pwd`:/mnt/vol ${{ env.TEST_TAG }} Rscript -e 'pkgdown::build_site_github_pages("/mnt/vol", new_process = FALSE, install = FALSE)'
+      
+      # currently, internal packages are stored as subdirectories in the repository
+      # eventually, this loop becomes obsolete (subdirectory structure is not allowed in Bioconductor))
+      - name: Run pkgdown (R package as subdirectory)
+        if: {{ env.IS_SUBDIR  == 'true'}}
+        run: |
+          docker run -v `pwd`/{{ env.PACKAGE_NAME }}:/mnt/vol ${{ env.TEST_TAG }} Rscript -e 'pkgdown::build_site_github_pages("/mnt/vol", new_process = FALSE, install = FALSE)'
 
       - name: Deploy to GitHub pages 🚀
         if: github.event_name != 'pull_request'
