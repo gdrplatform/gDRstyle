@@ -102,7 +102,7 @@ jobs:
       - run: |
           curl -s -X POST \
             -F token=${{ secrets.GDRVIZ_TRIGGER_TOKEN }} \
-            -F ref=master \
+            -F ref=main \
             -F "variables[SOURCE_BRANCH]=${{ env.BRANCH_NAME }}" \
             -F "variables[COMMIT_HASH]=${{ env.COMMIT_HASH }}" \
             -F "variables[COMMIT_MSG]=${{ env.COMMIT_MSG }}" \
