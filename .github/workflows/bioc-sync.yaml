@@ -12,9 +12,6 @@ on:
       PACKAGE_NAME:
         required: true
         type: string
-      DEFAULT_BRANCH:
-        required: true
-        type: string
     secrets:
       BIOC_SSH_KEY:
         required: true
@@ -27,7 +24,6 @@ jobs:
       BIOC_SSH_KEY: ${{ secrets.BIOC_SSH_KEY }}
       SSH_AUTH_SOCK: /tmp/ssh_agent.sock
       PACKAGE_NAME: ${{ github.event.repository.name }}
-      DEFAULT_BRANCH: main
     steps:
       - name: config ssh
         run: |
@@ -50,6 +46,6 @@ jobs:
           git remote add upstream git@git.bioconductor.org:packages/${{ env.PACKAGE_NAME }}.git
           git fetch upstream devel
           git checkout devel
-          git merge --allow-unrelated-histories ${{ env.DEFAULT_BRANCH }}
+          git merge --allow-unrelated-histories main
           git push upstream devel
         shell: bash {0}
