@@ -14,6 +14,7 @@
 #' )
 #' 
 #' @return linter class function
+#' @keywords linter
 #' @export
 roxygen_tag_linter <- function(tag = "@author") {
 

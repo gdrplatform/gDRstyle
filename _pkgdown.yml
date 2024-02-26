@@ -2,3 +2,16 @@ url: https://gdrplatform.github.io/gDRstyle/
 template:
   bootstrap: 5
 
+reference:
+- title: Check
+  desc:  Check helpers (package and its dependencies)
+- contents:
+  - has_keyword("check")
+- title: Install
+  desc:  Installation helpers
+- contents:
+  - has_keyword("install")
+- title: Linter
+  desc:  Linter helpers
+- contents:
+  - has_keyword("linter")

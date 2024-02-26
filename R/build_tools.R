@@ -96,6 +96,7 @@ getSshKeys <- function(use_ssh) {
 #' ))
 #' 
 #' @return \code{NULL}
+#' @keywords install
 #' @export
 installLocalPackage <- function(repo_path,
                                 additionalRepos = NULL,
@@ -121,6 +122,7 @@ installLocalPackage <- function(repo_path,
 #' )
 #'
 #' @return \code{NULL}
+#' @keywords install
 #' @export
 installAllDeps <- function(additionalRepos = NULL,
                            base_dir = "/mnt/vol",

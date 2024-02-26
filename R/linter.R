@@ -14,6 +14,7 @@
 #' Will look for files in the following directories:
 #' \code{"R"}, \code{"tests"}, and conditionally \code{"inst/shiny"}
 #' if \code{shiny} is \code{TRUE}.
+#' @keywords linter
 #' @export
 lintPkgDirs <- function(pkg_dir = ".", 
                         shiny = FALSE) {
@@ -82,6 +83,7 @@ lintDir <- function(pkg_dir = ".",
 #' ), "consectetur")
 #'
 #' @return string
+#' @keywords linter
 #' @export
 avoid_new_lines <- function(fmt) {
   gsub("[[:space:]]{2,}", " ", fmt)

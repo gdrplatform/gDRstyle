@@ -192,6 +192,7 @@ rcmd_check_with_notes <- function(pkgDir,
 #' )
 #'
 #' @return \code{NULL} invisibly.
+#' @keywords check
 #' @export
 checkPackage <- function(pkgName,
                          repoDir,

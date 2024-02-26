@@ -25,6 +25,7 @@
 #' there are dependency clashes.
 #' @importFrom yaml read_yaml
 #' @importFrom desc desc_get_deps
+#' @keywords check
 #' @export
 checkDependencies <- function(dep_path,
                               desc_path,
@@ -90,6 +91,7 @@ checkDependencies <- function(dep_path,
 #'
 #' @return Character vector of any misaligned package versions between
 #' rplatform \code{dependencies.yaml} and package \code{DESCRIPTION}.
+#' @keywords internal
 compare_versions <- function(rp, 
                              desc) {
   stopifnot(all(names(rp) == names(desc)))
