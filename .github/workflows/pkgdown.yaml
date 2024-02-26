@@ -62,7 +62,7 @@ jobs:
             BASE_IMAGE=${{ env.BASE_IMAGE }}
 
       - name: Run pkgdown
-        if: ${{ inputs.IS_SUBDIR  == 'false' }}
+        if: ${{ inputs.IS_SUBDIR  != 'true' }}
         run: |
           docker run -v `pwd`:/mnt/vol ${{ env.TEST_TAG }} Rscript -e 'pkgdown::build_site_github_pages("/mnt/vol", new_process = FALSE, install = FALSE)'
       
@@ -75,7 +75,7 @@ jobs:
           docker run -v `pwd`:/mnt/vol ${{ env.TEST_TAG }} Rscript -e 'pkgdown::build_site_github_pages("/mnt/vol/${{ env.PACKAGE_NAME }}", new_process = FALSE, install = FALSE)'
 
       - name: Deploy to GitHub pages 🚀
-        if: ${{ inputs.IS_SUBDIR  == 'false' }}
+        if: ${{ inputs.IS_SUBDIR  != 'true' }}
         uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
           clean: true
