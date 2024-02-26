@@ -1,8 +1,8 @@
 Package: gDRstyle
 Type: Package
 Title: A package with style requirements for the gDR suite 
-Version: 1.1.3
-Date: 2024-02-12
+Version: 1.1.4
+Date: 2024-02-26
 Authors@R: c(
     person("Allison", "Vuong", role=c("aut")),
     person("Dariusz", "Scigocki", role=c("aut")),
@@ -39,5 +39,5 @@ biocViews: Software, Infrastructure
 VignetteBuilder: knitr
 ByteCompile: TRUE
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.2.3
+RoxygenNote: 7.3.0
 Encoding: UTF-8
