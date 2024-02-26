@@ -44,3 +44,4 @@ checkDependencies(
 )
 
 }
+\keyword{check}

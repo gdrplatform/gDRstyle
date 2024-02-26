@@ -26,3 +26,4 @@ linters_config <- lintr::linters_with_defaults(
 \author{
 Kamil Foltynski \href{mailto:kamil.foltynski@contractors.roche.com}{kamil.foltynski@contractors.roche.com}
 }
+\keyword{linter}
