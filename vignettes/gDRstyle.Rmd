@@ -42,7 +42,8 @@ up-to-date with the dependencies listed in the package's `DESCRIPTION` file.
 This is called in gDR platform packages' CI/CD. 
 
 ## Package installation
-The function `installAllDeps` assists in installing package dependencies.  
+The function `installAllDeps` assists in installing package dependencies. 
+For example, it's used in gdrplatform packages (see e.g. [link](https://github.com/gdrplatform/gDR/blob/main/Dockerfile).
 
 # SessionInfo {-}
 

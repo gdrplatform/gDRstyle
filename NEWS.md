@@ -116,7 +116,7 @@
 * improve dependencies check
 
 ## gDRstyle 0.1.3.10 - 2023-01-05
-* fixed WARNINGS and NOTES in check- 
+* fix WARNINGS and NOTES in check- 
 
 ## gDRstyle 0.1.3.9 - 2023-01-05
 * the note test is stricter
