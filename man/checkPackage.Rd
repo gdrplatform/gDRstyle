@@ -58,3 +58,4 @@ checkPackage(
 )
 
 }
+\keyword{check}

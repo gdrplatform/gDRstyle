@@ -21,3 +21,4 @@ rplatform \code{dependencies.yaml} and package \code{DESCRIPTION}.
 Compare listed package versions in the dependencies.yaml file as
 compared to the package DESCRIPTION file.
 }
+\keyword{internal}

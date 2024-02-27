@@ -25,3 +25,4 @@ package = "gDRstyle", "tst_pkgs", "dummy_pkg"
 ))
 
 }
+\keyword{install}

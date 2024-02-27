@@ -25,3 +25,4 @@ sprintf(avoid_new_lines(
 ), "consectetur")
 
 }
+\keyword{linter}

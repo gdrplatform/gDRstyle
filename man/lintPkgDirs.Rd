@@ -29,3 +29,4 @@ lintPkgDirs(
     pkg_dir= system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg"))
 
 }
+\keyword{linter}

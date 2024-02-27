@@ -14,6 +14,15 @@ Package fills a helper package role for whole gDR suite. It helps to support goo
 \note{
 To learn more about functions start with \code{help(package = "gDRstyle")}
 }
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/gdrplatform/gDRstyle}
+  \item \url{https://gdrplatform.github.io/gDRstyle/}
+  \item Report bugs at \url{https://github.com/gdrplatform/gDRstyle/issues}
+}
+
+}
 \author{
 \strong{Maintainer}: Arkadiusz Gladki \email{gladki.arkadiusz@gmail.com} [contributor]
 
