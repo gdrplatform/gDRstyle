@@ -9,9 +9,9 @@ Authors@R: c(
     person("Marcin", "Kamianowski", role=c("aut")),
     person("Aleksander", "Chlebowski", role=c("ctb")),
     person("Janina", "Smola", role="aut"),
-    person("Arkadiusz", "Gladki", role=c("cre", "ctb"), email="gladki.arkadiusz@gmail.com",
+    person("Arkadiusz", "Gladki", role=c("cre", "aut"), email="gladki.arkadiusz@gmail.com",
            comment = c(ORCID = "0000-0002-7059-6378")),
-    person("Bartosz", "Czech", role=c("ctb"),
+    person("Bartosz", "Czech", role=c("aut"),
            comment = c(ORCID = "0000-0002-9908-3007")))
 Description: Package fills a helper package role for whole gDR suite. It helps to 
     support good development practices by keeping style requirements and style tests for 
