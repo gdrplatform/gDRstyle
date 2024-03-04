@@ -287,3 +287,18 @@ install_gitlab <- function(name,
   verify_version(name, pkg$ver)
 }
 # nocov end
+
+#' @source package `remotes`
+#' @keywords internal
+  version_satisfies_criteria <- function(to_check, criteria) {
+  to_check <- package_version(to_check)
+  result <- apply(version_criteria(criteria), 1, function(r) {
+    if (is.na(r["compare"])) {
+      TRUE
+    }
+    else {
+      get(r["compare"], mode = "function")(to_check, r["version"])
+    }
+  })
+  all(result)
+}
