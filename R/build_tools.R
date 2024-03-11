@@ -57,7 +57,9 @@ verify_version <- function(name,
   ## '>=1.2.3' => '>= 1.2.3'
   required_version <-
     gsub("^([><=]+)([0-9.]+)$", "\\1 \\2", required_version, perl = TRUE)
+  #nolint start
   if (!remotes:::version_satisfies_criteria(pkg_version, required_version)) {
+  #nolint stop
     stop(sprintf(
       "Invalid version of %s. Installed: %s, required %s.",
       name,
@@ -287,18 +289,3 @@ install_gitlab <- function(name,
   verify_version(name, pkg$ver)
 }
 # nocov end
-
-#' @source package `remotes`
-#' @keywords internal
-  version_satisfies_criteria <- function(to_check, criteria) {
-  to_check <- package_version(to_check)
-  result <- apply(version_criteria(criteria), 1, function(r) {
-    if (is.na(r["compare"])) {
-      TRUE
-    }
-    else {
-      get(r["compare"], mode = "function")(to_check, r["version"])
-    }
-  })
-  all(result)
-}
