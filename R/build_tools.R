@@ -57,6 +57,7 @@ verify_version <- function(name,
   ## '>=1.2.3' => '>= 1.2.3'
   required_version <-
     gsub("^([><=]+)([0-9.]+)$", "\\1 \\2", required_version, perl = TRUE)
+  # TODO: get rid of usage `:::`
   #nolint start
   if (!remotes:::version_satisfies_criteria(pkg_version, required_version)) {
   #nolint stop
