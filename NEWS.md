@@ -1,3 +1,6 @@
+## gDRstyle 1.1.5 - 2024-03-04
+* remove `:::` from notes exceptions
+
 ## gDRstyle 1.1.4 - 2024-02-26
 * improve pkgdown site
   * improved references

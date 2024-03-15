@@ -30,11 +30,11 @@ testthat::test_that("skiping in checkDependencies works as expected", {
 testthat::test_that("compare_versions works as expected", {
   rp <- list("A" = ">= 1.0.0", B = ">= 1.2.1")
   desc <- list("A" = ">= 1.0.0", B = ">=1.2.2")
-  testthat::expect_equal(gDRstyle:::compare_versions(rp, rp), NULL)
-  testthat::expect_equal(gDRstyle:::compare_versions(rp, desc), "B")
-  testthat::expect_error(gDRstyle:::compare_versions(rp, desc[1]))
+  testthat::expect_equal(compare_versions(rp, rp), NULL)
+  testthat::expect_equal(compare_versions(rp, desc), "B")
+  testthat::expect_error(compare_versions(rp, desc[1]))
 
   rp2 <- list("A" = ">= 1.0.0", C = ">= 1.2.1")
   desc2 <- list("A" = ">= 1.0.0", C = "*")
-  testthat::expect_equal(gDRstyle:::compare_versions(rp2, desc2), "C")
+  testthat::expect_equal(compare_versions(rp2, desc2), "C")
 })

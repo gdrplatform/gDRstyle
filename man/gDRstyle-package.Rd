@@ -24,19 +24,20 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Arkadiusz Gladki \email{gladki.arkadiusz@gmail.com} [contributor]
+\strong{Maintainer}: Arkadiusz Gladki \email{gladki.arkadiusz@gmail.com} (\href{https://orcid.org/0000-0002-7059-6378}{ORCID})
 
 Authors:
 \itemize{
   \item Allison Vuong
   \item Dariusz Scigocki
   \item Marcin Kamianowski
+  \item Janina Smola
+  \item Bartosz Czech (\href{https://orcid.org/0000-0002-9908-3007}{ORCID})
 }
 
 Other contributors:
 \itemize{
   \item Aleksander Chlebowski [contributor]
-  \item Bartosz Czech [contributor]
 }
 
 }
