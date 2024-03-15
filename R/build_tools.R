@@ -59,7 +59,7 @@ verify_version <- function(name,
     gsub("^([><=]+)([0-9.]+)$", "\\1 \\2", required_version, perl = TRUE)
   # TODO: get rid of usage `:::`
   #nolint start
-  if (!remotes:::version_satisfies_criteria(pkg_version, required_version)) {
+  if (!remotes::version_satisfies_criteria(pkg_version, required_version)) {
   #nolint stop
     stop(sprintf(
       "Invalid version of %s. Installed: %s, required %s.",
