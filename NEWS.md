@@ -1,3 +1,6 @@
+## gDRstyle 1.1.6 - 2024-03-18
+* temporary skip verifying version test on Bioc 
+
 ## gDRstyle 1.1.5 - 2024-03-04
 * remove `:::` from notes exceptions
 

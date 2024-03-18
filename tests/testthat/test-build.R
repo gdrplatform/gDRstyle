@@ -38,6 +38,7 @@ testthat::test_that("set tokens properly", {
 })
 
 testthat::test_that("verify version properly", {
+  testthat::skip_on_bioc() #TODO: remove when https://github.com/r-lib/remotes/pull/788 will be merged
   testthat::expect_no_error(verify_version("base", ">=1.0.0"))
   testthat::expect_error(
     verify_version("base", ">= 5.0.0"),
