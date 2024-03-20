@@ -54,13 +54,8 @@ setTokenVar <- function(base_dir,
 verify_version <- function(name, 
                            required_version) {
   pkg_version <- utils::packageVersion(name)
-  ## '>=1.2.3' => '>= 1.2.3'
-  required_version <-
-    gsub("^([><=]+)([0-9.]+)$", "\\1 \\2", required_version, perl = TRUE)
-  # TODO: get rid of usage `:::`
-  #nolint start
-  if (!remotes::version_satisfies_criteria(pkg_version, required_version)) {
-  #nolint stop
+
+  if (!is_version_ok(pkg_version, required_version)) {
     stop(sprintf(
       "Invalid version of %s. Installed: %s, required %s.",
       name,
@@ -70,6 +65,22 @@ verify_version <- function(name,
   }
 }
 
+is_version_ok <- function(pkg_ver, req) {
+  valid_ver_regex <- .standard_regexps()$valid_numeric_version
+  
+  req <- if(grepl(paste0("^", valid_ver_regex, "$"), req)) {
+    paste0("==", req)
+  } else {
+    req
+  }
+  
+  fun <- trimws(sub("\\d.*", "", req))
+  req_ver <- trimws(sub(fun, "", req))
+  
+  if (!grepl("==|<|>|<=|>=", fun)) stop("Invalid comparison operator")
+
+  get(fun, mode = "function")(pkg_ver, req_ver)
+}
 
 #' Create a new ssh key credential object
 #' 
