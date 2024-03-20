@@ -68,7 +68,7 @@ verify_version <- function(name,
 is_version_ok <- function(pkg_ver, req) {
   valid_ver_regex <- .standard_regexps()$valid_numeric_version
   
-  req <- if(grepl(paste0("^", valid_ver_regex, "$"), req)) {
+  req <- if (grepl(paste0("^", valid_ver_regex, "$"), req)) {
     paste0("==", req)
   } else {
     req
