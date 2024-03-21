@@ -1,3 +1,6 @@
+## gDRstyle 1.1.7 - 2024-03-20
+* replace `remotes:::version_satisfies_criteria` function
+
 ## gDRstyle 1.1.6 - 2024-03-18
 * temporary skip verifying version test on Bioc 
 

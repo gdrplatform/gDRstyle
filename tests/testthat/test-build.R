@@ -1,6 +1,3 @@
-IS_BIOC_BUILD_MACHINE <- Sys.getenv("IS_BIOC_BUILD_MACHINE")
-is_bioc <- gtools::invalid(IS_BIOC_BUILD_MACHINE) || IS_BIOC_BUILD_MACHINE == ""
-  
 testthat::test_that("set repos properly", {
   repos <- getOption("repos")
   on.exit(options(repos = repos))
@@ -41,17 +38,15 @@ testthat::test_that("set tokens properly", {
 })
 
 testthat::test_that("verify version properly", {
-  if (!is_bioc) { #TODO: remove when https://github.com/r-lib/remotes/pull/788 will be merged
-    testthat::expect_no_error(verify_version("base", ">=1.0.0"))
-    testthat::expect_error(
-      verify_version("base", ">= 5.0.0"),
-      regexp = "Invalid version of base"
-    )
-    testthat::expect_error(
-      verify_version("base", "dummy"),
-      regexp = "Invalid comparison operator"
-    )
-  }
+  testthat::expect_no_error(verify_version("base", ">=1.0.0"))
+  testthat::expect_error(
+    verify_version("base", ">= 5.0.0"),
+    regexp = "Invalid version of base"
+  )
+  testthat::expect_error(
+    verify_version("base", "dummy"),
+    regexp = "Invalid comparison operator"
+  )
 })
 
 testthat::test_that("install local properly", {
