@@ -14,7 +14,8 @@ checkPackage(
   skip_lint = FALSE,
   skip_tests = FALSE,
   build_vignettes = TRUE,
-  check_vignettes = TRUE
+  check_vignettes = TRUE,
+  as_cran = FALSE
 )
 }
 \arguments{
@@ -39,6 +40,8 @@ values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.}
 \item{build_vignettes}{build vignettes}
 
 \item{check_vignettes}{check vignettes}
+
+\item{as_cran}{run with as_cran flag}
 }
 \value{
 \code{NULL} invisibly.
