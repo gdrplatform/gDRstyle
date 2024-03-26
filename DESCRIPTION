@@ -23,6 +23,7 @@ Depends:
 Imports:
     BiocCheck,
     BiocManager,
+    checkmate,
     desc,
     git2r,
     lintr (>= 3.0.0),
