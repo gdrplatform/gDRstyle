@@ -1,3 +1,6 @@
+## gDRstyle 1.1.8 - 2024-03-25
+* add as_cran flag
+
 ## gDRstyle 1.1.7 - 2024-03-20
 * replace `remotes:::version_satisfies_criteria` function
 

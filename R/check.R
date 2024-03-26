@@ -119,7 +119,8 @@ rcmd_check_with_notes <- function(pkgDir,
                                   run_examples,
                                   bioc_check,
                                   build_vignettes, 
-                                  check_vignettes) {
+                                  check_vignettes,
+                                  as_cran) {
   # rcmdcheck gets warning instead of note
   error_on <- `if`(fail_on == "note", "warning", fail_on)
   check_args <- c("--no-manual", "--no-tests")
@@ -131,6 +132,10 @@ rcmd_check_with_notes <- function(pkgDir,
   
   if (!check_vignettes) {
     check_args <- c(check_args, "--ignore-vignettes")
+  }
+
+  if (as_cran) {
+    check_args <- c(check_args, "--as-cran")
   }
   
   if (!build_vignettes) {
@@ -183,6 +188,7 @@ rcmd_check_with_notes <- function(pkgDir,
 #' @param skip_tests skip tests
 #' @param build_vignettes build vignettes
 #' @param check_vignettes check vignettes
+#' @param as_cran run with as_cran flag
 #'
 #' @examples
 #' checkPackage(
@@ -203,8 +209,10 @@ checkPackage <- function(pkgName,
                          skip_lint = FALSE,
                          skip_tests = FALSE,
                          build_vignettes = TRUE,
-                         check_vignettes = TRUE) {
+                         check_vignettes = TRUE,
+                         as_cran = FALSE) {
 
+  checkmate::assert_flag(as_cran)
   fail_on <- match.arg(fail_on, c("error", "warning", "note"))
 
   pkgDir <- if (is.null(subdir) || subdir == "~") {
@@ -247,7 +255,8 @@ checkPackage <- function(pkgName,
     bioc_check = bioc_check,
     run_examples = run_examples,
     build_vignettes = build_vignettes,
-    check_vignettes = check_vignettes
+    check_vignettes = check_vignettes,
+    as_cran = as_cran
   )
 
   depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
