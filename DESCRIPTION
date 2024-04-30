@@ -1,7 +1,7 @@
 Package: gDRstyle
 Type: Package
 Title: A package with style requirements for the gDR suite 
-Version: 1.1.8
+Version: 1.2.0
 Date: 2024-03-25
 Authors@R: c(
     person("Allison", "Vuong", role=c("aut")),
