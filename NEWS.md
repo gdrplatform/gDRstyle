@@ -1,3 +1,6 @@
+## gDRstyle 1.3.1 - 2024-05-27
+* synchronize Bioconductor and GitHub versioning
+
 ## gDRstyle 1.1.8 - 2024-03-25
 * add as_cran flag
 
