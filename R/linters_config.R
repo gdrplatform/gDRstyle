@@ -13,7 +13,8 @@ gDR_undesirable_functions <-
     "rbind.fill" = "please use `data.table::rbindlist` instead (data.table is primary data format)",
     "read.csv" = "pleae use `data.table::fread` instead (data.table is primary data format)",
     "as.data.frame" = "please use `data.table::as.data.table` instead (data.table is primary data format)",
-    "reshape2" = "please use functions from `data.table` package (data.table is primary data format)"
+    "reshape2" = "please use functions from `data.table` package (data.table is primary data format)",
+    "debug" = NULL
   )
 
 #' @noRd
