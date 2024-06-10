@@ -1,3 +1,6 @@
+## gDRstyle 1.3.2 - 2024-06-10
+* add debug to the exceptions list
+
 ## gDRstyle 1.3.1 - 2024-05-27
 * synchronize Bioconductor and GitHub versioning
 
