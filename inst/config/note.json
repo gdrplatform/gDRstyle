@@ -34,6 +34,21 @@
       "length": 1,
       "index_to_check": 1,
       "text_to_check": "Update R version dependency from 4.2 to 4.3.0."
+    },
+    {
+        "length": 4,
+        "index_to_check": 1,
+        "text_to_check": "startup messages can be suppressed ... NOTE"
+    },
+    {
+        "length": 5,
+        "index_to_check": 1,
+        "text_to_check": "startup messages can be suppressed ... NOTE"
+    },
+    {
+       "length": 6,
+       "index_to_check": 1,
+       "text_to_check": "startup messages can be suppressed ... NOTE"
     }
   ]
 }
