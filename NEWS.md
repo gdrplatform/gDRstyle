@@ -1,3 +1,6 @@
+## gDRstyle 1.3.3 - 2024-08-29
+* add GitLab credentials to pkgdown builds
+
 ## gDRstyle 1.3.2 - 2024-06-10
 * add debug to the exceptions list
 

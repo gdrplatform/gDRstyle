@@ -28,6 +28,8 @@ on:
     secrets:
       PRIVATE_ACCESS_TOKEN:
         required: true
+      GITLAB_ACCESS_TOKEN:
+        required: true
 
 permissions:
   contents: write
@@ -39,7 +41,6 @@ jobs:
     concurrency:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
     env:
-      GITHUB_PAT: ${{ secrets.PRIVATE_ACCESS_TOKEN }}
       TEST_TAG: user/app:latest-${{ github.sha }}
       USERNAME: ${{ github.actor }}
       PACKAGE_NAME: ${{ github.event.repository.name }}
@@ -59,6 +60,7 @@ jobs:
           tags: ${{ env.TEST_TAG }}
           build-args: |
             GITHUB_TOKEN=${{ secrets.PRIVATE_ACCESS_TOKEN }}
+            GITLAB_PAT=${{ secrets.GITLAB_ACCESS_TOKEN }}
             BASE_IMAGE=${{ env.BASE_IMAGE }}
 
       - name: Run pkgdown
