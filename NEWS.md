@@ -1,3 +1,6 @@
+## gDRstyle 1.5.2 - 2025-01-20
+* update notes.json
+
 ## gDRstyle 1.5.1 - 2024-11-05
 * synchronize Bioconductor and GitHub versioning
 
