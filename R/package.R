@@ -1,3 +1,4 @@
+#' @importFrom BiocStyle html_document
 
 utils::globalVariables(
   c(

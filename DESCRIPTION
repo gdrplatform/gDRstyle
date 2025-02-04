@@ -1,8 +1,8 @@
 Package: gDRstyle
 Type: Package
 Title: A package with style requirements for the gDR suite 
-Version: 1.5.2
-Date: 2025-01-20
+Version: 1.5.3
+Date: 2025-02-04
 Authors@R: c(
     person("Allison", "Vuong", role=c("aut")),
     person("Dariusz", "Scigocki", role=c("aut")),
@@ -23,6 +23,7 @@ Depends:
 Imports:
     BiocCheck,
     BiocManager,
+    BiocStyle,
     checkmate,
     desc,
     git2r,
@@ -34,7 +35,6 @@ Imports:
     pkgbuild,
     withr
 Suggests:
-    BiocStyle,
     knitr,
     testthat (>= 3.0.0)
 URL: https://github.com/gdrplatform/gDRstyle, https://gdrplatform.github.io/gDRstyle/

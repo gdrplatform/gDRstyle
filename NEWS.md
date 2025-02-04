@@ -1,3 +1,6 @@
+## gDRstyle 1.5.3 - 2025-02-04
+* move BiocStyle to `Depends`
+
 ## gDRstyle 1.5.2 - 2025-01-20
 * update notes.json
 
