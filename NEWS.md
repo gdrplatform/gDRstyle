@@ -1,10 +1,10 @@
-## gDRstyle 1.5.3 - 2025-02-04
+## gDRstyle 1.4.3 - 2025-02-04
 * move BiocStyle to `Depends`
 
-## gDRstyle 1.5.2 - 2025-01-20
+## gDRstyle 1.4.2 - 2025-01-20
 * update notes.json
 
-## gDRstyle 1.5.1 - 2024-11-05
+## gDRstyle 1.4.1 - 2024-11-05
 * synchronize Bioconductor and GitHub versioning
 
 ## gDRstyle 1.3.3 - 2024-08-29
@@ -25,7 +25,7 @@
 ## gDRstyle 1.1.6 - 2024-03-18
 * temporary skip verifying version test on Bioc 
 
-## gDRstyle 1.1.5 - 2024-03-04
+## gDRstyle 1.1.4 - 2024-03-04
 * remove `:::` from notes exceptions
 
 ## gDRstyle 1.1.4 - 2024-02-26
