@@ -29,7 +29,7 @@ test_notes_check <- function(check_results,
                              valid_notes_list) {
 
   if (!is.null(bioccheck_results)) {
-    
+
     # assure the length of each Bioc note will be always == 1
     bioccheck_results$note <-
       lapply(bioccheck_results$note, function(x) {
@@ -38,7 +38,7 @@ test_notes_check <- function(check_results,
     check_results$notes <- c(check_results$notes,
                              unlist(bioccheck_results$note))
   }
-  
+
   if (!is.null(check_results$notes)) {
     NOTEs <- strsplit(check_results$notes, "\n")
 
@@ -113,12 +113,12 @@ test_notes <- function(check,
 #' @return \code{NULL}
 #' @keywords internal
 #' @noRd
-rcmd_check_with_notes <- function(pkgDir, 
-                                  repoDir, 
+rcmd_check_with_notes <- function(pkgDir,
+                                  repoDir,
                                   fail_on,
                                   run_examples,
                                   bioc_check,
-                                  build_vignettes, 
+                                  build_vignettes,
                                   check_vignettes,
                                   as_cran) {
   # rcmdcheck gets warning instead of note
@@ -129,7 +129,7 @@ rcmd_check_with_notes <- function(pkgDir,
   if (!run_examples) {
     check_args <- c(check_args, "--no-examples")
   }
-  
+
   if (!check_vignettes) {
     check_args <- c(check_args, "--ignore-vignettes")
   }
@@ -137,7 +137,7 @@ rcmd_check_with_notes <- function(pkgDir,
   if (as_cran) {
     check_args <- c(check_args, "--as-cran")
   }
-  
+
   if (!build_vignettes) {
     build_args <- c(build_args, "--no-build-vignettes")
   }
@@ -148,7 +148,7 @@ rcmd_check_with_notes <- function(pkgDir,
     args = check_args,
     build_args = build_args
   )
-  
+
   biocCheck <- if (bioc_check) {
     build_file <- pkgbuild::build(pkgDir)
     BiocCheck::BiocCheck(
@@ -234,7 +234,7 @@ checkPackage <- function(pkgName,
     message("Lint skipped")
   }
 
- 
+
   if (!skip_tests &&
       file.exists(file.path(pkgDir, "tests"))) {
     message("Tests")
@@ -249,8 +249,8 @@ checkPackage <- function(pkgName,
   message("Check")
   utils::timestamp()
   rcmd_check_with_notes(
-    pkgDir = pkgDir, 
-    repoDir = repoDir, 
+    pkgDir = pkgDir,
+    repoDir = repoDir,
     fail_on = fail_on,
     bioc_check = bioc_check,
     run_examples = run_examples,
@@ -259,18 +259,9 @@ checkPackage <- function(pkgName,
     as_cran = as_cran
   )
 
-  depsYaml <- file.path(repoDir, "rplatform", "dependencies.yaml")
-  if (file.exists(depsYaml)) {
-    message("Deps")
-    utils::timestamp()
-    gDRstyle::checkDependencies(
-      desc_path = file.path(pkgDir, "DESCRIPTION"),
-      dep_path = depsYaml
-    )
-  }
-  
+
   message("Finished")
   utils::timestamp()
-  
+
   invisible(NULL)
 }
