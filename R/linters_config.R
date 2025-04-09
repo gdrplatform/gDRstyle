@@ -19,21 +19,16 @@ gDR_undesirable_functions <-
 
 #' @noRd
 linters_config <-
-  tryCatch(
-    lintr::linters_with_defaults(
-      cyclocomp_linter = NULL,
-      return_linter = NULL,
-      indentation_linter = NULL,
-      line_length_linter = lintr::line_length_linter(120),
-      object_name_linter = NULL,
-      seq_linter = NULL,
-      trailing_blank_lines_linter = NULL,
-      trailing_whitespace_linter = NULL,
-      object_usage_linter = NULL,
-      object_length_linter = NULL,
-      undesirable_function_linter = lintr::undesirable_function_linter(fun = gDR_undesirable_functions)
-    ),
-    warning = function(w) {
-      message(w)
-    }
-  )
+  purrr::quietly(lintr::linters_with_defaults)(
+    cyclocomp_linter = NULL,
+    return_linter = NULL,
+    indentation_linter = NULL,
+    line_length_linter = lintr::line_length_linter(120),
+    object_name_linter = NULL,
+    seq_linter = NULL,
+    trailing_blank_lines_linter = NULL,
+    trailing_whitespace_linter = NULL,
+    object_usage_linter = NULL,
+    object_length_linter = NULL,
+    undesirable_function_linter = lintr::undesirable_function_linter(fun = gDR_undesirable_functions)
+  )$result
