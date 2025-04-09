@@ -20,6 +20,7 @@ gDR_undesirable_functions <-
 #' @noRd
 linters_config <-
   lintr::linters_with_defaults(
+    cyclocomp_linter = NULL,
     return_linter = NULL,
     indentation_linter = NULL,
     line_length_linter = lintr::line_length_linter(120),
