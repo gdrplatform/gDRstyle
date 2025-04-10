@@ -19,6 +19,8 @@ gDR_undesirable_functions <-
 
 #' @noRd
 linters_config <-
+# to ensure correct operation regardless of the linter version - where default
+#   functions change - we mute messages here
   purrr::quietly(lintr::linters_with_defaults)(
     cyclocomp_linter = NULL,
     return_linter = NULL,
