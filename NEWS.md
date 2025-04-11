@@ -1,3 +1,6 @@
+## gDRstyle 1.5.4 - 2025-02-08
+* switch off return_linter in default lintr config
+
 ## gDRstyle 1.5.3 - 2025-02-04
 * move BiocStyle to `Depends`
 

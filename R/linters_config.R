@@ -18,9 +18,12 @@ gDR_undesirable_functions <-
   )
 
 #' @noRd
-linters_config <- 
-  lintr::linters_with_defaults(
+linters_config <-
+# to ensure correct operation regardless of the linter version - where default
+#   functions change - we mute messages here
+  purrr::quietly(lintr::linters_with_defaults)(
     cyclocomp_linter = NULL,
+    return_linter = NULL,
     indentation_linter = NULL,
     line_length_linter = lintr::line_length_linter(120),
     object_name_linter = NULL,
@@ -30,4 +33,4 @@ linters_config <-
     object_usage_linter = NULL,
     object_length_linter = NULL,
     undesirable_function_linter = lintr::undesirable_function_linter(fun = gDR_undesirable_functions)
-  )
+  )$result
