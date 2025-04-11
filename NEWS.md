@@ -1,3 +1,6 @@
+## gDRstyle 1.5.5 - 2025-02-11
+* make different default lintr config for different versions of lintr
+
 ## gDRstyle 1.5.4 - 2025-02-08
 * switch off return_linter in default lintr config
 
