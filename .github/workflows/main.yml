@@ -38,7 +38,7 @@ on:
 
 jobs:
   package_test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     if: github.event.pull_request.merged == false
     env:
       TEST_TAG: user/app:latest-${{ github.sha }}
@@ -93,7 +93,7 @@ jobs:
           exit 1
   deploy-dev:
     if: github.event.pull_request.merged
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-24.04
     env:
       BRANCH_NAME: ${{ github.head_ref }}
       COMMIT_HASH: ${{ github.sha }}
