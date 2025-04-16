@@ -1,3 +1,6 @@
+## gDRstyle 1.7.1 - 2025-04-16
+* synchronize Bioconductor and GitHub versioning
+
 ## gDRstyle 1.5.5 - 2025-02-11
 * make different default lintr config for different versions of lintr
 
