@@ -36,6 +36,7 @@ Imports:
     withr
 Suggests:
     knitr,
+    pkgdown,
     testthat (>= 3.0.0)
 URL: https://github.com/gdrplatform/gDRstyle, https://gdrplatform.github.io/gDRstyle/
 BugReports: https://github.com/gdrplatform/gDRstyle/issues
