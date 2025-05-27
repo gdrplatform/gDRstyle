@@ -1,5 +1,5 @@
 ## gDRstyle 1.7.2 - 2025-05-26
-* add check for `pkgdown` in teh `checkPackage` function
+* add check for `pkgdown` in the `checkPackage` function
 
 ## gDRstyle 1.7.1 - 2025-04-16
 * synchronize Bioconductor and GitHub versioning
