@@ -186,6 +186,7 @@ rcmd_check_with_notes <- function(pkgDir,
 #' @param run_examples Logical whether examples check should be performed
 #' @param skip_lint skip lint checks
 #' @param skip_tests skip tests
+#' @param skip_pkgdown skip pkgdown build
 #' @param build_vignettes build vignettes
 #' @param check_vignettes check vignettes
 #' @param as_cran run with as_cran flag
@@ -208,6 +209,7 @@ checkPackage <- function(pkgName,
                          run_examples = TRUE,
                          skip_lint = FALSE,
                          skip_tests = FALSE,
+                         skip_pkgdown = FALSE,
                          build_vignettes = TRUE,
                          check_vignettes = TRUE,
                          as_cran = FALSE) {
@@ -244,6 +246,15 @@ checkPackage <- function(pkgName,
                          stop_on_warning = stopOnWarning)
   } else {
     message("Tests skipped")
+  }
+
+  if (!skip_pkgdown) {
+    message("Pkgdown")
+    pkgdown::build_site(
+      pkg = pkgDir,
+      override = list(destination = tempfile()),
+      preview = FALSE
+    )
   }
 
   message("Check")

@@ -13,6 +13,7 @@ checkPackage(
   run_examples = TRUE,
   skip_lint = FALSE,
   skip_tests = FALSE,
+  skip_pkgdown = FALSE,
   build_vignettes = TRUE,
   check_vignettes = TRUE,
   as_cran = FALSE
@@ -36,6 +37,8 @@ values: \code{"note"}, \code{"warning"} (default) and \code{"error"}.}
 \item{skip_lint}{skip lint checks}
 
 \item{skip_tests}{skip tests}
+
+\item{skip_pkgdown}{skip pkgdown build}
 
 \item{build_vignettes}{build vignettes}
 
