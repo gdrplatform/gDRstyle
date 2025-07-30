@@ -251,7 +251,7 @@ checkPackage <- function(pkgName,
 
   if (!skip_pkgdown) {
     message("Pkgdown")
-    pkgdown::build_site(
+    pkgdown::build_reference(
       pkg = pkgDir,
       override = list(destination = tempfile()),
       preview = FALSE
