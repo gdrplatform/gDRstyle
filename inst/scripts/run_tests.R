@@ -7,6 +7,7 @@ LIB_DIR <- args[4]
 FAIL_ON <- args[5]
 BIOC_CHECK <- args[6]
 RUN_EXAMPLES <- as.logical(args[7])
+CHECK_VIGNETTES <- as.logical(args[8])
 
 # Load libraries
 stopifnot(dir.exists(LIB_DIR))
@@ -25,5 +26,7 @@ gDRstyle::checkPackage(
   PKG_SUBDIR, 
   FAIL_ON, 
   BIOC_CHECK, 
-  RUN_EXAMPLES
+  RUN_EXAMPLES,
+  CHECK_VIGNETTES,
+  CHECK_VIGNETTES
 )
