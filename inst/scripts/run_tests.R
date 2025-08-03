@@ -21,12 +21,12 @@ invisible(
 
 # Check package
 gDRstyle::checkPackage(
-  PKG_NAME, 
-  REPO_DIR, 
-  PKG_SUBDIR, 
-  FAIL_ON, 
-  BIOC_CHECK, 
-  RUN_EXAMPLES,
-  CHECK_VIGNETTES,
-  CHECK_VIGNETTES
+  pkgName = PKG_NAME, 
+  repoDir = REPO_DIR, 
+  subdir = PKG_SUBDIR, 
+  fail_on = FAIL_ON, 
+  bioc_check = BIOC_CHECK, 
+  run_examples = RUN_EXAMPLES,
+  build_vignettes = CHECK_VIGNETTES,
+  check_vignettes = CHECK_VIGNETTES
 )
