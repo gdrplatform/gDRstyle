@@ -1,3 +1,6 @@
+## gDRstyle 1.7.3 - 2025-08-04
+* added support for skipping vignette building in `run_tests.sh`
+
 ## gDRstyle 1.7.2 - 2025-05-26
 * add check for `pkgdown` in the `checkPackage` function
 
