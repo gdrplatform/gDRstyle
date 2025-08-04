@@ -156,6 +156,7 @@ rcmd_check_with_notes <- function(pkgDir,
       `no-check-unit-tests` = TRUE, # unit tests are called in previous step
       `no-check-formatting` = TRUE, # follow gDR style guides
       `no-check-CRAN` = TRUE, # may cause random error in CI
+      `no-check-description` = TRUE, # to prevent missing `fnd` NOTE
       `no-check-version-num` = TRUE,
       `no-check-R-ver` = TRUE
     )
@@ -250,7 +251,7 @@ checkPackage <- function(pkgName,
 
   if (!skip_pkgdown) {
     message("Pkgdown")
-    pkgdown::build_site(
+    pkgdown::build_reference(
       pkg = pkgDir,
       override = list(destination = tempfile()),
       preview = FALSE
