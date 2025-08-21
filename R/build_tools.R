@@ -238,7 +238,11 @@ install_github <- function(name,
     pkg$ref <- "HEAD"
   }
   
-  host_url <- if (!is.null(pkg$host)) pkg$host else "api.github.com"
+  host_url <- if (!is.null(pkg$host)) {
+    pkg$host
+  } else {
+    "api.github.com"
+  }
   
   remotes::install_github(
     repo = pkg$url,
