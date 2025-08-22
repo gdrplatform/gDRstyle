@@ -1,3 +1,6 @@
+## gDRstyle 1.7.4 - 2025-08-12
+* fix usage of `ifelse`
+
 ## gDRstyle 1.7.3 - 2025-08-04
 * added support for skipping vignette building in `run_tests.sh`
 

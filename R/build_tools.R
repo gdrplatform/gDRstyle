@@ -237,11 +237,18 @@ install_github <- function(name,
   if (is.null(pkg$ref)) {
     pkg$ref <- "HEAD"
   }
+  
+  host_url <- if (!is.null(pkg$host)) {
+    pkg$host
+  } else {
+    "api.github.com"
+  }
+  
   remotes::install_github(
     repo = pkg$url,
     ref = pkg$ref,
     subdir = pkg$subdir,
-    host = ifelse(!is.null(pkg$host), pkg$host, "api.github.com"),
+    host = host_url,
     upgrade = "never"
   )
   verify_version(name, pkg$ver)
