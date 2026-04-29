@@ -1,3 +1,6 @@
+## gDRstyle 1.11.0 - 2026-04-29
+* synchronize Bioconductor and GitHub versioning
+
 ## gDRstyle 1.9.1 - 2025-10-30
 * synchronize Bioconductor and GitHub versioning
 
