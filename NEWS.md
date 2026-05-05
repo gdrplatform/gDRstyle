@@ -1,3 +1,6 @@
+## gDRstyle 1.11.2 - 2026-05-05
+* support vector notation for `length` field in `note.json` (GDR-2846)
+
 ## gDRstyle 1.11.1 - 2026-04-29
 * synchronize Bioconductor and GitHub versioning
 

@@ -44,7 +44,7 @@ test_notes_check <- function(check_results,
 
     is_note_valid <- vapply(NOTEs, function(note) {
       any(vapply(valid_notes_list, function(valid_note) {
-        length_check <- length(note) == valid_note$length
+        length_check <- length(note) %in% valid_note$length
         text_check <- grepl(
           valid_note$text_to_check,
           note[valid_note$index_to_check]
