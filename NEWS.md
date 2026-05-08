@@ -2,7 +2,7 @@
 * enable `seq_linter`, `cyclocomp_linter`, `paste_linter`, and `trailing_whitespace_linter`/`trailing_blank_lines_linter` in default linter config
 * forbid pipe operators (`%>%`, `|>`) via `undesirable_operator_linter`
 * add auto-changelog GitHub Actions reusable workflow using Claude API
-* add `CONTRIBUTING.md` with Conventional Commits guidelines
+* update `style_guide.Rmd` vignette with new linting rules and fix SemVer version bump description
 
 ## gDRstyle 1.11.2 - 2026-05-05
 * support vector notation for `length` field in `note.json`
