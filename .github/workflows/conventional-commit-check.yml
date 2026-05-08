@@ -1,0 +1,23 @@
+name: conventional-commit-check
+
+on:
+  workflow_call:
+
+jobs:
+  check-pr-title:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check PR title format
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: |
+          PATTERN='^(feat|fix|refactor|docs|test|chore|ci|perf|build|revert)(\([^)]+\))?: .+'
+          if echo "$PR_TITLE" | grep -qE "$PATTERN"; then
+            echo "PR title follows Conventional Commits: '$PR_TITLE'"
+          else
+            echo "::warning::PR title '$PR_TITLE' does not follow Conventional Commits format."
+            echo "::warning::Expected: <type>: <description>  (e.g. 'feat: add new linter')"
+            echo "::warning::Valid types: feat, fix, refactor, docs, test, chore, ci, perf, build, revert"
+            echo "::warning::See CONTRIBUTING.md for details. This check is informational only."
+          fi
+          exit 0
