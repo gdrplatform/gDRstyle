@@ -114,7 +114,13 @@ what_is_going_on <- if (is_check()) {
     + this includes: `checkmate`, `SummarizedExperiment`, etc.
 10. Tests
   * `expect_equal(obs, exp)` over `expect_equal(exp, obs)`
-11. Miscellaneous
+11. Pipes
+  * Do not use pipe operators (`%>%` or `|>`); use base R syntax instead.
+12. String concatenation
+  * Use `paste0()` over `paste(..., sep = "")`.
+13. Sequence generation
+  * Use `seq_len(n)` over `1:n` and `seq_along(x)` over `1:length(x)` to avoid off-by-one errors when `n` is zero.
+14. Miscellaneous
   * Exponentiation: always utilize `^` over `**` for exponentiation like `2 ^ 3` over `2**3`.
   * Numerics: place `0`'s in front of decimals like `0.1` over `.1`
   * Use named indexing over positional indexing `df[, "alias"] <- df[, "celllinename"]` over `df[, 1] <- df[, 2]`
@@ -166,11 +172,13 @@ if the requirements for Bioconductor are also met)
     * `test`: for adding missing tests or correcting existing tests;
     * `refactor`: for code changes that neither fixes a bug nor adds a feature
     * `ci`: for changes to CI configuration
+    * `chore`: for version bumps, NEWS.md updates, and build tooling changes
 2. Any change in code should be accompanied by a bumped version.
-  * new features - `PATCH` version;
-  * bugfixes and other changes - `MINOR` version.
-*Exceptions*: All public packages - as to-be-released on Bioconductor have version 0.99.x.  
+  * new features - `MINOR` version;
+  * bugfixes and other changes - `PATCH` version.
+*Exceptions*: All public packages - as to-be-released on Bioconductor have version 0.99.x.
 Any changes in code should be accompanied by a bumped `MINOR` version regardless of the nature of the changes.
+3. If a PR does not include a version bump in `DESCRIPTION` and a matching entry in `NEWS.md`, the `auto-changelog` CI workflow will generate and commit them automatically using the PR diff.
 
 # SessionInfo {-}
 
