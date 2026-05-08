@@ -34,9 +34,12 @@ linters_config <-
       object_name_linter = NULL,
       object_usage_linter = NULL,
       object_length_linter = NULL,
+      expect_true_false_linter = lintr::expect_true_false_linter(),
+      length_test_linter = lintr::length_test_linter(),
       paste_linter = lintr::paste_linter(),
       undesirable_function_linter = lintr::undesirable_function_linter(fun = gDR_undesirable_functions),
-      undesirable_operator_linter = lintr::undesirable_operator_linter(op = gDR_undesirable_operators)
+      undesirable_operator_linter = lintr::undesirable_operator_linter(op = gDR_undesirable_operators),
+      yoda_test_linter = lintr::yoda_test_linter()
     )
   } else {
     lintr::linters_with_defaults(
@@ -46,8 +49,11 @@ linters_config <-
       object_name_linter = NULL,
       object_usage_linter = NULL,
       object_length_linter = NULL,
+      expect_true_false_linter = lintr::expect_true_false_linter(),
+      length_test_linter = lintr::length_test_linter(),
       paste_linter = lintr::paste_linter(),
       undesirable_function_linter = lintr::undesirable_function_linter(fun = gDR_undesirable_functions),
-      undesirable_operator_linter = lintr::undesirable_operator_linter(op = gDR_undesirable_operators)
+      undesirable_operator_linter = lintr::undesirable_operator_linter(op = gDR_undesirable_operators),
+      yoda_test_linter = lintr::yoda_test_linter()
     )
   }
