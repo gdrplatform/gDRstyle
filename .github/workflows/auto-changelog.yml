@@ -57,20 +57,22 @@ jobs:
           PKG_NAME="${{ steps.check.outputs.pkg_name }}"
           MAIN_VERSION="${{ steps.check.outputs.main_version }}"
 
-          # Limit diff to 6000 chars to stay within token limits
-          DIFF=$(git diff origin/main...HEAD -- . \
+          # Limit diff to 6000 chars to stay within token limits; write to file to avoid shell injection
+          git diff origin/main...HEAD -- . \
             ':(exclude)NEWS.md' \
             ':(exclude)DESCRIPTION' \
             ':(exclude)*.lock' \
             ':(exclude)*.rdb' \
-            | head -c 6000)
+            | head -c 6000 > /tmp/pr_diff.txt
 
-          python3 - <<PYEOF
-          import os, json, urllib.request, sys
+          PKG_NAME_ENV="$PKG_NAME" MAIN_VERSION_ENV="$MAIN_VERSION" python3 - <<PYEOF
+          import os, json, urllib.request
 
-          pkg_name = os.environ.get("PKG_NAME", "$PKG_NAME")
-          main_version = "$MAIN_VERSION"
-          diff = """$DIFF"""
+          pkg_name = os.environ["PKG_NAME_ENV"]
+          main_version = os.environ["MAIN_VERSION_ENV"]
+
+          with open("/tmp/pr_diff.txt") as f:
+            diff = f.read()
 
           prompt = f"""You are a changelog writer for an R package called '{pkg_name}' (current version on main: {main_version}).
 
