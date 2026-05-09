@@ -26,34 +26,18 @@ gDR_undesirable_functions <-
 
 #' @noRd
 linters_config <-
-  if (packageVersion("lintr") < "3.2.0") {
-    lintr::linters_with_defaults(
-      cyclocomp_linter = lintr::cyclocomp_linter(complexity_limit = 25),
-      indentation_linter = NULL,
-      line_length_linter = lintr::line_length_linter(120),
-      object_name_linter = NULL,
-      object_usage_linter = NULL,
-      object_length_linter = NULL,
-      expect_true_false_linter = lintr::expect_true_false_linter(),
-      length_test_linter = lintr::length_test_linter(),
-      paste_linter = lintr::paste_linter(),
-      undesirable_function_linter = lintr::undesirable_function_linter(fun = gDR_undesirable_functions),
-      undesirable_operator_linter = lintr::undesirable_operator_linter(op = gDR_undesirable_operators),
-      yoda_test_linter = lintr::yoda_test_linter()
-    )
-  } else {
-    lintr::linters_with_defaults(
-      return_linter = NULL,
-      indentation_linter = NULL,
-      line_length_linter = lintr::line_length_linter(120),
-      object_name_linter = NULL,
-      object_usage_linter = NULL,
-      object_length_linter = NULL,
-      expect_true_false_linter = lintr::expect_true_false_linter(),
-      length_test_linter = lintr::length_test_linter(),
-      paste_linter = lintr::paste_linter(),
-      undesirable_function_linter = lintr::undesirable_function_linter(fun = gDR_undesirable_functions),
-      undesirable_operator_linter = lintr::undesirable_operator_linter(op = gDR_undesirable_operators),
-      yoda_test_linter = lintr::yoda_test_linter()
-    )
-  }
+  lintr::linters_with_defaults(
+    cyclocomp_linter = lintr::cyclocomp_linter(complexity_limit = 25),
+    expect_true_false_linter = lintr::expect_true_false_linter(),
+    indentation_linter = NULL,
+    length_test_linter = lintr::length_test_linter(),
+    line_length_linter = lintr::line_length_linter(120),
+    object_name_linter = NULL,
+    object_length_linter = NULL,
+    object_usage_linter = NULL,
+    paste_linter = lintr::paste_linter(),
+    return_linter = NULL,
+    undesirable_function_linter = lintr::undesirable_function_linter(fun = gDR_undesirable_functions),
+    undesirable_operator_linter = lintr::undesirable_operator_linter(op = gDR_undesirable_operators),
+    yoda_test_linter = lintr::yoda_test_linter()
+  )

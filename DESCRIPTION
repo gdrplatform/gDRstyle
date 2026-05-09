@@ -27,7 +27,7 @@ Imports:
     checkmate,
     desc,
     git2r,
-    lintr (>= 3.0.0),
+    lintr (>= 3.2.0),
     rcmdcheck,
     remotes,
     yaml,
