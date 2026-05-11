@@ -1,32 +1,55 @@
 test_that(".check_bullet flags entry that is too long", {
-  long <- paste(rep("x", 101L), collapse = "")
-  vs <- .check_bullet(long, 1L, 100L)
+  long <- paste(rep("x", 121L), collapse = "")
+  vs <- .check_bullet(long, 1L, 120L)
   expect_true(any(grepl("too long", vapply(vs, `[[`, "", "msg"))))
 })
 
 test_that(".check_bullet accepts entry within limit", {
-  vs <- .check_bullet("Add support for new linter rule", 1L, 100L)
+  vs <- .check_bullet("Add support for new linter rule", 1L, 120L)
   expect_length(vs, 0L)
 })
 
 test_that(".check_bullet flags trailing period", {
-  vs <- .check_bullet("Fix broken test.", 1L, 100L)
+  vs <- .check_bullet("Fix broken test.", 1L, 120L)
   expect_true(any(grepl("ends with a period", vapply(vs, `[[`, "", "msg"))))
 })
 
 test_that(".check_bullet flags unknown first word", {
-  vs <- .check_bullet("New linter added", 1L, 100L)
+  vs <- .check_bullet("New linter added", 1L, 120L)
   expect_true(any(grepl("imperative verb", vapply(vs, `[[`, "", "msg"))))
 })
 
 test_that(".check_bullet flags banned phrase", {
-  vs <- .check_bullet("Add functionality for parsing", 1L, 100L)
+  vs <- .check_bullet("Add functionality for parsing", 1L, 120L)
   expect_true(any(grepl("banned phrase", vapply(vs, `[[`, "", "msg"))))
 })
 
 test_that(".check_bullet flags 'has been' passive voice", {
-  vs <- .check_bullet("Fix issue that has been present since v1", 1L, 100L)
+  vs <- .check_bullet("Fix issue that has been present since v1", 1L, 120L)
   expect_true(any(grepl("has been", vapply(vs, `[[`, "", "msg"))))
+})
+
+test_that(".check_news_lines flags section with too many bullets", {
+  lines <- c(
+    "## myPkg 1.0.0 - 2026-01-01",
+    "* Add feature one",
+    "* Fix bug two",
+    "* Update dependency three",
+    "* Remove old code four"
+  )
+  vs <- .check_news_lines(lines, 120L, 3L)
+  expect_true(any(grepl("4 bullets", vapply(vs, `[[`, "", "msg"))))
+})
+
+test_that(".check_news_lines accepts section within bullet limit", {
+  lines <- c(
+    "## myPkg 1.0.0 - 2026-01-01",
+    "* Add feature one",
+    "* Fix bug two",
+    "* Update dependency three"
+  )
+  vs <- .check_news_lines(lines, 120L, 3L)
+  expect_length(vs, 0L)
 })
 
 test_that(".check_header accepts valid version header", {

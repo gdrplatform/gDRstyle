@@ -27,13 +27,16 @@ VERSION_HEADER_PATTERN <- "^## [A-Za-z0-9.]+ \\d+\\.\\d+\\.\\d+ - \\d{4}-\\d{2}-
 #'
 #' Checks that every bullet entry in \code{NEWS.md} follows the gDR style
 #' guidelines: starts with an imperative verb, is concise (no verbose phrases,
-#' no trailing period, within the character limit), and that version headers
+#' no trailing period, within the character limit), that each version section
+#' contains at most \code{max_bullets} entries, and that version headers
 #' match the expected format.
 #'
 #' @param pkg_dir character(1) path to the package root directory containing
 #'   \code{NEWS.md}. Defaults to the current directory.
 #' @param max_chars integer(1) maximum number of characters allowed per bullet
-#'   entry (excluding the leading \code{"* "}). Defaults to \code{100L}.
+#'   entry (excluding the leading \code{"* "}). Defaults to \code{120L}.
+#' @param max_bullets integer(1) maximum number of bullet entries allowed per
+#'   version section. Defaults to \code{3L}.
 #'
 #' @return \code{NULL} invisibly if no violations are found. Stops with an
 #'   error listing all violations otherwise.
@@ -44,9 +47,10 @@ VERSION_HEADER_PATTERN <- "^## [A-Za-z0-9.]+ \\d+\\.\\d+\\.\\d+ - \\d{4}-\\d{2}-
 #'
 #' @keywords linter
 #' @export
-lintNewsEntries <- function(pkg_dir = ".", max_chars = 100L) {
+lintNewsEntries <- function(pkg_dir = ".", max_chars = 120L, max_bullets = 3L) {
   checkmate::assert_directory_exists(pkg_dir)
   checkmate::assert_integerish(max_chars, lower = 1L, len = 1L)
+  checkmate::assert_integerish(max_bullets, lower = 1L, len = 1L)
 
   news_path <- file.path(pkg_dir, "NEWS.md")
   if (!file.exists(news_path)) {
@@ -55,7 +59,7 @@ lintNewsEntries <- function(pkg_dir = ".", max_chars = 100L) {
   }
 
   lines <- readLines(news_path, warn = FALSE)
-  violations <- .check_news_lines(lines, max_chars)
+  violations <- .check_news_lines(lines, max_chars, max_bullets)
 
   if (length(violations) > 0L) {
     stop(
@@ -71,25 +75,44 @@ lintNewsEntries <- function(pkg_dir = ".", max_chars = 100L) {
 }
 
 #' @keywords internal
-.check_news_lines <- function(lines, max_chars) {
+.check_news_lines <- function(lines, max_chars, max_bullets) {
   violations <- list()
+  current_header_line <- NULL
+  bullet_count <- 0L
+
+  flush_section <- function() {
+    if (!is.null(current_header_line) && bullet_count > max_bullets) {
+      violations <<- c(violations, list(list(
+        line = current_header_line,
+        msg = sprintf(
+          "section has %d bullets (max %d) — split into separate releases",
+          bullet_count, max_bullets
+        )
+      )))
+    }
+  }
 
   for (i in seq_along(lines)) {
     line <- lines[[i]]
 
     if (grepl("^## ", line)) {
+      flush_section()
+      current_header_line <- i
+      bullet_count <- 0L
       v <- .check_header(line, i)
       if (!is.null(v)) violations <- c(violations, list(v))
       next
     }
 
     if (grepl("^\\* ", line)) {
+      bullet_count <- bullet_count + 1L
       entry <- sub("^\\* ", "", line)
       vs <- .check_bullet(entry, i, max_chars)
       violations <- c(violations, vs)
     }
   }
 
+  flush_section()
   violations
 }
 
