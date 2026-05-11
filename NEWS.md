@@ -1,3 +1,6 @@
+## gDRstyle 1.11.4 - 2026-05-11
+* Add lintNewsEntries to enforce brevity and style in NEWS.md entries
+
 ## gDRstyle 1.11.3 - 2026-05-08
 * extend linter config with additional rules and update style guide accordingly
 * add auto-changelog GitHub Actions reusable workflow using Claude API
