@@ -21,7 +21,9 @@ gDR_undesirable_functions <-
     "read.csv" = "please use `data.table::fread` instead (data.table is primary data format)",
     "as.data.frame" = "please use `data.table::as.data.table` instead (data.table is primary data format)",
     "reshape2" = "please use functions from `data.table` package (data.table is primary data format)",
-    "debug" = NULL
+    "debug" = NULL,
+    "nrow" = "please use `NROW` instead (handles NULL and vectors safely)",
+    "ncol" = "please use `NCOL` instead (handles NULL and vectors safely)"
   )
 
 #' @noRd
