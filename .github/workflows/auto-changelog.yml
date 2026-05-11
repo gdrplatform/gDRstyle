@@ -74,17 +74,18 @@ jobs:
           with open("/tmp/pr_diff.txt") as f:
             diff = f.read()
 
-          prompt = f"""You are a changelog writer for an R package called '{pkg_name}' (current version on main: {main_version}).
-
-          Based on the following git diff from a pull request, determine:
-          1. The version bump type: patch (bug fixes, docs, refactoring), minor (new features), major (breaking changes)
-          2. One short, clear bullet point for NEWS.md describing what changed (start with a verb, no period at end)
-
-          Respond ONLY with valid JSON, no other text:
-          {{"bump_type": "patch|minor|major", "entry": "short description"}}
-
-          Git diff:
-          {diff[:5000]}"""
+          prompt = (
+            f"You are a changelog writer for an R package called '{pkg_name}'"
+            f" (current version on main: {main_version}).\n\n"
+            "Based on the following git diff from a pull request, determine:\n"
+            "1. The version bump type: patch (bug fixes, docs, refactoring),"
+            " minor (new features), major (breaking changes)\n"
+            "2. One short, clear bullet point for NEWS.md describing what changed"
+            " (start with a verb, no period at end)\n\n"
+            'Respond ONLY with valid JSON, no other text:\n'
+            '{"bump_type": "patch|minor|major", "entry": "short description"}\n\n'
+            "Git diff:\n" + diff[:5000]
+          )
 
           payload = json.dumps({
             "model": "claude-haiku-4-5-20251001",
