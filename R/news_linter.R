@@ -165,5 +165,12 @@ lintNewsEntries <- function(pkg_dir = ".", max_chars = 120L, max_bullets = 3L) {
     }
   }
 
+  if (grepl("\\bGDR-[0-9]+\\b", entry)) {
+    violations <- c(violations, list(list(
+      line = line_num,
+      msg = sprintf("entry contains Jira ticket reference: '%s'", entry)
+    )))
+  }
+
   violations
 }

@@ -29,6 +29,16 @@ test_that(".check_bullet flags 'has been' passive voice", {
   expect_true(any(grepl("has been", vapply(vs, `[[`, "", "msg"))))
 })
 
+test_that(".check_bullet flags Jira ticket reference", {
+  vs <- .check_bullet("Fix parsing bug GDR-1234", 1L, 120L)
+  expect_true(any(grepl("Jira ticket", vapply(vs, `[[`, "", "msg"))))
+})
+
+test_that(".check_bullet accepts entry without Jira reference", {
+  vs <- .check_bullet("Fix parsing bug in annotation", 1L, 120L)
+  expect_false(any(grepl("Jira ticket", vapply(vs, `[[`, "", "msg"))))
+})
+
 test_that(".check_news_lines flags section with too many bullets", {
   lines <- c(
     "## myPkg 1.0.0 - 2026-01-01",
