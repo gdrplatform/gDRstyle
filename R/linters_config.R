@@ -1,6 +1,8 @@
 gDR_undesirable_operators <-
   lintr::modify_defaults(
     defaults = lintr::default_undesirable_operators,
+    "<<-" = NULL,
+    ":::" = NULL,
     "%>%" = "please use base R syntax instead of magrittr pipe",
     "|>" = "please use base R syntax instead of native pipe"
   )

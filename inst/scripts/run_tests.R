@@ -13,19 +13,19 @@ CHECK_VIGNETTES <- as.logical(args[8])
 stopifnot(dir.exists(LIB_DIR))
 invisible(
   sapply(
-    list.files(LIB_DIR, , pattern = "*.R$", full.names = TRUE), 
-    source, 
+    list.files(LIB_DIR, , pattern = "*.R$", full.names = TRUE),
+    source,
     .GlobalEnv
   )
 )
 
 # Check package
 gDRstyle::checkPackage(
-  pkgName = PKG_NAME, 
-  repoDir = REPO_DIR, 
-  subdir = PKG_SUBDIR, 
-  fail_on = FAIL_ON, 
-  bioc_check = BIOC_CHECK, 
+  pkgName = PKG_NAME,
+  repoDir = REPO_DIR,
+  subdir = PKG_SUBDIR,
+  fail_on = FAIL_ON,
+  bioc_check = BIOC_CHECK,
   run_examples = RUN_EXAMPLES,
   build_vignettes = CHECK_VIGNETTES,
   check_vignettes = CHECK_VIGNETTES

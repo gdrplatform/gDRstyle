@@ -14,7 +14,7 @@ testthat::test_that("set tokens properly", {
     Sys.unsetenv("DUMMY_ENV")
     Sys.unsetenv("DUMMY_ENV_2")
   })
-  
+
   base_dir <- system.file(package = "gDRstyle", "tst_tokens")
   # SINGLE TOKEN
   setTokenVar(base_dir, "dummy_single_token.txt")

@@ -4,7 +4,7 @@ author:
 - name: gDR team
   email: gdr-support-d@gene.com
 package: gDRstyle
-date: 
+date:
 output:
   BiocStyle::html_document:
     toc_float: yes
@@ -66,7 +66,7 @@ fun <- function(param1, param2, param_with_dir_for_st_important = file.path(syst
     * All internal functions are not exported
     * All exported functions have `assert` tests for their parameters
   * `vapply` over `sapply` (or `lapply` + `unlist()` if predefining FUN.VALUE is difficult)
-  * Do not use `apply` on data.frame(s) (`mapply` is good for row-wise operations) 
+  * Do not use `apply` on data.frame(s) (`mapply` is good for row-wise operations)
   * Function returns
     * Use implicit returns over explicit
 
@@ -167,7 +167,7 @@ if (length(foo()) == 1) {
 1. Create file _{pkgname}-package.R_ with `usethis::use_package_doc()`
 2. Update _{pkgname}-package.R_ - it should have such lines:
 ```{r}
-#' @note To learn more about functions start with `help(package = "{pkgname}")` 
+#' @note To learn more about functions start with `help(package = "{pkgname}")`
 #' @keywords internal
 #' @return package help page
 "_PACKAGE"
@@ -182,7 +182,7 @@ if the requirements for Bioconductor are also met)
 ## Git best practices
 1. Follow [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/)
   * Commit messages should look like `<type>: <description>` where `type` can be one of:
-    * `fix`: for bugfixes; 
+    * `fix`: for bugfixes;
     * `feat`: for new features;
     * `docs`: for documentation changes;
     * `style`: for formatting changes that do not affect the meaning of the code;

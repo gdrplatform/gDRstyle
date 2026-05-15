@@ -1,5 +1,5 @@
 test_that(".check_bullet flags entry that is too long", {
-  long <- paste(rep("x", 121L), collapse = "")
+  long <- strrep("x", 121L)
   vs <- .check_bullet(long, 1L, 120L)
   expect_true(any(grepl("too long", vapply(vs, `[[`, "", "msg"))))
 })

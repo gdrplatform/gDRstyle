@@ -4,7 +4,7 @@ author:
 - name: gDR team
   email: gdr-support-d@gene.com
 package: gDRstyle
-date: 
+date:
 output:
   BiocStyle::html_document:
     toc_float: yes
@@ -21,28 +21,28 @@ library(gDRstyle)
 
 # Overview
 
-The `gDRstyle` package is intended to be used during development of packages 
-within the gDR platform. It has 3 primary uses: (1)to set a style guide with 
-functions that check that the style is upheld, (2) during CI to ensure code 
-passes `R CMD check` to maintain the state of the code in high quality, and (3) 
+The `gDRstyle` package is intended to be used during development of packages
+within the gDR platform. It has 3 primary uses: (1)to set a style guide with
+functions that check that the style is upheld, (2) during CI to ensure code
+passes `R CMD check` to maintain the state of the code in high quality, and (3)
 for package dependency installation during gDR platform image building.
 
 # Use Cases
 
 ## Style guide
-See the written [Style guide](https://gdrplatform.github.io/gDRstyle/articles/style_guide.html). 
-The function `lintPkgDirs` can be used to ensure the package is appropriately 
-linted. 
+See the written [Style guide](https://gdrplatform.github.io/gDRstyle/articles/style_guide.html).
+The function `lintPkgDirs` can be used to ensure the package is appropriately
+linted.
 
 ## CI/CD
-The `checkPackage` function will check that the package abides by gDRstyle 
-stylistic requirements, passes `rcmdcheck`, and ensures that the 
-`dependencies.yml` file used to build gDR platform's docker image is kept 
-up-to-date with the dependencies listed in the package's `DESCRIPTION` file. 
-This is called in gDR platform packages' CI/CD. 
+The `checkPackage` function will check that the package abides by gDRstyle
+stylistic requirements, passes `rcmdcheck`, and ensures that the
+`dependencies.yml` file used to build gDR platform's docker image is kept
+up-to-date with the dependencies listed in the package's `DESCRIPTION` file.
+This is called in gDR platform packages' CI/CD.
 
 ## Package installation
-The function `installAllDeps` assists in installing package dependencies. 
+The function `installAllDeps` assists in installing package dependencies.
 For example, it's used in gdrplatform packages (see e.g. [link](https://github.com/gdrplatform/gDR/blob/main/Dockerfile)).
 
 # SessionInfo {-}
