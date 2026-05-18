@@ -1,3 +1,6 @@
+## gDRstyle 1.11.4 - 2026-05-18
+* fix linting violations from updated gDRstyle rules
+
 ## gDRstyle 1.11.3 - 2026-05-08
 * extend linter config with additional rules and update style guide accordingly
 * add auto-changelog GitHub Actions reusable workflow using Claude API
