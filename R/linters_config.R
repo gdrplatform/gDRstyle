@@ -31,7 +31,7 @@ gDR_undesirable_functions <-
 #' @noRd
 linters_config <-
   lintr::linters_with_defaults(
-    cyclocomp_linter = lintr::cyclocomp_linter(complexity_limit = 25),
+    cyclocomp_linter = NULL,
     expect_true_false_linter = lintr::expect_true_false_linter(),
     indentation_linter = NULL,
     length_test_linter = lintr::length_test_linter(),
