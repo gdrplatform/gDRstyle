@@ -18,7 +18,9 @@ VALID_VERBS <- c(
   "migrate", "support", "enable", "disable", "allow", "prevent", "ensure",
   "expose", "document", "implement", "introduce", "switch", "use",
   "deprecate", "restore", "simplify", "unify", "resolve", "enforce",
-  "include", "exclude", "reduce", "increase", "adjust", "handle"
+  "include", "exclude", "reduce", "increase", "adjust", "handle",
+  "apply", "hotfix", "make", "get", "avoid", "utilize", "hide", "set",
+  "reorder", "provide", "convert", "standardize", "integrate", "create"
 )
 
 VERSION_HEADER_PATTERN <- "^## [A-Za-z0-9.]+ \\d+\\.\\d+\\.\\d+ - \\d{4}-\\d{2}-\\d{2}$"
