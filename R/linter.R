@@ -31,7 +31,7 @@ lintPkgDirs <- function(pkg_dir = ".",
   if (!is.null(failures)) {
     stop(sprintf(
       "Found linter failures in files: '%s'",
-      paste(failures, collapse = ", ")
+      toString(failures)
     ))
   } else {
     message("All files OK!")

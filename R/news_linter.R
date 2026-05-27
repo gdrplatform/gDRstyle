@@ -64,7 +64,7 @@ lintNewsEntries <- function(pkg_dir = ".", max_chars = 120L, max_bullets = 3L) {
   if (length(violations) > 0L) {
     stop(
       "NEWS.md lint violations:\n",
-      paste0("  line ", vapply(violations, `[[`, "", "line"), ": ",
+      paste0("  line ", vapply(violations, `[[`, integer(1), "line"), ": ",
              vapply(violations, `[[`, "", "msg"),
              collapse = "\n")
     )

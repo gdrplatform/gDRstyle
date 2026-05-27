@@ -71,7 +71,7 @@ checkDependencies <- function(dep_path,
       sprintf(avoid_new_lines(
         "misaligned package versions between 'rplatform/dependencies.yaml'
         and package 'DESCRIPTION' file: %s"),
-        paste(bad_pkgs, collapse = ", ")
+        toString(bad_pkgs)
       )
     )
   }
@@ -145,7 +145,7 @@ pkgs_search <- function(rp_ver,
     stop(sprintf(avoid_new_lines(
       "packages specified in 'dependencies.yaml'
       not present in 'DESCRIPTION': %s"),
-      paste(names(rp_ver)[na_idx], collapse = ", ")
+      toString(names(rp_ver)[na_idx])
     ))
   }
   xrp_ver <- desc_deps[idx, "version"]
