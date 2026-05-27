@@ -22,8 +22,7 @@ VALID_VERBS <- c(
   "apply", "hotfix", "make", "get", "avoid", "utilize", "hide", "set",
   "reorder", "provide", "convert", "standardize", "integrate", "create",
   "synchronize", "sync", "clean", "deploy", "downgrade", "init",
-  "release", "wrap", "added", "updated", "temporary", "small",
-  "initial", "prerelease", "structure"
+  "release", "wrap"
 )
 
 VERSION_HEADER_PATTERN <- "^## [A-Za-z0-9.]+ \\d+\\.\\d+\\.\\d+ - \\d{4}-\\d{2}-\\d{2}$"

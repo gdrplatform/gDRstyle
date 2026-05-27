@@ -19,7 +19,7 @@
 * fix usage of `ifelse`
 
 ## gDRstyle 1.7.3 - 2025-08-04
-* added support for skipping vignette building in `run_tests.sh`
+* add support for skipping vignette building in `run_tests.sh`
 
 ## gDRstyle 1.7.2 - 2025-05-26
 * add check for `pkgdown` in the `checkPackage` function
@@ -58,7 +58,7 @@
 * replace `remotes:::version_satisfies_criteria` function
 
 ## gDRstyle 1.1.6 - 2024-03-18
-* temporary skip verifying version test on Bioc 
+* skip temporarily verifying version test on Bioc 
 
 ## gDRstyle 1.1.5 - 2024-03-04
 * remove `:::` from notes exceptions
@@ -81,7 +81,7 @@
 * release Bioc 3.18
 
 ## gDRstyle 1.0.0 - 2023-10-24
-* prerelease Bioc 3.18
+* prepare prerelease for Bioc 3.18
 
 ## gDRstyle 0.99.22 - 2023-10-17
 * adjust NEWS to Bioc format
