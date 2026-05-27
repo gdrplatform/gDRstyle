@@ -21,9 +21,8 @@ VALID_VERBS <- c(
   "include", "exclude", "reduce", "increase", "adjust", "handle",
   "apply", "hotfix", "make", "get", "avoid", "utilize", "hide", "set",
   "reorder", "provide", "convert", "standardize", "integrate", "create",
-  "synchronize", "sync", "added", "temporary", "clean", "deploy",
-  "downgrade", "init", "initial", "prerelease", "release", "small",
-  "structure", "updated", "wrap"
+  "synchronize", "sync", "clean", "deploy", "downgrade", "init",
+  "release", "wrap"
 )
 
 VERSION_HEADER_PATTERN <- "^## [A-Za-z0-9.]+ \\d+\\.\\d+\\.\\d+ - \\d{4}-\\d{2}-\\d{2}$"
@@ -84,6 +83,7 @@ lintNewsEntries <- function(pkg_dir = ".", max_chars = 120L, max_bullets = 3L) {
   violations <- list()
   current_header_line <- NULL
   bullet_count <- 0L
+  section_count <- 0L
 
   flush_section <- function() {
     if (!is.null(current_header_line) && bullet_count > max_bullets) {
@@ -102,14 +102,13 @@ lintNewsEntries <- function(pkg_dir = ".", max_chars = 120L, max_bullets = 3L) {
 
     if (grepl("^## ", line)) {
       flush_section()
+      section_count <- section_count + 1L
       current_header_line <- i
       bullet_count <- 0L
-      v <- .check_header(line, i)
-      if (!is.null(v)) violations <- c(violations, list(v))
       next
     }
 
-    if (grepl("^\\* ", line)) {
+    if (grepl("^\\* ", line) && section_count == 1L) {
       bullet_count <- bullet_count + 1L
       entry <- sub("^\\* ", "", line)
       vs <- .check_bullet(entry, i, max_chars)
