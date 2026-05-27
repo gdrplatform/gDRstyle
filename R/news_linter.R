@@ -20,7 +20,10 @@ VALID_VERBS <- c(
   "deprecate", "restore", "simplify", "unify", "resolve", "enforce",
   "include", "exclude", "reduce", "increase", "adjust", "handle",
   "apply", "hotfix", "make", "get", "avoid", "utilize", "hide", "set",
-  "reorder", "provide", "convert", "standardize", "integrate", "create"
+  "reorder", "provide", "convert", "standardize", "integrate", "create",
+  "synchronize", "sync", "added", "temporary", "clean", "deploy",
+  "downgrade", "init", "initial", "prerelease", "release", "small",
+  "structure", "updated", "wrap"
 )
 
 VERSION_HEADER_PATTERN <- "^## [A-Za-z0-9.]+ \\d+\\.\\d+\\.\\d+ - \\d{4}-\\d{2}-\\d{2}$"
