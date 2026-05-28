@@ -1,3 +1,11 @@
+## gDRstyle 1.11.4 - 2026-05-27
+* apply updated gDRstyle rules
+
+## gDRstyle 1.11.3 - 2026-05-08
+* extend linter config with additional rules and update style guide accordingly
+* add auto-changelog GitHub Actions reusable workflow using Claude API
+* add lintNewsEntries to enforce brevity and style in NEWS.md entries
+
 ## gDRstyle 1.11.2 - 2026-05-05
 * support vector notation for `length` field in `note.json`
 
@@ -11,7 +19,7 @@
 * fix usage of `ifelse`
 
 ## gDRstyle 1.7.3 - 2025-08-04
-* added support for skipping vignette building in `run_tests.sh`
+* add support for skipping vignette building in `run_tests.sh`
 
 ## gDRstyle 1.7.2 - 2025-05-26
 * add check for `pkgdown` in the `checkPackage` function
@@ -50,7 +58,7 @@
 * replace `remotes:::version_satisfies_criteria` function
 
 ## gDRstyle 1.1.6 - 2024-03-18
-* temporary skip verifying version test on Bioc 
+* skip temporarily verifying version test on Bioc 
 
 ## gDRstyle 1.1.5 - 2024-03-04
 * remove `:::` from notes exceptions
@@ -73,7 +81,7 @@
 * release Bioc 3.18
 
 ## gDRstyle 1.0.0 - 2023-10-24
-* prerelease Bioc 3.18
+* prepare prerelease for Bioc 3.18
 
 ## gDRstyle 0.99.22 - 2023-10-17
 * adjust NEWS to Bioc format

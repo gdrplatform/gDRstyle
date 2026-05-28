@@ -14,7 +14,7 @@
 #'
 #' @examples
 #' checkDependencies(
-#'   dep_path = 
+#'   dep_path =
 #'         system.file(package = "gDRstyle", "testdata", "dependencies.yaml"),
 #'   desc_path = system.file(package = "gDRstyle", "DESCRIPTION"),
 #'   skip_pkgs = c("testthat", "lintr")
@@ -71,7 +71,7 @@ checkDependencies <- function(dep_path,
       sprintf(avoid_new_lines(
         "misaligned package versions between 'rplatform/dependencies.yaml'
         and package 'DESCRIPTION' file: %s"),
-        paste0(bad_pkgs, collapse = ", ")
+        toString(bad_pkgs)
       )
     )
   }
@@ -92,7 +92,7 @@ checkDependencies <- function(dep_path,
 #' @return Character vector of any misaligned package versions between
 #' rplatform \code{dependencies.yaml} and package \code{DESCRIPTION}.
 #' @keywords internal
-compare_versions <- function(rp, 
+compare_versions <- function(rp,
                              desc) {
   stopifnot(all(names(rp) == names(desc)))
   misaligned_ver_pkgs <- NULL
@@ -120,7 +120,7 @@ compare_versions <- function(rp,
 
 #' @keywords internal
 #' @noRd
-get_all_pkgs <- function(combo_path, 
+get_all_pkgs <- function(combo_path,
                          rp_pkgs) {
   if (file.exists(combo_path)) {
     combo_deps <- yaml::read_yaml(combo_path)
@@ -138,14 +138,14 @@ get_all_pkgs <- function(combo_path,
 
 #' @keywords internal
 #' @noRd
-pkgs_search <- function(rp_ver, 
+pkgs_search <- function(rp_ver,
                         desc_deps) {
   idx <- match(names(rp_ver), desc_deps$package)
   if (any(na_idx <- is.na(idx))) {
     stop(sprintf(avoid_new_lines(
       "packages specified in 'dependencies.yaml'
       not present in 'DESCRIPTION': %s"),
-      paste0(names(rp_ver)[na_idx], collapse = ", ")
+      toString(names(rp_ver)[na_idx])
     ))
   }
   xrp_ver <- desc_deps[idx, "version"]
@@ -156,8 +156,8 @@ pkgs_search <- function(rp_ver,
 
 #' @keywords internal
 #' @noRd
-pkgs_reverse_search <- function(desc, 
-                                skip, 
+pkgs_reverse_search <- function(desc,
+                                skip,
                                 all) {
   cond <- desc[["version"]] != "*" & !desc[["package"]] %in% skip
   pkgs <- desc[cond, c("package")]

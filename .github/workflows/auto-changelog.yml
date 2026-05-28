@@ -1,0 +1,154 @@
+name: auto-changelog
+
+on:
+  workflow_call:
+    secrets:
+      ANTHROPIC_API_KEY:
+        required: true
+      PRIVATE_ACCESS_TOKEN:
+        required: true
+
+jobs:
+  auto-changelog:
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.PRIVATE_ACCESS_TOKEN }}
+          ref: ${{ github.head_ref }}
+
+      - name: Check if version bump and NEWS.md entry are present
+        id: check
+        run: |
+          PKG_NAME=$(grep "^Package:" DESCRIPTION | sed 's/Package: //')
+          CURRENT_VERSION=$(grep "^Version:" DESCRIPTION | sed 's/Version: //')
+          MAIN_VERSION=$(git show origin/main:DESCRIPTION | grep "^Version:" | sed 's/Version: //')
+
+          echo "pkg_name=$PKG_NAME" >> "$GITHUB_OUTPUT"
+          echo "current_version=$CURRENT_VERSION" >> "$GITHUB_OUTPUT"
+          echo "main_version=$MAIN_VERSION" >> "$GITHUB_OUTPUT"
+
+          VERSION_BUMPED=false
+          NEWS_OK=false
+
+          if [ "$CURRENT_VERSION" != "$MAIN_VERSION" ]; then
+            VERSION_BUMPED=true
+          fi
+
+          if grep -q "^## $PKG_NAME $CURRENT_VERSION" NEWS.md; then
+            NEWS_OK=true
+          fi
+
+          if [ "$VERSION_BUMPED" = "true" ] && [ "$NEWS_OK" = "true" ]; then
+            echo "skip=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "skip=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate version bump and NEWS entry via Claude
+        if: steps.check.outputs.skip == 'false'
+        id: claude
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          PKG_NAME="${{ steps.check.outputs.pkg_name }}"
+          MAIN_VERSION="${{ steps.check.outputs.main_version }}"
+
+          # Limit diff to 6000 chars to stay within token limits; write to file to avoid shell injection
+          git diff origin/main...HEAD -- . \
+            ':(exclude)NEWS.md' \
+            ':(exclude)DESCRIPTION' \
+            ':(exclude)*.lock' \
+            ':(exclude)*.rdb' \
+            | head -c 6000 > /tmp/pr_diff.txt
+
+          PKG_NAME_ENV="$PKG_NAME" MAIN_VERSION_ENV="$MAIN_VERSION" python3 - <<PYEOF
+          import os, json, urllib.request
+
+          pkg_name = os.environ["PKG_NAME_ENV"]
+          main_version = os.environ["MAIN_VERSION_ENV"]
+
+          with open("/tmp/pr_diff.txt") as f:
+            diff = f.read()
+
+          prompt = (
+            f"You are a changelog writer for an R package called '{pkg_name}'"
+            f" (current version on main: {main_version}).\n\n"
+            "Based on the following git diff from a pull request, determine:\n"
+            "1. The version bump type: patch (bug fixes, docs, refactoring),"
+            " minor (new features), major (breaking changes)\n"
+            "2. One short, clear bullet point for NEWS.md describing what changed"
+            " (start with a verb, no period at end)\n\n"
+            'Respond ONLY with valid JSON, no other text:\n'
+            '{"bump_type": "patch|minor|major", "entry": "short description"}\n\n'
+            "Git diff:\n" + diff[:5000]
+          )
+
+          payload = json.dumps({
+            "model": "claude-haiku-4-5-20251001",
+            "max_tokens": 256,
+            "messages": [{"role": "user", "content": prompt}]
+          }).encode()
+
+          req = urllib.request.Request(
+            "https://api.anthropic.com/v1/messages",
+            data=payload,
+            headers={
+              "x-api-key": os.environ["ANTHROPIC_API_KEY"],
+              "anthropic-version": "2023-06-01",
+              "content-type": "application/json"
+            }
+          )
+
+          with urllib.request.urlopen(req) as resp:
+            result = json.loads(resp.read())
+
+          parsed = json.loads(result["content"][0]["text"])
+          bump_type = parsed["bump_type"]
+          entry = parsed["entry"]
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as f:
+            f.write(f"bump_type={bump_type}\n")
+            f.write(f"entry={entry}\n")
+
+          print(f"bump_type={bump_type}, entry={entry}")
+          PYEOF
+
+      - name: Bump version in DESCRIPTION and prepend NEWS.md entry
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          PKG_NAME="${{ steps.check.outputs.pkg_name }}"
+          MAIN_VERSION="${{ steps.check.outputs.main_version }}"
+          BUMP_TYPE="${{ steps.claude.outputs.bump_type }}"
+          ENTRY="${{ steps.claude.outputs.entry }}"
+          DATE=$(date +%Y-%m-%d)
+
+          MAJOR=$(echo "$MAIN_VERSION" | cut -d. -f1)
+          MINOR=$(echo "$MAIN_VERSION" | cut -d. -f2)
+          PATCH=$(echo "$MAIN_VERSION" | cut -d. -f3)
+
+          if [ "$BUMP_TYPE" = "major" ]; then
+            NEW_VERSION="$((MAJOR + 1)).0.0"
+          elif [ "$BUMP_TYPE" = "minor" ]; then
+            NEW_VERSION="${MAJOR}.$((MINOR + 1)).0"
+          else
+            NEW_VERSION="${MAJOR}.${MINOR}.$((PATCH + 1))"
+          fi
+
+          sed -i "s/^Version: .*/Version: $NEW_VERSION/" DESCRIPTION
+          sed -i "s/^Date: .*/Date: $DATE/" DESCRIPTION
+
+          printf '## %s %s - %s\n* %s\n\n' "$PKG_NAME" "$NEW_VERSION" "$DATE" "$ENTRY" \
+            | cat - NEWS.md > NEWS.md.tmp && mv NEWS.md.tmp NEWS.md
+
+      - name: Commit and push
+        if: steps.check.outputs.skip == 'false'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add DESCRIPTION NEWS.md
+          git commit -m "chore: bump version and update NEWS.md"
+          git push

@@ -55,7 +55,7 @@ test_notes_check <- function(check_results,
 
     if (!all(is_note_valid)) {
       stop("Check found unexpected NOTEs: \n",
-           paste0(check_results$notes[!is_note_valid], collapse = " "))
+           paste(check_results$notes[!is_note_valid], collapse = " "))
     }
   }
 }
@@ -233,6 +233,7 @@ checkPackage <- function(pkgName,
     utils::timestamp()
     with_shiny <- file.exists(file.path(pkgDir, "inst", "shiny"))
     gDRstyle::lintPkgDirs(pkgDir, shiny = with_shiny)
+    gDRstyle::lintNewsEntries(pkgDir)
   } else {
     message("Lint skipped")
   }

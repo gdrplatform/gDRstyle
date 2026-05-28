@@ -18,7 +18,7 @@ setReposOpt <- function(additionalRepos = NULL) {
 #' @return \code{NULL} or info about error
 #' @keywords internal
 #' @noRd
-setTokenVar <- function(base_dir, 
+setTokenVar <- function(base_dir,
                         filename = ".github_access_token.txt") {
   # Use GitHub access_token if available
   gh_access_token_file <- file.path(base_dir, filename)
@@ -51,7 +51,7 @@ setTokenVar <- function(base_dir,
 #' @return \code{NULL} or info about error
 #' @keywords internal
 #' @noRd
-verify_version <- function(name, 
+verify_version <- function(name,
                            required_version) {
   pkg_version <- utils::packageVersion(name)
 
@@ -67,24 +67,24 @@ verify_version <- function(name,
 
 is_version_ok <- function(pkg_ver, req) {
   valid_ver_regex <- .standard_regexps()$valid_numeric_version
-  
+
   req <- if (grepl(paste0("^", valid_ver_regex, "$"), req)) {
     paste0("==", req)
   } else {
     req
   }
-  
+
   fun <- trimws(sub("\\d.*", "", req))
   req_ver <- trimws(sub(fun, "", req))
-  
+
   if (!grepl("==|<|>|<=|>=", fun)) stop("Invalid comparison operator")
 
   get(fun, mode = "function")(pkg_ver, req_ver)
 }
 
 #' Create a new ssh key credential object
-#' 
-#' @param use_ssh logical, if use ssh keys 
+#'
+#' @param use_ssh logical, if use ssh keys
 #'
 #' @return A list of class cred_ssh_key
 #' @keywords internal
@@ -108,7 +108,7 @@ getSshKeys <- function(use_ssh) {
 #' installLocalPackage(system.file(
 #' package = "gDRstyle", "tst_pkgs", "dummy_pkg"
 #' ))
-#' 
+#'
 #' @return \code{NULL}
 #' @keywords install
 #' @export
@@ -189,7 +189,7 @@ installAllDeps <- function(additionalRepos = NULL,
 #' @return \code{NULL}
 #' @keywords internal
 #' @noRd
-install_cran <- function(name, 
+install_cran <- function(name,
                          pkg) {
   if (is.null(pkg$repos)) {
     pkg$repos <- getOption("repos")
@@ -211,7 +211,7 @@ install_cran <- function(name,
 #' @return \code{NULL}
 #' @keywords internal
 #' @noRd
-install_bioc <- function(name, 
+install_bioc <- function(name,
                          pkg) {
   if (is.null(pkg$ver)) {
     pkg$ver <- BiocManager::version()
@@ -232,18 +232,18 @@ install_bioc <- function(name,
 #' @return \code{NULL}
 #' @keywords internal
 #' @noRd
-install_github <- function(name, 
+install_github <- function(name,
                            pkg) {
   if (is.null(pkg$ref)) {
     pkg$ref <- "HEAD"
   }
-  
+
   host_url <- if (!is.null(pkg$host)) {
     pkg$host
   } else {
     "api.github.com"
   }
-  
+
   remotes::install_github(
     repo = pkg$url,
     ref = pkg$ref,
@@ -264,8 +264,8 @@ install_github <- function(name,
 #' @return \code{NULL}
 #' @keywords internal
 #' @noRd
-install_git <- function(name, 
-                        pkg, 
+install_git <- function(name,
+                        pkg,
                         keys) {
   remotes::install_git(
     url = pkg$url,
@@ -286,7 +286,7 @@ install_git <- function(name,
 #' @return \code{NULL}
 #' @keywords internal
 #' @noRd
-install_gitlab <- function(name, 
+install_gitlab <- function(name,
                            pkg) {
   repo <- paste(tempdir(), "install_pkg_git", name, sep = .Platform$file.sep)
   url <- if (!is.null(pkg$url) && grepl("code.roche.com", pkg$url)) {

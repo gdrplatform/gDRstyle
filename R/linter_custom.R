@@ -1,18 +1,18 @@
 #' roxygen_tag_linter
-#' 
+#'
 #' Check that function has documented specific tag in Roxygen
 #' skeleton (default \code{@author}).
-#' 
+#'
 #' @param tag character (default \code{@author})
-#' 
+#'
 #' @author Kamil Foltynski <kamil.foltynski@contractors.roche.com>
-#' 
+#'
 #' @examples
 #' linters_config <- lintr::linters_with_defaults(
 #'   line_length_linter = lintr::line_length_linter(120),
 #'   roxygen_tag_linter = roxygen_tag_linter()
 #' )
-#' 
+#'
 #' @return linter class function
 #' @keywords linter
 #' @export
@@ -70,7 +70,7 @@ roxygen_tag_linter <- function(tag = "@author") {
 #' @noRd
 skip_lines_withou_prefix <- function(flines) {
   idx <- NA
-  for (i in seq_len(length(flines))) {
+  for (i in seq_along(flines)) {
     if (grepl(pattern = "@noRd", flines[i]))
       # skip check if @noRd tag is present
       return(NA)

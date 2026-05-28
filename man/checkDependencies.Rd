@@ -37,7 +37,7 @@ there are dependency clashes.
 }
 \examples{
 checkDependencies(
-  dep_path = 
+  dep_path =
         system.file(package = "gDRstyle", "testdata", "dependencies.yaml"),
   desc_path = system.file(package = "gDRstyle", "DESCRIPTION"),
   skip_pkgs = c("testthat", "lintr")

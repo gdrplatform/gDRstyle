@@ -10,13 +10,13 @@
 #'     pkg_dir= system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg"))
 #'
 #' @return \code{NULL} invisibly.
-#' @details 
+#' @details
 #' Will look for files in the following directories:
 #' \code{"R"}, \code{"tests"}, and conditionally \code{"inst/shiny"}
 #' if \code{shiny} is \code{TRUE}.
 #' @keywords linter
 #' @export
-lintPkgDirs <- function(pkg_dir = ".", 
+lintPkgDirs <- function(pkg_dir = ".",
                         shiny = FALSE) {
   dirs <- c("R", "tests")
   if (shiny) {
@@ -31,7 +31,7 @@ lintPkgDirs <- function(pkg_dir = ".",
   if (!is.null(failures)) {
     stop(sprintf(
       "Found linter failures in files: '%s'",
-      paste0(failures, collapse = ", ")
+      toString(failures)
     ))
   } else {
     message("All files OK!")
@@ -42,7 +42,7 @@ lintPkgDirs <- function(pkg_dir = ".",
 
 #' @importFrom lintr lint
 #' @keywords internal
-lintDir <- function(pkg_dir = ".", 
+lintDir <- function(pkg_dir = ".",
                     sub_dir) {
   path <- file.path(pkg_dir, sub_dir)
   if (dir.exists(path)) {
