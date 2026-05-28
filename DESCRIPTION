@@ -27,7 +27,6 @@ Imports:
     checkmate,
     desc,
     git2r,
-    cyclocomp,
     lintr (>= 3.2.0),
     rcmdcheck,
     remotes,
