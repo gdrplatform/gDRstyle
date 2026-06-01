@@ -1,5 +1,5 @@
 # This workflow is used to update static webpage with documentation for the given GitHub repository.
-# It's triggered by the push of the default branch. 
+# It's triggered by the push of the default branch.
 # More details: https://docs.google.com/document/d/1WGW4_lOOZ73lEfVZwIWMivbyCgDTJAajxP5N8767DZY
 
 name: pkgdown
@@ -25,11 +25,6 @@ on:
         required: false
         type: string
         default: 'false'
-    secrets:
-      PRIVATE_ACCESS_TOKEN:
-        required: true
-      GITLAB_ACCESS_TOKEN:
-        required: true
 
 permissions:
   contents: write
@@ -37,47 +32,37 @@ permissions:
 jobs:
   pkgdown:
     runs-on: ubuntu-latest
-    # Only restrict concurrency for non-PR jobs
     concurrency:
       group: pkgdown-${{ github.event_name != 'pull_request' || github.run_id }}
-    env:
-      TEST_TAG: user/app:latest-${{ github.sha }}
-      USERNAME: ${{ github.actor }}
-      PACKAGE_NAME: ${{ github.event.repository.name }}
-      BRANCH_NAME: ${{ github.head_ref }}
-      BASE_IMAGE: marcinkam/gdrshiny:1.0
     permissions:
       contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Build
-        uses: docker/build-push-action@v5
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
         with:
-          context: .
-          fetch-depth: 0
-          ref: ${{ env.BRANCH_NAME }}
-          tags: ${{ env.TEST_TAG }}
-          build-args: |
-            GITHUB_TOKEN=${{ secrets.PRIVATE_ACCESS_TOKEN }}
-            GITLAB_PAT=${{ secrets.GITLAB_ACCESS_TOKEN }}
-            BASE_IMAGE=${{ env.BASE_IMAGE }}
+          use-public-rspm: true
 
-      - name: Run pkgdown
-        if: ${{ inputs.IS_SUBDIR  != 'true' }}
-        run: |
-          docker run -v `pwd`:/mnt/vol ${{ env.TEST_TAG }} Rscript -e 'pkgdown::build_site_github_pages("/mnt/vol", new_process = FALSE, install = FALSE)'
-      
-      # currently, internal packages are stored as subdirectories in the repository
-      # eventually, this loop becomes obsolete (subdirectory structure is not allowed in Bioconductor))
-      - name: Run pkgdown (R package as subdirectory)
-        if: ${{ inputs.IS_SUBDIR  == 'true' }}
-        run: |
-          docker run -v $GITHUB_WORKSPACE:/mnt/vol ${{ env.TEST_TAG }} bash  -c "find /mnt/vol/${{ env.PACKAGE_NAME }}"
-          docker run -v `pwd`:/mnt/vol ${{ env.TEST_TAG }} Rscript -e 'pkgdown::build_site_github_pages("/mnt/vol/${{ env.PACKAGE_NAME }}", new_process = FALSE, install = FALSE)'
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::pkgdown
+          needs: website
 
-      - name: Deploy to GitHub pages 🚀
-        if: ${{ inputs.IS_SUBDIR  != 'true' }}
+      - name: Build pkgdown site
+        if: ${{ inputs.IS_SUBDIR != 'true' }}
+        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        shell: Rscript {0}
+
+      - name: Build pkgdown site (subdirectory)
+        if: ${{ inputs.IS_SUBDIR == 'true' }}
+        run: pkgdown::build_site_github_pages(pkg = "${{ inputs.PACKAGE_NAME }}", new_process = FALSE, install = FALSE)
+        shell: Rscript {0}
+
+      - name: Deploy to GitHub pages
+        if: ${{ inputs.IS_SUBDIR != 'true' }}
         uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
           clean: true
@@ -85,11 +70,11 @@ jobs:
           folder: docs
           target-folder: docs
 
-      - name: Deploy to GitHub pages 🚀 (R package as subdirectory)
-        if: ${{ inputs.IS_SUBDIR  == 'true' }}
+      - name: Deploy to GitHub pages (subdirectory)
+        if: ${{ inputs.IS_SUBDIR == 'true' }}
         uses: JamesIves/github-pages-deploy-action@v4.5.0
         with:
           clean: true
           branch: pages
-          folder: ${{ env.PACKAGE_NAME }}/docs
+          folder: ${{ inputs.PACKAGE_NAME }}/docs
           target-folder: docs
