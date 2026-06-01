@@ -53,12 +53,12 @@ jobs:
 
       - name: Build pkgdown site
         if: ${{ inputs.IS_SUBDIR != 'true' }}
-        run: pkgdown::build_site_github_pages(new_process = FALSE, install = FALSE)
+        run: pkgdown::build_site_github_pages(new_process = FALSE, install = TRUE)
         shell: Rscript {0}
 
       - name: Build pkgdown site (subdirectory)
         if: ${{ inputs.IS_SUBDIR == 'true' }}
-        run: pkgdown::build_site_github_pages(pkg = "${{ inputs.PACKAGE_NAME }}", new_process = FALSE, install = FALSE)
+        run: pkgdown::build_site_github_pages(pkg = "${{ inputs.PACKAGE_NAME }}", new_process = FALSE, install = TRUE)
         shell: Rscript {0}
 
       - name: Deploy to GitHub pages
