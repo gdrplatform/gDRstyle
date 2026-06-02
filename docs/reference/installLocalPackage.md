@@ -33,7 +33,7 @@ installLocalPackage(system.file(
 package = "gDRstyle", "tst_pkgs", "dummy_pkg"
 ))
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
-#> * checking for file ‘/tmp/RtmpS7b3mM/file1cf7315083aa/dummy_pkg/DESCRIPTION’ ... OK
+#> * checking for file ‘/tmp/RtmpWNk6yX/file1a03400b5fff/dummy_pkg/DESCRIPTION’ ... OK
 #> * preparing ‘fakePkg’:
 #> * checking DESCRIPTION meta-information ... OK
 #> * checking for LF line-endings in source and make files and shell scripts
@@ -41,6 +41,6 @@ package = "gDRstyle", "tst_pkgs", "dummy_pkg"
 #> Removed empty directory ‘fakePkg/tests/testthat/_snaps’
 #> * building ‘fakePkg_1.0.tar.gz’
 #> 
-#> Installing package into ‘/tmp/RtmpS7b3mM/temp_libpath1cf752b47666’
+#> Installing package into ‘/tmp/RtmpWNk6yX/temp_libpath1a031727199f’
 #> (as ‘lib’ is unspecified)
 ```

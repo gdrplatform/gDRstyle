@@ -20,7 +20,7 @@
 ## Citation
 
 Source:
-[`DESCRIPTION`](https://github.com/gdrplatform/gDRstyle/blob/main/DESCRIPTION)
+[`DESCRIPTION`](https://github.com/gdrplatform/gDRstyle/blob/test_ci_pkgdown/DESCRIPTION)
 
 Vuong A, Scigocki D, Kamianowski M, Smola J, Gladki A, Czech B (2026).
 *gDRstyle: A package with style requirements for the gDR suite*. R
