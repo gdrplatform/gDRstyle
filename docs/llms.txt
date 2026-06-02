@@ -1,0 +1,54 @@
+# gDRstyle
+
+A repository describing standards and templates to be upheld/used by all
+gDR packages.
+
+# Website
+
+A package website is available under [this
+link](https://gdrplatform.github.io/gDRstyle/).
+
+# Package index
+
+## Check
+
+Check helpers (package and its dependencies)
+
+- [`checkDependencies()`](https://gdrplatform.github.io/gDRstyle/reference/checkDependencies.md)
+  : Check for alignment of package dependencies across Rplatform and
+  package specifications.
+- [`checkPackage()`](https://gdrplatform.github.io/gDRstyle/reference/checkPackage.md)
+  : Check R package
+
+## Install
+
+Installation helpers
+
+- [`installAllDeps()`](https://gdrplatform.github.io/gDRstyle/reference/installAllDeps.md)
+  : Install all package dependencies from yaml file for building image
+  purposes
+- [`installLocalPackage()`](https://gdrplatform.github.io/gDRstyle/reference/installLocalPackage.md)
+  : Install locally cloned repo for builiding image purposes
+
+## Linter
+
+Linter helpers
+
+- [`avoid_new_lines()`](https://gdrplatform.github.io/gDRstyle/reference/avoid_new_lines.md)
+  : Avoid new lines in sprintf output. Function helps to avoid line
+  lenght limits without affecting sprintf output
+- [`lintNewsEntries()`](https://gdrplatform.github.io/gDRstyle/reference/lintNewsEntries.md)
+  : Lint NEWS.md entries for style and brevity
+- [`lintPkgDirs()`](https://gdrplatform.github.io/gDRstyle/reference/lintPkgDirs.md)
+  : Lint select subdirectories in a package directory.
+- [`roxygen_tag_linter()`](https://gdrplatform.github.io/gDRstyle/reference/roxygen_tag_linter.md)
+  : roxygen_tag_linter
+
+# Articles
+
+### All vignettes
+
+- [Using
+  gDRstyle](https://gdrplatform.github.io/gDRstyle/articles/gDRstyle.md):
+- [gDR style
+  guide](https://gdrplatform.github.io/gDRstyle/articles/style_guide.md):
