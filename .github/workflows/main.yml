@@ -6,7 +6,7 @@
 # See https://github.com/r-lib/actions/tree/master/examples#readme for
 # additional example workflows available for the R community.
 
-name: main
+name: CI
 
 on:
   pull_request:
@@ -37,74 +37,92 @@ on:
         required: true
 
 jobs:
-  package_test:
+  check_membership:
     runs-on: ubuntu-24.04
     if: github.event.pull_request.merged == false
-    env:
-      TEST_TAG: user/app:latest-${{ github.sha }}
-      USERNAME: ${{ github.actor }}
-      PACKAGE_NAME: ${{ github.event.repository.name }}
-      BRANCH_NAME: ${{ github.head_ref }}
-      BASE_IMAGE: marcinkam/gdrshiny:0.11
+    outputs:
+      is_team_member: ${{ steps.check.outputs.isTeamMember }}
     steps:
       - uses: tspascoal/get-user-teams-membership@v1
-        id: checkUserMember
+        id: check
         with:
-          username: ${{ env.USERNAME }}
+          username: ${{ github.actor }}
           team: 'PR reviewers'
           GITHUB_TOKEN: ${{ secrets.PRIVATE_ACCESS_TOKEN }}
 
-      ##########################
-      # External collaborators #
-      ##########################
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        name: Checkout
-        uses: actions/checkout@v2
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        name: Build
-        uses: docker/build-push-action@v2
+  external_check:
+    needs: check_membership
+    if: needs.check_membership.outputs.is_team_member == 'false'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
         with:
-          context: .
-          load: true
-          tags: ${{ env.TEST_TAG }}
-          build-args: |
-            GITHUB_TOKEN=${{ secrets.PRIVATE_ACCESS_TOKEN }}
-            BASE_IMAGE=${{ env.BASE_IMAGE }}
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        name: Run tests
+          use-public-rspm: true
+
+      - name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::gDRstyle
+
+      - name: Run checks
+        run: gDRstyle::checkPackage("${{ github.event.repository.name }}", ".")
+        shell: Rscript {0}
+
+      - name: Post test-result status
+        if: always()
         run: |
-          docker run -v `pwd`:/mnt/vol ${{ env.TEST_TAG }} bash -c 'bash /mnt/vol/rplatform/run_tests.sh /mnt/vol/'
-      
-      ##################
-      # User from Gene #
-      ##################
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'true' }}
-        name: Wait for test results
-        run: |
+          if [ "${{ job.status }}" == "success" ]; then
+            STATE="success"
+            DESC="External checks passed"
+          else
+            STATE="failure"
+            DESC="External checks failed"
+          fi
           curl -s -X POST \
+            -u "x-access-token:${{ secrets.PRIVATE_ACCESS_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }}" \
+            -d "{\"state\":\"$STATE\",\"context\":\"test-result\",\"description\":\"$DESC\"}"
+
+  internal_trigger:
+    needs: check_membership
+    if: needs.check_membership.outputs.is_team_member == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Trigger GitLab pipeline
+        id: trigger
+        run: |
+          RESPONSE=$(curl -s -X POST \
             -F token=${{ secrets.GDRGENESIS_TRIGGER_TOKEN }} \
             -F ref=main \
-            -F "variables[PACKAGE_NAME]=${{ env.PACKAGE_NAME }}" \
-            -F "variables[BRANCH_NAME]=${{ env.BRANCH_NAME }}" \
-            "https://code.roche.com/api/v4/projects/167859/trigger/pipeline"
-          exit 1
+            -F "variables[PACKAGE_NAME]=${{ github.event.repository.name }}" \
+            -F "variables[BRANCH_NAME]=${{ github.head_ref }}" \
+            "https://code.roche.com/api/v4/projects/167859/trigger/pipeline")
+          echo "pipeline_url=$(echo "$RESPONSE" | jq -r '.web_url // empty')" >> "$GITHUB_OUTPUT"
+
+      - name: Post pending test-result status
+        run: |
+          curl -s -X POST \
+            -u "x-access-token:${{ secrets.PRIVATE_ACCESS_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }}" \
+            -d "{\"state\":\"pending\",\"context\":\"test-result\",\"description\":\"GitLab pipeline running\",\"target_url\":\"${{ steps.trigger.outputs.pipeline_url }}\"}"
+
   deploy-dev:
     if: github.event.pull_request.merged
     runs-on: ubuntu-24.04
-    env:
-      BRANCH_NAME: ${{ github.head_ref }}
-      COMMIT_HASH: ${{ github.sha }}
-      COMMIT_MSG: ${{ github.event.head_commit.message }}
     steps:
-      - run: |
+      - name: Trigger deploy pipeline
+        run: |
           curl -s -X POST \
             -F token=${{ secrets.GDRVIZ_TRIGGER_TOKEN }} \
             -F ref=main \
-            -F "variables[SOURCE_BRANCH]=${{ env.BRANCH_NAME }}" \
-            -F "variables[COMMIT_HASH]=${{ env.COMMIT_HASH }}" \
-            -F "variables[COMMIT_MSG]=${{ env.COMMIT_MSG }}" \
+            -F "variables[SOURCE_BRANCH]=${{ github.head_ref }}" \
+            -F "variables[COMMIT_HASH]=${{ github.sha }}" \
+            -F "variables[COMMIT_MSG]=${{ github.event.head_commit.message }}" \
             -F "variables[TESTS_RESULT]=SUCCESSFUL" \
             "https://code.roche.com/api/v4/projects/181632/trigger/pipeline"
