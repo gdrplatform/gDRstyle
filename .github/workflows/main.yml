@@ -94,13 +94,23 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Trigger GitLab pipeline
+        id: trigger
         run: |
-          curl -s -X POST \
+          RESPONSE=$(curl -s -X POST \
             -F token=${{ secrets.GDRGENESIS_TRIGGER_TOKEN }} \
             -F ref=main \
             -F "variables[PACKAGE_NAME]=${{ github.event.repository.name }}" \
             -F "variables[BRANCH_NAME]=${{ github.head_ref }}" \
-            "https://code.roche.com/api/v4/projects/167859/trigger/pipeline"
+            "https://code.roche.com/api/v4/projects/167859/trigger/pipeline")
+          echo "pipeline_url=$(echo "$RESPONSE" | jq -r '.web_url // empty')" >> "$GITHUB_OUTPUT"
+
+      - name: Post pending test-result status
+        run: |
+          curl -s -X POST \
+            -u "x-access-token:${{ secrets.PRIVATE_ACCESS_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }}" \
+            -d "{\"state\":\"pending\",\"context\":\"test-result\",\"description\":\"GitLab pipeline running\",\"target_url\":\"${{ steps.trigger.outputs.pipeline_url }}\"}"
 
   deploy-dev:
     if: github.event.pull_request.merged
