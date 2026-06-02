@@ -52,7 +52,7 @@ jobs:
 
   external_check:
     needs: check_membership
-    if: needs.check_membership.outputs.is_team_member == 'false'
+    if: always()
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
