@@ -37,72 +37,66 @@ on:
         required: true
 
 jobs:
-  package_test:
+  check_membership:
     runs-on: ubuntu-24.04
     if: github.event.pull_request.merged == false
-    env:
-      USERNAME: ${{ github.actor }}
-      PACKAGE_NAME: ${{ github.event.repository.name }}
-      BRANCH_NAME: ${{ github.head_ref }}
+    outputs:
+      is_team_member: ${{ steps.check.outputs.isTeamMember }}
     steps:
       - uses: tspascoal/get-user-teams-membership@v1
-        id: checkUserMember
+        id: check
         with:
-          username: ${{ env.USERNAME }}
+          username: ${{ github.actor }}
           team: 'PR reviewers'
           GITHUB_TOKEN: ${{ secrets.PRIVATE_ACCESS_TOKEN }}
 
-      ##########################
-      # External collaborators #
-      ##########################
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        name: Checkout
+  external_check:
+    needs: check_membership
+    if: needs.check_membership.outputs.is_team_member == 'false'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        name: Setup R
+      - name: Setup R
         uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
 
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        name: Install dependencies
+      - name: Install dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::gDRstyle
 
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        name: Run checks
-        run: gDRstyle::checkPackage("${{ env.PACKAGE_NAME }}", ".")
+      - name: Run checks
+        run: gDRstyle::checkPackage("${{ github.event.repository.name }}", ".")
         shell: Rscript {0}
 
-      ##################
-      # User from Gene #
-      ##################
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'true' }}
-        name: Wait for test results
+  internal_trigger:
+    needs: check_membership
+    if: needs.check_membership.outputs.is_team_member == 'true'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Trigger GitLab pipeline
         run: |
           curl -s -X POST \
             -F token=${{ secrets.GDRGENESIS_TRIGGER_TOKEN }} \
             -F ref=main \
-            -F "variables[PACKAGE_NAME]=${{ env.PACKAGE_NAME }}" \
-            -F "variables[BRANCH_NAME]=${{ env.BRANCH_NAME }}" \
+            -F "variables[PACKAGE_NAME]=${{ github.event.repository.name }}" \
+            -F "variables[BRANCH_NAME]=${{ github.head_ref }}" \
             "https://code.roche.com/api/v4/projects/167859/trigger/pipeline"
-          exit 1
+
   deploy-dev:
     if: github.event.pull_request.merged
     runs-on: ubuntu-24.04
-    env:
-      BRANCH_NAME: ${{ github.head_ref }}
-      COMMIT_HASH: ${{ github.sha }}
-      COMMIT_MSG: ${{ github.event.head_commit.message }}
     steps:
-      - run: |
+      - name: Trigger deploy pipeline
+        run: |
           curl -s -X POST \
             -F token=${{ secrets.GDRVIZ_TRIGGER_TOKEN }} \
             -F ref=main \
-            -F "variables[SOURCE_BRANCH]=${{ env.BRANCH_NAME }}" \
-            -F "variables[COMMIT_HASH]=${{ env.COMMIT_HASH }}" \
-            -F "variables[COMMIT_MSG]=${{ env.COMMIT_MSG }}" \
+            -F "variables[SOURCE_BRANCH]=${{ github.head_ref }}" \
+            -F "variables[COMMIT_HASH]=${{ github.sha }}" \
+            -F "variables[COMMIT_MSG]=${{ github.event.head_commit.message }}" \
             -F "variables[TESTS_RESULT]=SUCCESSFUL" \
             "https://code.roche.com/api/v4/projects/181632/trigger/pipeline"
