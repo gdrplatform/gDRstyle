@@ -41,11 +41,9 @@ jobs:
     runs-on: ubuntu-24.04
     if: github.event.pull_request.merged == false
     env:
-      TEST_TAG: user/app:latest-${{ github.sha }}
       USERNAME: ${{ github.actor }}
       PACKAGE_NAME: ${{ github.event.repository.name }}
       BRANCH_NAME: ${{ github.head_ref }}
-      BASE_IMAGE: marcinkam/gdrshiny:0.11
     steps:
       - uses: tspascoal/get-user-teams-membership@v1
         id: checkUserMember
@@ -59,25 +57,25 @@ jobs:
       ##########################
       - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
         name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
       - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        name: Build
-        uses: docker/build-push-action@v2
+        name: Setup R
+        uses: r-lib/actions/setup-r@v2
         with:
-          context: .
-          load: true
-          tags: ${{ env.TEST_TAG }}
-          build-args: |
-            GITHUB_TOKEN=${{ secrets.PRIVATE_ACCESS_TOKEN }}
-            BASE_IMAGE=${{ env.BASE_IMAGE }}
+          use-public-rspm: true
+
       - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
-        name: Run tests
-        run: |
-          docker run -v `pwd`:/mnt/vol ${{ env.TEST_TAG }} bash -c 'bash /mnt/vol/rplatform/run_tests.sh /mnt/vol/'
-      
+        name: Install dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::gDRstyle
+
+      - if: ${{ steps.checkUserMember.outputs.isTeamMember == 'false' }}
+        name: Run checks
+        run: gDRstyle::checkPackage("${{ env.PACKAGE_NAME }}", ".")
+        shell: Rscript {0}
+
       ##################
       # User from Gene #
       ##################
