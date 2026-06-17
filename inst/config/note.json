@@ -47,8 +47,8 @@
     },
     {
       "length": 3,
-      "index_to_check": 2,
-      "text_to_check": "License components with restrictions not permitted"
+      "index_to_check": 3,
+      "text_to_check": "Artistic-2.0"
     }
   ]
 }
