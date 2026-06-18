@@ -1,5 +1,9 @@
 # Changelog
 
+## gDRstyle 1.11.5 - 2026-06-17
+
+- allow License NOTE for packages with file LICENSE
+
 ## gDRstyle 1.11.4 - 2026-05-27
 
 - apply updated gDRstyle rules
