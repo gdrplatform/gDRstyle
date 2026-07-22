@@ -259,7 +259,7 @@ lintRmdDeps <- function(rmd_path, verbose = FALSE) {
     }
     user_pkgs <- setdiff(all_pkgs, c(.RMD_BASE_PKGS, .RMD_IMPLICIT_PKGS))
     if (length(user_pkgs) > 0L) {
-      cat(sprintf("  loaded packages: %s\n", paste(user_pkgs, collapse = ", ")))
+      cat(sprintf("  loaded packages: %s\n", toString(user_pkgs)))
     }
   }
 
@@ -268,7 +268,7 @@ lintRmdDeps <- function(rmd_path, verbose = FALSE) {
   })))
 
   if (verbose && length(defined) > 0L) {
-    cat(sprintf("  local definitions: %s\n", paste(defined, collapse = ", ")))
+    cat(sprintf("  local definitions: %s\n", toString(defined)))
   }
 
   known <- unique(c(
