@@ -2,7 +2,7 @@
 .RMD_BASE_PKGS <- c("base", "utils", "stats", "graphics", "grDevices",
                     "methods", "datasets")
 .RMD_IMPLICIT_PKGS <- c("knitr", "rmarkdown")
-# data.table special tokens — not real function calls
+# data.table special tokens - not real function calls
 .RMD_IGNORE_FUNCS <- c(".", ".N", ".SD", ".GRP", ".BY", ".I", ":=")
 
 
@@ -157,7 +157,7 @@
     if (file.exists(desc)) {
       if (i > 5L) {
         warning(sprintf(
-          ".detectHostPackage: DESCRIPTION found %d levels above '%s' — skipping.",
+          ".detectHostPackage: DESCRIPTION found %d levels above '%s' - skipping.",
           i - 1L, rmd_path
         ))
         return(NULL)
@@ -225,7 +225,7 @@
 #'   \code{FALSE}.
 #'
 #' @return A \code{data.frame} with columns \code{func} (character) and
-#'   \code{line} (integer) — one row per unique unresolved call site.
+#'   \code{line} (integer) - one row per unique unresolved call site.
 #'   Returns \code{NULL} when the file contains no R chunks.
 #'
 #' @examples
