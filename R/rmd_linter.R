@@ -10,7 +10,7 @@
 
 #' Extract R code chunks from an Rmd file
 #'
-#' @param rmd_path character(1) path to an `.Rmd` file.
+#' @param rmd_path string path to an `.Rmd` file.
 #' @return A list of named lists, each with \code{code} (character(1)) and
 #'   \code{start_line} (integer(1)).
 #' @keywords internal
@@ -44,7 +44,7 @@
 
 #' Collect package names from library()/require() calls in code
 #'
-#' @param code character(1) R code (may span multiple chunks).
+#' @param code string R code (may span multiple chunks).
 #' @return character vector of package names.
 #' @keywords internal
 .getLoadedPackages <- function(code) {
@@ -71,7 +71,7 @@
 #' installed, so the linter degrades gracefully in environments that lack
 #' optional dependencies.
 #'
-#' @param pkg character(1) package name.
+#' @param pkg string package name.
 #' @return character vector of exported symbol names.
 #' @keywords internal
 .getPkgExports <- function(pkg) {
@@ -88,8 +88,8 @@
 #' This function replaces those tokens so the R chunk can be parsed without
 #' syntax errors.
 #'
-#' @param code character(1) R code possibly containing mustache tokens.
-#' @return character(1) code with mustache tokens replaced.
+#' @param code string R code possibly containing mustache tokens.
+#' @return string code with mustache tokens replaced.
 #' @keywords internal
 .stripMustache <- function(code) {
   checkmate::assert_string(code)
@@ -113,7 +113,7 @@
 #' \code{EQ_ASSIGN} (\code{=}) is intentionally excluded to avoid matching
 #' function formals.
 #'
-#' @param code character(1) R code for a single chunk.
+#' @param code string R code for a single chunk.
 #' @return character vector of locally defined names.
 #' @keywords internal
 .findDefinedNamesInChunk <- function(code) {
@@ -146,8 +146,8 @@
 #' above the Rmd is considered unrelated (e.g. a workspace root or Docker
 #' volume ancestor) and \code{NULL} is returned with a warning.
 #'
-#' @param rmd_path character(1) path to the Rmd file.
-#' @return character(1) package name, or \code{NULL} if not found.
+#' @param rmd_path string path to the Rmd file.
+#' @return string package name, or \code{NULL} if not found.
 #' @keywords internal
 .detectHostPackage <- function(rmd_path) {
   checkmate::assert_string(rmd_path)
@@ -179,9 +179,9 @@
 #' are not immediately preceded by a namespace operator (\code{::} or
 #' \code{:::}).
 #'
-#' @param code character(1) R code for a single chunk.
-#' @return data.frame with columns \code{func} (character) and \code{line}
-#'   (integer), or an empty data.frame on parse error.
+#' @param code string R code for a single chunk.
+#' @return data.table with columns \code{func} (character) and \code{line}
+#'   (integer), or an empty data.table on parse error.
 #' @keywords internal
 .findUnqualifiedCalls <- function(code) {
   checkmate::assert_string(code)
@@ -189,19 +189,16 @@
   tryCatch({
     pd <- getParseData(parse(text = code, keep.source = TRUE))
     if (is.null(pd) || NROW(pd) == 0L) {
-      return(data.frame(func = character(0L), line = integer(0L),
-                        stringsAsFactors = FALSE))
+      return(data.table::data.table(func = character(0L), line = integer(0L)))
     }
     fc <- pd[pd$token == "SYMBOL_FUNCTION_CALL", , drop = FALSE]
     ns <- pd[pd$token %in% c("NS_GET", "NS_GET_INT"), , drop = FALSE]
     qual_parents <- unique(ns$parent)
     uq <- fc[!fc$parent %in% qual_parents, , drop = FALSE]
-    data.frame(func = gsub("^`|`$", "", uq$text), line = uq$line1,
-               stringsAsFactors = FALSE)
+    data.table::data.table(func = gsub("^`|`$", "", uq$text), line = uq$line1)
   }, error = function(e) {
     message(sprintf("  [WARN] parse error: %s", conditionMessage(e)))
-    data.frame(func = character(0L), line = integer(0L),
-               stringsAsFactors = FALSE)
+    data.table::data.table(func = character(0L), line = integer(0L))
   })
 }
 
@@ -219,12 +216,12 @@
 #' Mustache template syntax (\code{\{\{param\}\}}) is stripped before parsing
 #' so parametrised report templates can be checked without syntax errors.
 #'
-#' @param rmd_path character(1) path to an \code{.Rmd} file.
+#' @param rmd_path string path to an \code{.Rmd} file.
 #' @param verbose logical(1) if \code{TRUE}, prints diagnostics (host package,
 #'   loaded packages, local definitions, known symbol count). Default
 #'   \code{FALSE}.
 #'
-#' @return A \code{data.frame} with columns \code{func} (character) and
+#' @return A \code{data.table} with columns \code{func} (character) and
 #'   \code{line} (integer) - one row per unique unresolved call site.
 #'   Returns \code{NULL} when the file contains no R chunks.
 #'
@@ -281,8 +278,7 @@ lintRmdDeps <- function(rmd_path, verbose = FALSE) {
     cat(sprintf("  known symbols: %d\n", length(known)))
   }
 
-  issues <- data.frame(func = character(0L), line = integer(0L),
-                       stringsAsFactors = FALSE)
+  issues <- data.table::data.table(func = character(0L), line = integer(0L))
   for (ch in chunks) {
     calls <- .findUnqualifiedCalls(ch$code)
     if (NROW(calls) == 0L) next
