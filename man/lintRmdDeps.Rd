@@ -39,3 +39,4 @@ lintRmdDeps("inst/report_templates/3-analysis.Rmd", verbose = TRUE)
 }
 
 }
+\keyword{linter}

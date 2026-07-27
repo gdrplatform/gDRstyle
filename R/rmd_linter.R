@@ -234,6 +234,7 @@
 #' lintRmdDeps("inst/report_templates/3-analysis.Rmd", verbose = TRUE)
 #' }
 #'
+#' @keywords linter
 #' @export
 lintRmdDeps <- function(rmd_path, verbose = FALSE) {
   checkmate::assert_file_exists(rmd_path, extension = "Rmd")
