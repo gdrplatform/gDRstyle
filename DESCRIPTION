@@ -25,6 +25,7 @@ Imports:
     BiocManager,
     BiocStyle,
     checkmate,
+    data.table,
     desc,
     git2r,
     lintr (>= 3.2.0),

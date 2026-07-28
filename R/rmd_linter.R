@@ -235,6 +235,8 @@
 #' }
 #'
 #' @keywords linter
+#' @importFrom data.table data.table rbindlist
+#' @importFrom utils getParseData
 #' @export
 lintRmdDeps <- function(rmd_path, verbose = FALSE) {
   checkmate::assert_file_exists(rmd_path, extension = "Rmd")
