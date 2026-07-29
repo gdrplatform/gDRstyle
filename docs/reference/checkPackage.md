@@ -90,14 +90,14 @@ checkPackage(
   fail_on = "error"
 )
 #> Lint
-#> ##------ Thu Jun 18 06:09:39 2026 ------##
-#> Linting file: /tmp/RtmpcjFZmf/temp_libpath1d7d296a93d5/gDRstyle/tst_pkgs/dummy_pkg/R/test.R
-#> Linting file: /tmp/RtmpcjFZmf/temp_libpath1d7d296a93d5/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat.R
-#> Linting file: /tmp/RtmpcjFZmf/temp_libpath1d7d296a93d5/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat/test-pkg.R
+#> ##------ Wed Jul 29 09:12:07 2026 ------##
+#> Linting file: /tmp/RtmpVW76rT/temp_libpath1cd539c07085/gDRstyle/tst_pkgs/dummy_pkg/R/test.R
+#> Linting file: /tmp/RtmpVW76rT/temp_libpath1cd539c07085/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat.R
+#> Linting file: /tmp/RtmpVW76rT/temp_libpath1cd539c07085/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat/test-pkg.R
 #> All files OK!
 #> NEWS.md OK!
 #> Tests
-#> ##------ Thu Jun 18 06:09:39 2026 ------##
+#> ##------ Wed Jul 29 09:12:07 2026 ------##
 #> ✔ | F W  S  OK | Context
 #> 
 #> ⠏ |          0 | pkg                                                            
@@ -121,7 +121,7 @@ checkPackage(
 #> Reading man/tstCharLimitLintr.Rd
 #> Writing `reference/tstCharLimitLintr.html`
 #> Check
-#> ##------ Thu Jun 18 06:09:40 2026 ------##
+#> ##------ Wed Jul 29 09:12:08 2026 ------##
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
 #> pdflatex not found! Not building PDF manual.
 #> * checking for file ‘.../DESCRIPTION’ ... OK
@@ -133,15 +133,15 @@ checkPackage(
 #> * building ‘fakePkg_1.0.tar.gz’
 #> 
 #> ── R CMD check ─────────────────────────────────────────────────────────────────
-#> * using log directory ‘/tmp/RtmpcjFZmf/file1d7d631e6909/fakePkg.Rcheck’
-#> * using R version 4.6.0 (2026-04-24)
+#> * using log directory ‘/tmp/RtmpVW76rT/file1cd526a74e42/fakePkg.Rcheck’
+#> * using R version 4.6.1 (2026-06-24)
 #> * using platform: x86_64-pc-linux-gnu
 #> * R was compiled by
 #>     gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
 #>     GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
 #> * running under: Ubuntu 24.04.4 LTS
 #> * using session charset: UTF-8
-#> * current time: 2026-06-18 06:09:41 UTC
+#> * current time: 2026-07-29 09:12:09 UTC
 #> * using options ‘--no-tests --no-manual’
 #> * checking for file ‘fakePkg/DESCRIPTION’ ... OK
 #> * checking extension type ... Package
@@ -194,8 +194,8 @@ checkPackage(
 #> 
 #> Status: 1 NOTE
 #> See
-#>   ‘/tmp/RtmpcjFZmf/file1d7d631e6909/fakePkg.Rcheck/00check.log’
+#>   ‘/tmp/RtmpVW76rT/file1cd526a74e42/fakePkg.Rcheck/00check.log’
 #> for details.
 #> Finished
-#> ##------ Thu Jun 18 06:09:48 2026 ------##
+#> ##------ Wed Jul 29 09:12:17 2026 ------##
 ```

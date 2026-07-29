@@ -31,5 +31,7 @@ Linter helpers
   : Lint NEWS.md entries for style and brevity
 - [`lintPkgDirs()`](https://gdrplatform.github.io/gDRstyle/reference/lintPkgDirs.md)
   : Lint select subdirectories in a package directory.
+- [`lintRmdDeps()`](https://gdrplatform.github.io/gDRstyle/reference/lintRmdDeps.md)
+  : Check an Rmd file for unresolved function calls
 - [`roxygen_tag_linter()`](https://gdrplatform.github.io/gDRstyle/reference/roxygen_tag_linter.md)
   : roxygen_tag_linter
