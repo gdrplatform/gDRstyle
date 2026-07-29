@@ -1,3 +1,6 @@
+## gDRstyle 1.11.6 - 2026-07-22
+* add lintRmdDeps() — static check for unresolved function calls in Rmd templates
+
 ## gDRstyle 1.11.5 - 2026-06-17
 * allow License NOTE for packages with file LICENSE
 
@@ -188,3 +191,4 @@
 
 ## gDRstyle 0.1.3.9 - 2023-01-05
 * the note test is stricter
+

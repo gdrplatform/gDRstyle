@@ -1,8 +1,8 @@
 Package: gDRstyle
 Type: Package
 Title: A package with style requirements for the gDR suite 
-Version: 1.11.5
-Date: 2026-06-17
+Version: 1.11.6
+Date: 2026-07-22
 Authors@R: c(
     person("Allison", "Vuong", role=c("aut")),
     person("Dariusz", "Scigocki", role=c("aut")),
@@ -25,6 +25,7 @@ Imports:
     BiocManager,
     BiocStyle,
     checkmate,
+    data.table,
     desc,
     git2r,
     lintr (>= 3.2.0),
