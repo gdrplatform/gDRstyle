@@ -1,21 +1,6 @@
-## gDRstyle 1.11.10 - 2026-08-17
-* add lintBranchName to require branches to be named after the Jira ticket only
-* check the source branch name on merge requests via lintMergeRequest
-
-## gDRstyle 1.11.9 - 2026-08-17
-* add lintVersionConsistency to keep NEWS.md and DESCRIPTION versions in sync
-* add assertVersionBumped to require a version bump on GitLab merge requests
-* add internal_docs_linter to flag helpers missing @noRd or @keywords internal
-
-## gDRstyle 1.11.8 - 2026-08-17
-* add ticket_ref_linter to flag Jira ticket references left in the source
-* add lintTicketRefs to reject ticket references in NEWS.md and DESCRIPTION
-* add lintMergeRequest to gate merge request titles and templates on GitLab
-
 ## gDRstyle 1.11.7 - 2026-08-17
-* add consecutive_spaces_linter and enable commas_linter for stricter spacing checks
-* add contribution linters for commit messages, PR titles and PR templates
-* enforce contribution linters in the reusable PR check workflow
+* add contribution linters for commit messages, PR titles, branch names and MR templates
+* add whitespace, ticket-reference, version-consistency and internal-docs style checks
 
 ## gDRstyle 1.11.6 - 2026-07-22
 * add lintRmdDeps() — static check for unresolved function calls in Rmd templates
