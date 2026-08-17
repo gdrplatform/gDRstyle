@@ -66,6 +66,80 @@ roxygen_tag_linter <- function(tag = "@author") {
   fun
 }
 
+#' consecutive_spaces_linter
+#'
+#' Flag runs of two or more internal spaces, e.g. alignment padding before
+#' \code{<-}/\code{=} (\code{x   <- 1}) or extra spaces after a comma
+#' (\code{f(a,  b)}). Leading indentation, trailing whitespace, and spaces
+#' inside string literals or comments (including alignment before an
+#' end-of-line comment) are ignored.
+#'
+#' @author Bartosz Czech <bartosz.czech@contractors.roche.com>
+#'
+#' @examples
+#' linters_config <- lintr::linters_with_defaults(
+#'   consecutive_spaces_linter = consecutive_spaces_linter()
+#' )
+#'
+#' @return linter class function
+#' @keywords linter
+#' @export
+consecutive_spaces_linter <- function() {
+  lintr::Linter(linter_level = "file", function(source_expression) {
+    lines <- source_expression$file_lines
+    pc <- source_expression$full_parsed_content
+    prot <- pc[pc$token %in% c("STR_CONST", "COMMENT"), , drop = FALSE]
+
+    lints <- lapply(seq_along(lines), function(i) {
+      ln <- suppressWarnings(as.integer(names(lines)[i]))
+      if (is.na(ln)) {
+        ln <- i
+      }
+      line <- lines[[i]]
+
+      m <- gregexpr("(?<=\\S) {2,}(?=\\S)", line, perl = TRUE)[[1]]
+      if (m[[1]] == -1L) {
+        return(list())
+      }
+      starts <- as.integer(m)
+      ends <- starts + attr(m, "match.length") - 1L
+
+      tok <- prot[prot$line1 <= ln & prot$line2 >= ln, , drop = FALSE]
+      ivl <- lapply(seq_len(NROW(tok)), function(k) {
+        s <- if (tok$line1[k] == ln) tok$col1[k] else 1L
+        e <- if (tok$line2[k] == ln) tok$col2[k] else nchar(line)
+        if (tok$token[k] == "COMMENT") {
+          # extend protection leftward over spaces aligning a trailing comment
+          j <- s - 1L
+          while (j >= 1L && substr(line, j, j) == " ") {
+            j <- j - 1L
+          }
+          s <- j + 1L
+        }
+        c(s, e)
+      })
+
+      keep <- vapply(seq_along(starts), function(j) {
+        !any(vapply(ivl, function(v) starts[j] <= v[2] && ends[j] >= v[1],
+                    logical(1)))
+      }, logical(1))
+
+      lapply(which(keep), function(j) {
+        lintr::Lint(
+          filename = source_expression$filename,
+          line_number = ln,
+          column_number = starts[j],
+          type = "style",
+          message = "Remove consecutive spaces; use a single space.",
+          line = line,
+          ranges = list(c(starts[j], ends[j]))
+        )
+      })
+    })
+    unlist(lints, recursive = FALSE)
+  })
+}
+
 #' @keywords internal
 #' @noRd
 skip_lines_withou_prefix <- function(flines) {

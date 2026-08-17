@@ -1,3 +1,8 @@
+## gDRstyle 1.11.7 - 2026-08-17
+* add consecutive_spaces_linter and enable commas_linter for stricter spacing checks
+* add contribution linters for commit messages, PR titles and PR templates
+* enforce contribution linters in the reusable PR check workflow
+
 ## gDRstyle 1.11.6 - 2026-07-22
 * add lintRmdDeps() — static check for unresolved function calls in Rmd templates
 

@@ -31,6 +31,8 @@ gDR_undesirable_functions <-
 #' @noRd
 linters_config <-
   lintr::linters_with_defaults(
+    commas_linter = lintr::commas_linter(),
+    consecutive_spaces_linter = consecutive_spaces_linter(),
     expect_true_false_linter = lintr::expect_true_false_linter(),
     indentation_linter = NULL,
     length_test_linter = lintr::length_test_linter(),
