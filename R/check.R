@@ -235,6 +235,7 @@ checkPackage <- function(pkgName,
     gDRstyle::lintPkgDirs(pkgDir, shiny = with_shiny)
     gDRstyle::lintNewsEntries(pkgDir)
     gDRstyle::lintTicketRefs(pkgDir)
+    gDRstyle::lintVersionConsistency(pkgDir)
   } else {
     message("Lint skipped")
   }

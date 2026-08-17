@@ -94,3 +94,35 @@ test_that("lintNewsEntries skips missing NEWS.md with message", {
   pkg_dir <- withr::local_tempdir()
   expect_message(lintNewsEntries(pkg_dir), "No NEWS.md")
 })
+
+make_pkg <- function(dir, version, date, header) {
+  writeLines(c("Package: fakePkg", paste("Version:", version),
+               paste("Date:", date)), file.path(dir, "DESCRIPTION"))
+  writeLines(c(header, "", "* add initial implementation"),
+             file.path(dir, "NEWS.md"))
+}
+
+test_that("lintVersionConsistency passes when NEWS matches DESCRIPTION", {
+  dir <- withr::local_tempdir()
+  make_pkg(dir, "1.2.3", "2026-01-02", "## fakePkg 1.2.3 - 2026-01-02")
+  expect_message(lintVersionConsistency(dir), "OK")
+})
+
+test_that("lintVersionConsistency stops on a version mismatch", {
+  dir <- withr::local_tempdir()
+  make_pkg(dir, "1.2.3", "2026-01-02", "## fakePkg 1.2.4 - 2026-01-02")
+  expect_error(lintVersionConsistency(dir), "violations")
+})
+
+test_that("lintVersionConsistency stops on a date mismatch", {
+  dir <- withr::local_tempdir()
+  make_pkg(dir, "1.2.3", "2026-01-02", "## fakePkg 1.2.3 - 2026-01-09")
+  expect_error(lintVersionConsistency(dir), "violations")
+})
+
+test_that("lintVersionConsistency skips a package without NEWS.md", {
+  dir <- withr::local_tempdir()
+  writeLines(c("Package: fakePkg", "Version: 1.0.0"),
+             file.path(dir, "DESCRIPTION"))
+  expect_message(lintVersionConsistency(dir), "OK")
+})

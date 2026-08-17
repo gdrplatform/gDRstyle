@@ -193,6 +193,66 @@ ticket_ref_linter <- function() {
   })
 }
 
+#' internal_docs_linter
+#'
+#' Flag a documented function whose Roxygen block does not declare its
+#' visibility. Every function with a \code{#'} block must carry \code{@export},
+#' \code{@noRd}, or \code{@keywords internal}, so internal helpers do not leak
+#' into \code{NAMESPACE} or the pkgdown reference. Undocumented functions
+#' (including inline/anonymous ones) are ignored.
+#'
+#' @author Bartosz Czech <bartosz.czech@contractors.roche.com>
+#'
+#' @examples
+#' linters_config <- lintr::linters_with_defaults(
+#'   internal_docs_linter = internal_docs_linter()
+#' )
+#'
+#' @return linter class function
+#' @keywords linter
+#' @export
+internal_docs_linter <- function() {
+  lintr::Linter(function(source_file) {
+    lapply(
+      lintr::ids_with_token(source_file, "FUNCTION"),
+      function(id) {
+        parsed <- lintr::with_id(source_file, id)
+        above <- rev(
+          readLines(source_file$filename)[seq_len(parsed$line1 - 1L)]
+        )
+        block <- character(0L)
+        for (l in above) {
+          if (grepl("^\\s*#'", l)) {
+            block <- c(block, l)
+          } else {
+            break
+          }
+        }
+        # no Roxygen block -> inline/undocumented function, skip
+        if (length(block) == 0L) {
+          return()
+        }
+        doc <- paste(block, collapse = "\n")
+        has_marker <- grepl("@export", doc) ||
+          grepl("@noRd", doc) ||
+          grepl("@keywords[[:space:]]+internal", doc)
+        if (!has_marker) {
+          lintr::Lint(
+            filename = source_file$filename,
+            line_number = parsed$line1,
+            column_number = parsed$col1,
+            type = "style",
+            message = paste(
+              "Documented function must declare @export, @noRd,",
+              "or @keywords internal."
+            ),
+            line = source_file$lines[as.character(parsed$line1)]
+          )
+        }
+      })
+  })
+}
+
 #' @keywords internal
 #' @noRd
 skip_lines_withou_prefix <- function(flines) {

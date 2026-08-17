@@ -35,6 +35,7 @@ linters_config <-
     consecutive_spaces_linter = consecutive_spaces_linter(),
     expect_true_false_linter = lintr::expect_true_false_linter(),
     indentation_linter = NULL,
+    internal_docs_linter = internal_docs_linter(),
     length_test_linter = lintr::length_test_linter(),
     line_length_linter = lintr::line_length_linter(120),
     object_name_linter = NULL,

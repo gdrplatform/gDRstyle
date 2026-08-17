@@ -169,6 +169,36 @@ lintTicketRefs <- function(pkg_dir = ".") {
   .stop_on_violations(violations, "Ticket reference violations")
 }
 
+#' Assert that a package version was bumped
+#'
+#' Compares the incoming \code{DESCRIPTION} \code{Version} against the version on
+#' the target branch and stops unless it strictly increased. Intended for CI on
+#' merge/pull requests, giving GitLab the version-bump guarantee that the GitHub
+#' \code{auto-changelog} workflow provides.
+#'
+#' @param old_version character(1) version on the target branch.
+#' @param new_version character(1) version proposed by the merge/pull request.
+#'
+#' @return \code{NULL} invisibly if the version increased. Stops with an error
+#'   otherwise.
+#'
+#' @examples
+#' assertVersionBumped("1.0.0", "1.0.1")
+#'
+#' @keywords linter
+#' @export
+assertVersionBumped <- function(old_version, new_version) {
+  checkmate::assert_string(old_version)
+  checkmate::assert_string(new_version)
+  if (package_version(new_version) <= package_version(old_version)) {
+    stop(sprintf(
+      "DESCRIPTION Version must be bumped: '%s' is not greater than '%s'.",
+      new_version, old_version))
+  }
+  message("Version bump: OK!")
+  invisible(NULL)
+}
+
 #' Lint a merge/pull request title and body
 #'
 #' Convenience wrapper for CI: checks the title for ticket references and, when

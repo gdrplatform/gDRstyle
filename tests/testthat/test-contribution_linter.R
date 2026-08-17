@@ -98,3 +98,12 @@ test_that("lintMergeRequest enforces the template when present", {
   expect_error(lintMergeRequest("feat: add linter", "", dir), "violations")
 })
 # nolint end
+
+test_that("assertVersionBumped passes on a higher version", {
+  expect_message(assertVersionBumped("1.0.0", "1.0.1"), "OK")
+})
+
+test_that("assertVersionBumped stops on an equal or lower version", {
+  expect_error(assertVersionBumped("1.0.1", "1.0.1"), "bumped")
+  expect_error(assertVersionBumped("1.0.1", "1.0.0"), "bumped")
+})

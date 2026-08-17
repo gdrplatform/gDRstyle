@@ -1,3 +1,8 @@
+## gDRstyle 1.11.9 - 2026-08-17
+* add lintVersionConsistency to keep NEWS.md and DESCRIPTION versions in sync
+* add assertVersionBumped to require a version bump on GitLab merge requests
+* add internal_docs_linter to flag helpers missing @noRd or @keywords internal
+
 ## gDRstyle 1.11.8 - 2026-08-17
 * add ticket_ref_linter to flag Jira ticket references left in the source
 * add lintTicketRefs to reject ticket references in NEWS.md and DESCRIPTION

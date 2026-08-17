@@ -1,7 +1,7 @@
 Package: fakePkg
 Type: Package
 Title: Pkg with good style
-Version: 1.0
+Version: 1.0.0
 Date: 2019-12-17
 Author: Test test
 Maintainer: Who to complain to <yourfault@somewhere.net>
