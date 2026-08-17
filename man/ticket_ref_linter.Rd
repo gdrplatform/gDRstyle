@@ -12,7 +12,9 @@ linter class function
 \description{
 Flag Jira ticket references such as \code{GDR-<id>} left in the source
 (in code, comments, or strings). The ticket ID belongs in the branch name
-only, never in the committed source.
+only, never in the committed source. A reference inside a \code{TODO} or
+\code{FIXME} comment is allowed, since it legitimately links deferred work
+to the ticket that tracks it.
 }
 \examples{
 linters_config <- lintr::linters_with_defaults(

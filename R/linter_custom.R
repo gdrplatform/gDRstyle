@@ -144,7 +144,9 @@ consecutive_spaces_linter <- function() {
 #'
 #' Flag Jira ticket references such as \code{GDR-<id>} left in the source
 #' (in code, comments, or strings). The ticket ID belongs in the branch name
-#' only, never in the committed source.
+#' only, never in the committed source. A reference inside a \code{TODO} or
+#' \code{FIXME} comment is allowed, since it legitimately links deferred work
+#' to the ticket that tracks it.
 #'
 #' @author Bartosz Czech <bartosz.czech@contractors.roche.com>
 #'
@@ -159,6 +161,10 @@ consecutive_spaces_linter <- function() {
 ticket_ref_linter <- function() {
   lintr::Linter(linter_level = "file", function(source_expression) {
     lines <- source_expression$file_lines
+    pc <- source_expression$full_parsed_content
+    todo <- pc[pc$token == "COMMENT" &
+                 grepl("\\b(TODO|FIXME)\\b", pc$text, ignore.case = TRUE), ,
+               drop = FALSE]
 
     lints <- lapply(seq_along(lines), function(i) {
       ln <- suppressWarnings(as.integer(names(lines)[i]))
@@ -173,6 +179,18 @@ ticket_ref_linter <- function() {
       }
       starts <- as.integer(m)
       ends <- starts + attr(m, "match.length") - 1L
+
+      # allow refs that sit inside a TODO/FIXME comment on this line
+      tok <- todo[todo$line1 <= ln & todo$line2 >= ln, , drop = FALSE]
+      allowed <- vapply(seq_along(starts), function(j) {
+        any(vapply(seq_len(NROW(tok)), function(k)
+          starts[j] >= tok$col1[k] && ends[j] <= tok$col2[k], logical(1)))
+      }, logical(1))
+      starts <- starts[!allowed]
+      ends <- ends[!allowed]
+      if (length(starts) == 0L) {
+        return(list())
+      }
 
       lapply(seq_along(starts), function(j) {
         lintr::Lint(
