@@ -114,6 +114,36 @@ lintPrTitle <- function(title) {
   .stop_on_violations(violations, "PR title lint violations")
 }
 
+#' Lint a branch name
+#'
+#' Feature branches must be named after the Jira ticket only, e.g.
+#' \code{GDR-NNNN}, with no trailing description. Protected branches
+#' (\code{main}, \code{master}, \code{devel}) are exempt.
+#'
+#' @param branch character(1) branch name.
+#'
+#' @return \code{NULL} invisibly if the name is valid. Stops with an error
+#'   otherwise.
+#'
+#' @examples
+#' lintBranchName("GDR-1234") # nolint: ticket_ref_linter.
+#'
+#' @keywords linter
+#' @export
+lintBranchName <- function(branch) {
+  checkmate::assert_string(branch)
+  if (branch %in% c("main", "master", "devel")) {
+    message("Branch name: OK!")
+    return(invisible(NULL))
+  }
+  violations <- list()
+  if (!grepl("^GDR-[0-9]+$", branch)) {
+    violations <- list(list(msg = sprintf(
+      "Branch '%s' must be the Jira ticket ID only, e.g. 'GDR-NNNN'.", branch)))
+  }
+  .stop_on_violations(violations, "Branch name lint violations")
+}
+
 #' Check a PR body against the gDR PR template
 #'
 #' Verifies that the PR body contains every section header from the
@@ -210,6 +240,8 @@ assertVersionBumped <- function(old_version, new_version) {
 #' @param body character(1) merge/pull request description.
 #' @param pkg_dir character(1) path to the repository root used to locate the
 #'   PR/MR template. Defaults to the current directory.
+#' @param branch character(1) source branch name, or \code{NULL} to skip the
+#'   branch-name check. Defaults to \code{NULL}.
 #'
 #' @return \code{NULL} invisibly if no violations are found. Stops with an
 #'   error otherwise.
@@ -219,11 +251,15 @@ assertVersionBumped <- function(old_version, new_version) {
 #'
 #' @keywords linter
 #' @export
-lintMergeRequest <- function(title, body, pkg_dir = ".") {
+lintMergeRequest <- function(title, body, pkg_dir = ".", branch = NULL) {
   checkmate::assert_string(title)
   checkmate::assert_string(body)
   checkmate::assert_directory_exists(pkg_dir)
+  checkmate::assert_string(branch, null.ok = TRUE)
   lintPrTitle(title)
+  if (!is.null(branch)) {
+    lintBranchName(branch)
+  }
   tmpl <- .find_pr_template(pkg_dir)
   if (is.null(tmpl)) {
     message("PR template check skipped: no template found in ", pkg_dir)

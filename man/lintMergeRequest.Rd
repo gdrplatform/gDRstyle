@@ -4,7 +4,7 @@
 \alias{lintMergeRequest}
 \title{Lint a merge/pull request title and body}
 \usage{
-lintMergeRequest(title, body, pkg_dir = ".")
+lintMergeRequest(title, body, pkg_dir = ".", branch = NULL)
 }
 \arguments{
 \item{title}{character(1) merge/pull request title.}
@@ -13,6 +13,9 @@ lintMergeRequest(title, body, pkg_dir = ".")
 
 \item{pkg_dir}{character(1) path to the repository root used to locate the
 PR/MR template. Defaults to the current directory.}
+
+\item{branch}{character(1) source branch name, or \code{NULL} to skip the
+branch-name check. Defaults to \code{NULL}.}
 }
 \value{
 \code{NULL} invisibly if no violations are found. Stops with an

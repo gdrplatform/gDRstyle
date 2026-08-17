@@ -79,6 +79,29 @@ test_that("lintTicketRefs stops on a ticket reference in NEWS.md", {
   expect_error(lintTicketRefs(dir), "violations")
 })
 
+test_that("lintBranchName passes a bare ticket branch", {
+  expect_message(lintBranchName("GDR-3455"), "OK")
+})
+
+test_that("lintBranchName exempts protected branches", {
+  expect_message(lintBranchName("main"), "OK")
+  expect_message(lintBranchName("devel"), "OK")
+})
+
+test_that("lintBranchName stops on a ticket branch with a suffix", {
+  expect_error(lintBranchName("GDR-3491-incucyte-report"), "violations")
+})
+
+test_that("lintBranchName stops on a branch with no ticket", {
+  expect_error(lintBranchName("feature/new-linter"), "violations")
+})
+
+test_that("lintMergeRequest checks the branch when provided", {
+  dir <- withr::local_tempdir()
+  expect_error(lintMergeRequest("feat: add linter", "body", dir, "GDR-9-extra"),
+               "violations")
+})
+
 test_that("lintMergeRequest stops on a ticket in the title", {
   expect_error(lintMergeRequest("feat: add linter GDR-9", "body", tempdir()),
                "violations")

@@ -1,3 +1,7 @@
+## gDRstyle 1.11.10 - 2026-08-17
+* add lintBranchName to require branches to be named after the Jira ticket only
+* check the source branch name on merge requests via lintMergeRequest
+
 ## gDRstyle 1.11.9 - 2026-08-17
 * add lintVersionConsistency to keep NEWS.md and DESCRIPTION versions in sync
 * add assertVersionBumped to require a version bump on GitLab merge requests
