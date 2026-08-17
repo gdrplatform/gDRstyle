@@ -1,3 +1,4 @@
+# nolint start: ticket_ref_linter.
 test_that(".check_ticket_refs flags parenthesized reference", {
   vs <- .check_ticket_refs("fix: bug (GDR-1234)", "\\(GDR-[0-9]+\\)", "commit message")
   expect_length(vs, 1L)
@@ -53,3 +54,47 @@ test_that("checkPrTemplate passes a filled body", {
     checkPrTemplate("# Description\n## What changed?\ndetails", tmpl), "OK"
   )
 })
+
+test_that(".check_file_ticket_refs flags references in a file", {
+  f <- withr::local_tempfile(fileext = ".md")
+  writeLines(c("## pkg 1.0.0 - 2026-01-01", "* fix bug from GDR-1234"), f)
+  vs <- .check_file_ticket_refs(f)
+  expect_length(vs, 1L)
+})
+
+test_that(".check_file_ticket_refs returns nothing for a missing file", {
+  expect_length(.check_file_ticket_refs(withr::local_tempfile()), 0L)
+})
+
+test_that("lintTicketRefs passes a clean package", {
+  dir <- system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg")
+  expect_message(lintTicketRefs(dir), "OK")
+})
+
+test_that("lintTicketRefs stops on a ticket reference in NEWS.md", {
+  dir <- withr::local_tempdir()
+  writeLines("Version: 1.0.0", file.path(dir, "DESCRIPTION"))
+  writeLines(c("## pkg 1.0.0 - 2026-01-01", "* add feature GDR-9"),
+             file.path(dir, "NEWS.md"))
+  expect_error(lintTicketRefs(dir), "violations")
+})
+
+test_that("lintMergeRequest stops on a ticket in the title", {
+  expect_error(lintMergeRequest("feat: add linter GDR-9", "body", tempdir()),
+               "violations")
+})
+
+test_that("lintMergeRequest skips template check when none is present", {
+  dir <- withr::local_tempdir()
+  expect_message(lintMergeRequest("feat: add linter", "body", dir), "skipped")
+})
+
+test_that("lintMergeRequest enforces the template when present", {
+  dir <- withr::local_tempdir()
+  gh <- file.path(dir, ".github")
+  dir.create(gh)
+  writeLines(c("# Description", "## What changed?"),
+             file.path(gh, "PULL_REQUEST_TEMPLATE.md"))
+  expect_error(lintMergeRequest("feat: add linter", "", dir), "violations")
+})
+# nolint end

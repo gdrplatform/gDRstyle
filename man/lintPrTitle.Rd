@@ -15,7 +15,7 @@ error otherwise.
 }
 \description{
 The ticket ID belongs in the branch name only. The PR title must not
-carry any reference such as \code{GDR-1234} or \code{(GDR-1234)}.
+carry any reference such as \code{GDR-<id>} or \code{(GDR-<id>)}.
 }
 \examples{
 lintPrTitle("feat: add contribution linter")

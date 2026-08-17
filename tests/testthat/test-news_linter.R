@@ -30,7 +30,7 @@ test_that(".check_bullet flags 'has been' passive voice", {
 })
 
 test_that(".check_bullet flags Jira ticket reference", {
-  vs <- .check_bullet("Fix parsing bug GDR-1234", 1L, 120L)
+  vs <- .check_bullet("Fix parsing bug GDR-1234", 1L, 120L) # nolint: ticket_ref_linter.
   expect_true(any(grepl("Jira ticket", vapply(vs, `[[`, "", "msg"))))
 })
 

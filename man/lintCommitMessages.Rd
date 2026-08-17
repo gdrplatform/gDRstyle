@@ -15,7 +15,7 @@ error listing all violations otherwise.
 }
 \description{
 The ticket ID belongs in the branch name only. Commit messages must not
-carry a parenthesized reference such as \code{(GDR-1234)}.
+carry a parenthesized reference such as \code{(GDR-<id>)}.
 }
 \examples{
 lintCommitMessages("fix: correct edge case in parser")

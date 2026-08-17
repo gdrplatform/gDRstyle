@@ -1,3 +1,8 @@
+## gDRstyle 1.11.8 - 2026-08-17
+* add ticket_ref_linter to flag Jira ticket references left in the source
+* add lintTicketRefs to reject ticket references in NEWS.md and DESCRIPTION
+* add lintMergeRequest to gate merge request titles and templates on GitLab
+
 ## gDRstyle 1.11.7 - 2026-08-17
 * add consecutive_spaces_linter and enable commas_linter for stricter spacing checks
 * add contribution linters for commit messages, PR titles and PR templates

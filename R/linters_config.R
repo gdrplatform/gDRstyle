@@ -42,6 +42,7 @@ linters_config <-
     object_usage_linter = NULL,
     paste_linter = lintr::paste_linter(),
     return_linter = NULL,
+    ticket_ref_linter = ticket_ref_linter(),
     undesirable_function_linter = lintr::undesirable_function_linter(fun = gDR_undesirable_functions),
     undesirable_operator_linter = lintr::undesirable_operator_linter(op = gDR_undesirable_operators),
     yoda_test_linter = lintr::yoda_test_linter()

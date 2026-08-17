@@ -140,6 +140,59 @@ consecutive_spaces_linter <- function() {
   })
 }
 
+#' ticket_ref_linter
+#'
+#' Flag Jira ticket references such as \code{GDR-<id>} left in the source
+#' (in code, comments, or strings). The ticket ID belongs in the branch name
+#' only, never in the committed source.
+#'
+#' @author Bartosz Czech <bartosz.czech@contractors.roche.com>
+#'
+#' @examples
+#' linters_config <- lintr::linters_with_defaults(
+#'   ticket_ref_linter = ticket_ref_linter()
+#' )
+#'
+#' @return linter class function
+#' @keywords linter
+#' @export
+ticket_ref_linter <- function() {
+  lintr::Linter(linter_level = "file", function(source_expression) {
+    lines <- source_expression$file_lines
+
+    lints <- lapply(seq_along(lines), function(i) {
+      ln <- suppressWarnings(as.integer(names(lines)[i]))
+      if (is.na(ln)) {
+        ln <- i
+      }
+      line <- lines[[i]]
+
+      m <- gregexpr("GDR-[0-9]+", line, perl = TRUE)[[1]]
+      if (m[[1]] == -1L) {
+        return(list())
+      }
+      starts <- as.integer(m)
+      ends <- starts + attr(m, "match.length") - 1L
+
+      lapply(seq_along(starts), function(j) {
+        lintr::Lint(
+          filename = source_expression$filename,
+          line_number = ln,
+          column_number = starts[j],
+          type = "style",
+          message = sprintf(
+            "Remove Jira ticket reference '%s'; keep the ticket ID in the branch name only.",
+            substr(line, starts[j], ends[j])
+          ),
+          line = line,
+          ranges = list(c(starts[j], ends[j]))
+        )
+      })
+    })
+    unlist(lints, recursive = FALSE)
+  })
+}
+
 #' @keywords internal
 #' @noRd
 skip_lines_withou_prefix <- function(flines) {

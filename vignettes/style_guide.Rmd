@@ -200,7 +200,9 @@ Any changes in code should be accompanied by a bumped `MINOR` version regardless
 4. Keep the Jira ticket ID in the branch name only.
   * Commit messages must not carry a parenthesized reference such as `(GDR-1234)`.
   * PR titles must not carry any reference such as `GDR-1234`.
+  * The ticket ID must not appear in the source code, `NEWS.md`, or `DESCRIPTION`; these are checked by `ticket_ref_linter` and `lintTicketRefs`.
 5. Fill in the gDR PR template (`.github/PULL_REQUEST_TEMPLATE.md`); its section headers must stay in the PR body.
+  * On GitLab, the same title and template checks run on merge requests via `lintMergeRequest`.
 
 # SessionInfo {-}
 

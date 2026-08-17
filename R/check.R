@@ -234,6 +234,7 @@ checkPackage <- function(pkgName,
     with_shiny <- file.exists(file.path(pkgDir, "inst", "shiny"))
     gDRstyle::lintPkgDirs(pkgDir, shiny = with_shiny)
     gDRstyle::lintNewsEntries(pkgDir)
+    gDRstyle::lintTicketRefs(pkgDir)
   } else {
     message("Lint skipped")
   }
