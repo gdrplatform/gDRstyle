@@ -13,10 +13,12 @@
   violations <- list()
   for (i in seq_along(strings)) {
     if (grepl(pattern, strings[[i]], perl = TRUE)) {
+      hit <- regmatches(strings[[i]],
+                        regexpr(pattern, strings[[i]], perl = TRUE))
       violations <- c(violations, list(list(
         index = i,
-        msg = sprintf("%s contains a Jira ticket reference: '%s'",
-                      label, sub("\n.*$", "", strings[[i]]))
+        msg = sprintf("%s contains a Jira ticket reference (%s): '%s'",
+                      label, hit, sub("\n.*$", "", strings[[i]]))
       )))
     }
   }
@@ -26,7 +28,8 @@
 #' @keywords internal
 .extract_template_headers <- function(template_path) {
   lines <- readLines(template_path, warn = FALSE)
-  trimws(grep("^#{1,2} ", lines, value = TRUE), which = "right")
+  hdrs <- trimws(grep("^#{1,2} ", lines, value = TRUE), which = "right")
+  hdrs[!grepl("\\(optional\\)", hdrs, ignore.case = TRUE)]
 }
 
 #' @keywords internal
@@ -49,7 +52,7 @@
     return(list())
   }
   lines <- readLines(path, warn = FALSE)
-  hits <- grep("GDR-[0-9]+", lines, perl = TRUE)
+  hits <- grep("(?i)GDR-[0-9]+", lines, perl = TRUE)
   lapply(hits, function(i) {
     list(msg = sprintf("%s:%d contains a Jira ticket reference: '%s'",
                        basename(path), i, trimws(lines[[i]])))
@@ -89,7 +92,7 @@
 #' @export
 lintCommitMessages <- function(messages) {
   checkmate::assert_character(messages, any.missing = FALSE)
-  violations <- .check_ticket_refs(messages, "\\(GDR-[0-9]+\\)", "commit message")
+  violations <- .check_ticket_refs(messages, "(?i)\\(GDR-[0-9]+\\)", "commit message")
   .stop_on_violations(violations, "Commit message lint violations")
 }
 
@@ -110,17 +113,23 @@ lintCommitMessages <- function(messages) {
 #' @export
 lintPrTitle <- function(title) {
   checkmate::assert_string(title)
-  violations <- .check_ticket_refs(title, "GDR-[0-9]+", "PR title")
+  violations <- .check_ticket_refs(title, "(?i)GDR-[0-9]+", "PR title")
   .stop_on_violations(violations, "PR title lint violations")
 }
 
 #' Lint a branch name
 #'
 #' Feature branches must be named after the Jira ticket only, e.g.
-#' \code{GDR-NNNN}, with no trailing description. Protected branches
-#' (\code{main}, \code{master}, \code{devel}) are exempt.
+#' \code{GDR-NNNN}, with no trailing description. Branches matching
+#' \code{exempt} (protected and Bioconductor release branches by default) are
+#' skipped, so long-lived branches created before this rule are not blocked.
 #'
 #' @param branch character(1) branch name.
+#' @param pattern character(1) regular expression a feature branch name must
+#'   match. Defaults to \code{"^GDR-[0-9]+$"}.
+#' @param exempt character(1) regular expression for branch names that are
+#'   skipped entirely. Defaults to \code{main}, \code{master}, \code{devel} and
+#'   \code{RELEASE_<x>_<y>} Bioconductor branches.
 #'
 #' @return \code{NULL} invisibly if the name is valid. Stops with an error
 #'   otherwise.
@@ -130,14 +139,18 @@ lintPrTitle <- function(title) {
 #'
 #' @keywords linter
 #' @export
-lintBranchName <- function(branch) {
+lintBranchName <- function(branch,
+                           pattern = "^GDR-[0-9]+$",
+                           exempt = "^(main|master|devel|RELEASE_[0-9]+_[0-9]+)$") {
   checkmate::assert_string(branch)
-  if (branch %in% c("main", "master", "devel")) {
+  checkmate::assert_string(pattern)
+  checkmate::assert_string(exempt)
+  if (grepl(exempt, branch)) {
     message("Branch name: OK!")
     return(invisible(NULL))
   }
   violations <- list()
-  if (!grepl("^GDR-[0-9]+$", branch)) {
+  if (!grepl(pattern, branch)) {
     violations <- list(list(msg = sprintf(
       "Branch '%s' must be the Jira ticket ID only, e.g. 'GDR-NNNN'.", branch)))
   }

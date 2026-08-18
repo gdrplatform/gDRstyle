@@ -11,13 +11,13 @@ jobs:
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
         run: |
-          PATTERN='^(feat|fix|refactor|docs|test|chore|ci|perf|build|revert)(\([^)]+\))?: .+'
+          PATTERN='^(feat|fix|refactor|docs|style|test|chore|ci|perf|build|revert)(\([^)]+\))?: .+'
           if echo "$PR_TITLE" | grep -qE "$PATTERN"; then
             echo "PR title follows Conventional Commits: '$PR_TITLE'"
           else
             echo "::warning::PR title '$PR_TITLE' does not follow Conventional Commits format."
             echo "::warning::Expected: <type>: <description>  (e.g. 'feat: add new linter')"
-            echo "::warning::Valid types: feat, fix, refactor, docs, test, chore, ci, perf, build, revert"
+            echo "::warning::Valid types: feat, fix, refactor, docs, style, test, chore, ci, perf, build, revert"
             echo "::warning::See the style guide vignette for details. This check is informational only."
           fi
           exit 0
@@ -36,26 +36,43 @@ jobs:
         with:
           use-public-rspm: true
 
-      - name: Install dependencies
-        uses: r-lib/actions/setup-r-dependencies@v2
-        with:
-          extra-packages: any::gDRstyle
+      - name: Install gDRstyle
+        shell: Rscript {0}
+        env:
+          GITHUB_PAT: ${{ github.token }}
+        run: |
+          install.packages("pak", repos = sprintf(
+            "https://r-lib.github.io/p/pak/stable/%s/%s/%s",
+            .Platform$pkgType, R.version$os, R.version$arch))
+          # the released series lacks the devel contribution linters, so install
+          # this repo's own source (self) or the devel head (consumer repos)
+          spec <- if (Sys.getenv("GITHUB_REPOSITORY") == "gdrplatform/gDRstyle") {
+            "local::."
+          } else {
+            "gdrplatform/gDRstyle@main"
+          }
+          pak::pak(spec)
 
       - name: Run contribution linters
         shell: Rscript {0}
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
           PR_BODY: ${{ github.event.pull_request.body }}
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
           HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
-          range <- paste0(Sys.getenv("BASE_SHA"), "..", Sys.getenv("HEAD_SHA"))
-          hashes <- system2("git", c("log", "--format=%H", range), stdout = TRUE)
+          base <- paste0("origin/", Sys.getenv("BASE_REF"))
+          hashes <- system2("git", c("log", "--no-merges", "--format=%H",
+                                     paste0(base, "..", Sys.getenv("HEAD_SHA"))),
+                            stdout = TRUE)
+          stopifnot(is.null(attr(hashes, "status")))
           messages <- vapply(hashes, function(h) {
             paste(system2("git", c("show", "-s", "--format=%B", h),
                           stdout = TRUE), collapse = "\n")
           }, character(1), USE.NAMES = FALSE)
           gDRstyle::lintCommitMessages(messages)
-          gDRstyle::lintPrTitle(Sys.getenv("PR_TITLE"))
-          gDRstyle::checkPrTemplate(Sys.getenv("PR_BODY"),
-                                    ".github/PULL_REQUEST_TEMPLATE.md")
+          gDRstyle::lintMergeRequest(
+            title = Sys.getenv("PR_TITLE"),
+            body = Sys.getenv("PR_BODY"),
+            pkg_dir = "."
+          )

@@ -37,6 +37,10 @@ on:
         required: true
 
 jobs:
+  contribution_lint:
+    if: github.event.pull_request.merged == false
+    uses: ./.github/workflows/conventional-commit-check.yml
+
   check_membership:
     runs-on: ubuntu-24.04
     if: github.event.pull_request.merged == false

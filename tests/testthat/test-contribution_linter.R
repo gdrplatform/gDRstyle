@@ -120,6 +120,38 @@ test_that("lintMergeRequest enforces the template when present", {
              file.path(gh, "PULL_REQUEST_TEMPLATE.md"))
   expect_error(lintMergeRequest("feat: add linter", "", dir), "violations")
 })
+
+test_that(".check_ticket_refs reports the matched fragment", {
+  vs <- .check_ticket_refs("fix: bug (gdr-1234)", "(?i)\\(GDR-[0-9]+\\)",
+                           "commit message")
+  expect_true(any(grepl("(gdr-1234)", vapply(vs, `[[`, "", "msg"),
+                        fixed = TRUE)))
+})
+
+test_that("lintPrTitle catches lowercase ticket references", {
+  expect_error(lintPrTitle("feat: add linter gdr-9"), "violations")
+})
+
+test_that("lintCommitMessages catches lowercase parenthesized references", {
+  expect_error(lintCommitMessages("fix: bug (gdr-9)"), "violations")
+})
+
+test_that(".extract_template_headers drops optional sections", {
+  tmpl <- withr::local_tempfile()
+  writeLines(c("# Description", "# Screenshots (optional)"), tmpl)
+  hdrs <- .extract_template_headers(tmpl)
+  expect_true("# Description" %in% hdrs)
+  expect_false(any(grepl("Screenshots", hdrs)))
+})
+
+test_that("lintBranchName exempts Bioconductor release branches", {
+  expect_message(lintBranchName("RELEASE_3_20"), "OK")
+})
+
+test_that("lintBranchName honours a custom pattern and exempt set", {
+  expect_message(lintBranchName("legacy-shared", exempt = "^legacy-"), "OK")
+  expect_message(lintBranchName("JIRA-1", pattern = "^JIRA-[0-9]+$"), "OK")
+})
 # nolint end
 
 test_that("assertVersionBumped passes on a higher version", {

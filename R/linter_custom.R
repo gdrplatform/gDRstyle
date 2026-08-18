@@ -166,12 +166,28 @@ ticket_ref_linter <- function() {
                  grepl("\\b(TODO|FIXME)\\b", pc$text, ignore.case = TRUE), ,
                drop = FALSE]
 
+    # a TODO/FIXME can wrap onto the comment lines directly below it; exempt
+    # that whole contiguous run, not just the line carrying the keyword
+    comment_lines <- pc$line1[pc$token == "COMMENT"]
+    cont_lines <- integer(0)
+    for (tl in todo$line1) {
+      nl <- tl + 1L
+      while (nl %in% comment_lines) {
+        cont_lines <- c(cont_lines, nl)
+        nl <- nl + 1L
+      }
+    }
+
     lints <- lapply(seq_along(lines), function(i) {
       ln <- suppressWarnings(as.integer(names(lines)[i]))
       if (is.na(ln)) {
         ln <- i
       }
       line <- lines[[i]]
+
+      if (ln %in% cont_lines) {
+        return(list())
+      }
 
       m <- gregexpr("GDR-[0-9]+", line, perl = TRUE)[[1]]
       if (m[[1]] == -1L) {
@@ -183,8 +199,9 @@ ticket_ref_linter <- function() {
       # allow refs that sit inside a TODO/FIXME comment on this line
       tok <- todo[todo$line1 <= ln & todo$line2 >= ln, , drop = FALSE]
       allowed <- vapply(seq_along(starts), function(j) {
-        any(vapply(seq_len(NROW(tok)), function(k)
-          starts[j] >= tok$col1[k] && ends[j] <= tok$col2[k], logical(1)))
+        any(vapply(seq_len(NROW(tok)), function(k) {
+          starts[j] >= tok$col1[k] && ends[j] <= tok$col2[k]
+        }, logical(1)))
       }, logical(1))
       starts <- starts[!allowed]
       ends <- ends[!allowed]
@@ -231,12 +248,13 @@ ticket_ref_linter <- function() {
 #' @export
 internal_docs_linter <- function() {
   lintr::Linter(function(source_file) {
+    file_lines <- readLines(source_file$filename, warn = FALSE)
     lapply(
       lintr::ids_with_token(source_file, "FUNCTION"),
       function(id) {
         parsed <- lintr::with_id(source_file, id)
         above <- rev(
-          readLines(source_file$filename)[seq_len(parsed$line1 - 1L)]
+          file_lines[seq_len(parsed$line1 - 1L)]
         )
         block <- character(0L)
         for (l in above) {

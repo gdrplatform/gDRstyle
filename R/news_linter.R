@@ -27,15 +27,12 @@ VALID_VERBS <- c(
   "split", "swap", "take", "reprocess"
 )
 
-VERSION_HEADER_PATTERN <- "^## [A-Za-z0-9.]+ \\d+\\.\\d+\\.\\d+ - \\d{4}-\\d{2}-\\d{2}$"
-
 #' Lint NEWS.md entries for style and brevity
 #'
 #' Checks that every bullet entry in \code{NEWS.md} follows the gDR style
 #' guidelines: starts with an imperative verb, is concise (no verbose phrases,
-#' no trailing period, within the character limit), that each version section
-#' contains at most \code{max_bullets} entries, and that version headers
-#' match the expected format.
+#' no trailing period, within the character limit), and that each version
+#' section contains at most \code{max_bullets} entries.
 #'
 #' @param pkg_dir character(1) path to the package root directory containing
 #'   \code{NEWS.md}. Defaults to the current directory.
@@ -120,16 +117,6 @@ lintNewsEntries <- function(pkg_dir = ".", max_chars = 120L, max_bullets = 3L) {
 
   flush_section()
   violations
-}
-
-#' @keywords internal
-.check_header <- function(line, line_num) {
-  if (!grepl(VERSION_HEADER_PATTERN, line)) {
-    list(line = line_num, msg = sprintf(
-      "malformed version header (expected '## PkgName X.Y.Z - YYYY-MM-DD'): '%s'",
-      line
-    ))
-  }
 }
 
 #' @keywords internal

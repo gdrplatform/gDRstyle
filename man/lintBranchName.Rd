@@ -4,10 +4,21 @@
 \alias{lintBranchName}
 \title{Lint a branch name}
 \usage{
-lintBranchName(branch)
+lintBranchName(
+  branch,
+  pattern = "^GDR-[0-9]+$",
+  exempt = "^(main|master|devel|RELEASE_[0-9]+_[0-9]+)$"
+)
 }
 \arguments{
 \item{branch}{character(1) branch name.}
+
+\item{pattern}{character(1) regular expression a feature branch name must
+match. Defaults to \code{"^GDR-[0-9]+$"}.}
+
+\item{exempt}{character(1) regular expression for branch names that are
+skipped entirely. Defaults to \code{main}, \code{master}, \code{devel} and
+\code{RELEASE_<x>_<y>} Bioconductor branches.}
 }
 \value{
 \code{NULL} invisibly if the name is valid. Stops with an error
@@ -15,8 +26,9 @@ otherwise.
 }
 \description{
 Feature branches must be named after the Jira ticket only, e.g.
-\code{GDR-NNNN}, with no trailing description. Protected branches
-(\code{main}, \code{master}, \code{devel}) are exempt.
+\code{GDR-NNNN}, with no trailing description. Branches matching
+\code{exempt} (protected and Bioconductor release branches by default) are
+skipped, so long-lived branches created before this rule are not blocked.
 }
 \examples{
 lintBranchName("GDR-1234") # nolint: ticket_ref_linter.

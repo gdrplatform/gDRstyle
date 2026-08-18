@@ -23,9 +23,8 @@ error listing all violations otherwise.
 \description{
 Checks that every bullet entry in \code{NEWS.md} follows the gDR style
 guidelines: starts with an imperative verb, is concise (no verbose phrases,
-no trailing period, within the character limit), that each version section
-contains at most \code{max_bullets} entries, and that version headers
-match the expected format.
+no trailing period, within the character limit), and that each version
+section contains at most \code{max_bullets} entries.
 }
 \examples{
 pkg_dir <- system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg")

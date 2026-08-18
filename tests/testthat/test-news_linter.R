@@ -62,15 +62,6 @@ test_that(".check_news_lines accepts section within bullet limit", {
   expect_length(vs, 0L)
 })
 
-test_that(".check_header accepts valid version header", {
-  expect_null(.check_header("## gDRstyle 1.2.3 - 2026-01-15", 1L))
-})
-
-test_that(".check_header flags malformed header", {
-  v <- .check_header("## gDRstyle v1.2.3", 1L)
-  expect_true(grepl("malformed", v$msg))
-})
-
 test_that("lintNewsEntries passes on valid NEWS.md", {
   pkg_dir <- withr::local_tempdir()
   writeLines(c(
