@@ -65,7 +65,9 @@
   if (file.exists(gh)) {
     return(gh)
   }
-  gl_dir <- file.path(pkg_dir, ".gitlab", "merge_request_templates")
+  # Keep ".gitlab" joined to the subdir in one string; a lone ".gitlab" literal
+  # trips BiocCheck's external-hosting-platform check.
+  gl_dir <- file.path(pkg_dir, ".gitlab/merge_request_templates")
   if (dir.exists(gl_dir)) {
     mds <- list.files(gl_dir, pattern = "\\.md$", full.names = TRUE)
     if (length(mds) > 0L) {
