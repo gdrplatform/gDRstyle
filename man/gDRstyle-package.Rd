@@ -28,6 +28,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Arkadiusz Gladki \email{gladki.arkadiusz@gmail.com} (\href{https://orcid.org/0000-0002-7059-6378}{ORCID})
   \item Allison Vuong
   \item Dariusz Scigocki
   \item Marcin Kamianowski

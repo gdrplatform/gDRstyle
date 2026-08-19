@@ -25,7 +25,8 @@ A style guide for the gdrplatform organization.
   * Always utilize `if (` over `if(`
   * Always include spaces around logical comparison `1 == 1` over `1==1`
   * Always include spaces around logical entity `if (1 == 1) {}` over `if (1=1){}`
-  * Always include spaces around "full" subsets `[ , subset]` over `[, subset]`
+  * Never use consecutive spaces to align code `x <- 1` over `x   <- 1`, and `f(a, b)` over `f(a,  b)`
+  * Do not put a space before a comma in subsets `[, subset]` over `[ , subset]`
 3. Naming conventions
   * variables
     * Utilize lower_snake_case for variables
@@ -196,6 +197,13 @@ if the requirements for Bioconductor are also met)
 *Exceptions*: All public packages - as to-be-released on Bioconductor have version 0.99.x.
 Any changes in code should be accompanied by a bumped `MINOR` version regardless of the nature of the changes.
 3. If a PR does not include a version bump in `DESCRIPTION` and a matching entry in `NEWS.md`, the `auto-changelog` CI workflow will generate and commit them automatically using the PR diff.
+4. Keep the Jira ticket ID in the branch name only.
+  * The branch must be named after the ticket alone, e.g. `GDR-1234`, with no trailing description; this is checked by `lintBranchName`.
+  * Commit messages must not carry a parenthesized reference such as `(GDR-1234)`.
+  * PR titles must not carry any reference such as `GDR-1234`.
+  * The ticket ID must not appear in the source code, `NEWS.md`, or `DESCRIPTION`; these are checked by `ticket_ref_linter` and `lintTicketRefs`.
+5. Fill in the gDR PR template (`.github/PULL_REQUEST_TEMPLATE.md`); its section headers must stay in the PR body.
+  * On GitLab, the same title and template checks run on merge requests via `lintMergeRequest`.
 
 # SessionInfo {-}
 

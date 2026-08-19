@@ -1,3 +1,8 @@
+## gDRstyle 1.11.7 - 2026-08-17
+* add contribution linters for commit messages, PR titles, branch names and MR templates
+* add whitespace, ticket-reference, version-consistency and internal-docs style checks
+* allow ticket references inside TODO/FIXME comments
+
 ## gDRstyle 1.11.6 - 2026-07-22
 * add lintRmdDeps() — static check for unresolved function calls in Rmd templates
 

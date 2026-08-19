@@ -31,8 +31,11 @@ gDR_undesirable_functions <-
 #' @noRd
 linters_config <-
   lintr::linters_with_defaults(
+    commas_linter = lintr::commas_linter(),
+    consecutive_spaces_linter = consecutive_spaces_linter(),
     expect_true_false_linter = lintr::expect_true_false_linter(),
     indentation_linter = NULL,
+    internal_docs_linter = internal_docs_linter(),
     length_test_linter = lintr::length_test_linter(),
     line_length_linter = lintr::line_length_linter(120),
     object_name_linter = NULL,
@@ -40,6 +43,7 @@ linters_config <-
     object_usage_linter = NULL,
     paste_linter = lintr::paste_linter(),
     return_linter = NULL,
+    ticket_ref_linter = ticket_ref_linter(),
     undesirable_function_linter = lintr::undesirable_function_linter(fun = gDR_undesirable_functions),
     undesirable_operator_linter = lintr::undesirable_operator_linter(op = gDR_undesirable_operators),
     yoda_test_linter = lintr::yoda_test_linter()

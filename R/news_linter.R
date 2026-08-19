@@ -27,15 +27,12 @@ VALID_VERBS <- c(
   "split", "swap", "take", "reprocess"
 )
 
-VERSION_HEADER_PATTERN <- "^## [A-Za-z0-9.]+ \\d+\\.\\d+\\.\\d+ - \\d{4}-\\d{2}-\\d{2}$"
-
 #' Lint NEWS.md entries for style and brevity
 #'
 #' Checks that every bullet entry in \code{NEWS.md} follows the gDR style
 #' guidelines: starts with an imperative verb, is concise (no verbose phrases,
-#' no trailing period, within the character limit), that each version section
-#' contains at most \code{max_bullets} entries, and that version headers
-#' match the expected format.
+#' no trailing period, within the character limit), and that each version
+#' section contains at most \code{max_bullets} entries.
 #'
 #' @param pkg_dir character(1) path to the package root directory containing
 #'   \code{NEWS.md}. Defaults to the current directory.
@@ -123,16 +120,6 @@ lintNewsEntries <- function(pkg_dir = ".", max_chars = 120L, max_bullets = 3L) {
 }
 
 #' @keywords internal
-.check_header <- function(line, line_num) {
-  if (!grepl(VERSION_HEADER_PATTERN, line)) {
-    list(line = line_num, msg = sprintf(
-      "malformed version header (expected '## PkgName X.Y.Z - YYYY-MM-DD'): '%s'",
-      line
-    ))
-  }
-}
-
-#' @keywords internal
 .check_bullet <- function(entry, line_num, max_chars) {
   violations <- list()
 
@@ -179,4 +166,75 @@ lintNewsEntries <- function(pkg_dir = ".", max_chars = 120L, max_bullets = 3L) {
   }
 
   violations
+}
+
+#' @keywords internal
+.desc_field <- function(desc_lines, field) {
+  ln <- grep(sprintf("^%s:", field), desc_lines, value = TRUE)
+  if (length(ln) == 0L) {
+    return(NA_character_)
+  }
+  trimws(sub(sprintf("^%s:", field), "", ln[[1L]]))
+}
+
+#' Lint version consistency between NEWS.md and DESCRIPTION
+#'
+#' Checks that the top \code{NEWS.md} header matches the package metadata: the
+#' package name, version, and date in \code{## <Pkg> <version> - <date>} must
+#' equal the \code{Package}, \code{Version}, and \code{Date} fields in
+#' \code{DESCRIPTION}. This catches a version bump that forgot to update the
+#' changelog (or vice versa).
+#'
+#' @param pkg_dir character(1) path to the package root directory. Defaults to
+#'   the current directory.
+#'
+#' @return \code{NULL} invisibly if consistent. Stops with an error listing all
+#'   mismatches otherwise.
+#'
+#' @examples
+#' pkg_dir <- system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg")
+#' lintVersionConsistency(pkg_dir)
+#'
+#' @keywords linter
+#' @export
+lintVersionConsistency <- function(pkg_dir = ".") {
+  checkmate::assert_directory_exists(pkg_dir)
+  desc_path <- file.path(pkg_dir, "DESCRIPTION")
+  news_path <- file.path(pkg_dir, "NEWS.md")
+  checkmate::assert_file_exists(desc_path)
+  if (!file.exists(news_path)) {
+    message("Version consistency: OK! (no NEWS.md)")
+    return(invisible(NULL))
+  }
+
+  d <- readLines(desc_path, warn = FALSE)
+  desc_pkg <- .desc_field(d, "Package")
+  desc_ver <- .desc_field(d, "Version")
+  desc_date <- .desc_field(d, "Date")
+
+  news <- readLines(news_path, warn = FALSE)
+  hdr <- grep("^## ", news, value = TRUE)
+  hdr <- if (length(hdr) == 0L) "" else hdr[[1L]]
+  m <- regmatches(hdr, regexec("^## (\\S+) (\\S+) - (\\S+)$", hdr))[[1L]]
+
+  violations <- list()
+  add <- function(msg) violations[[length(violations) + 1L]] <<- list(msg = msg)
+  if (length(m) != 4L) {
+    add(sprintf(
+      "top NEWS.md header '%s' is not '## <Pkg> <version> - <date>'", hdr))
+  } else {
+    if (!is.na(desc_pkg) && m[[2L]] != desc_pkg) {
+      add(sprintf("NEWS.md package '%s' != DESCRIPTION Package '%s'",
+                  m[[2L]], desc_pkg))
+    }
+    if (!is.na(desc_ver) && m[[3L]] != desc_ver) {
+      add(sprintf("NEWS.md version '%s' != DESCRIPTION Version '%s'",
+                  m[[3L]], desc_ver))
+    }
+    if (!is.na(desc_date) && m[[4L]] != desc_date) {
+      add(sprintf("NEWS.md date '%s' != DESCRIPTION Date '%s'",
+                  m[[4L]], desc_date))
+    }
+  }
+  .stop_on_violations(violations, "Version consistency violations")
 }
