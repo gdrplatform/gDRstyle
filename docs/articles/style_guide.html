@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gDRstyle</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.11.6</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.11.7</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -94,8 +94,12 @@ over <code>1==1</code>
 <li>Always include spaces around logical entity
 <code>if (1 == 1) {}</code> over <code>if (1=1){}</code>
 </li>
-<li>Always include spaces around “full” subsets <code>[ , subset]</code>
-over <code>[, subset]</code>
+<li>Never use consecutive spaces to align code <code>x &lt;- 1</code>
+over <code>x   &lt;- 1</code>, and <code>f(a, b)</code> over
+<code>f(a,  b)</code>
+</li>
+<li>Do not put a space before a comma in subsets <code>[, subset]</code>
+over <code>[ , subset]</code>
 </li>
 </ul>
 <ol start="3" style="list-style-type: decimal">
@@ -491,7 +495,29 @@ nature of the changes.</li>
 and a matching entry in <code>NEWS.md</code>, the
 <code>auto-changelog</code> CI workflow will generate and commit them
 automatically using the PR diff.</li>
+<li>Keep the Jira ticket ID in the branch name only.</li>
 </ol>
+<ul>
+<li>The branch must be named after the ticket alone,
+e.g. <code>GDR-1234</code>, with no trailing description; this is
+checked by <code>lintBranchName</code>.</li>
+<li>Commit messages must not carry a parenthesized reference such as
+<code>(GDR-1234)</code>.</li>
+<li>PR titles must not carry any reference such as
+<code>GDR-1234</code>.</li>
+<li>The ticket ID must not appear in the source code,
+<code>NEWS.md</code>, or <code>DESCRIPTION</code>; these are checked by
+<code>ticket_ref_linter</code> and <code>lintTicketRefs</code>.</li>
+</ul>
+<ol start="5" style="list-style-type: decimal">
+<li>Fill in the gDR PR template
+(<code>.github/PULL_REQUEST_TEMPLATE.md</code>); its section headers
+must stay in the PR body.</li>
+</ol>
+<ul>
+<li>On GitLab, the same title and template checks run on merge requests
+via <code>lintMergeRequest</code>.</li>
+</ul>
 </div>
 </div>
 <div class="section level2">
@@ -529,7 +555,7 @@ automatically using the PR diff.</li>
 <span><span class="co">## [10] rmarkdown_2.31      lifecycle_1.0.5     cli_3.6.6          </span></span>
 <span><span class="co">## [13] sass_0.4.10         pkgdown_2.2.1       textshaping_1.0.5  </span></span>
 <span><span class="co">## [16] jquerylib_0.1.4     systemfonts_1.3.2   compiler_4.6.1     </span></span>
-<span><span class="co">## [19] tools_4.6.1         ragg_1.5.2          bslib_0.11.0       </span></span>
+<span><span class="co">## [19] tools_4.6.1         ragg_1.5.2          bslib_0.12.0       </span></span>
 <span><span class="co">## [22] evaluate_1.0.5      yaml_2.3.12         BiocManager_1.30.27</span></span>
 <span><span class="co">## [25] otel_0.2.0          jsonlite_2.0.0      rlang_1.3.0        </span></span>
 <span><span class="co">## [28] fs_2.1.0</span></span></code></pre>

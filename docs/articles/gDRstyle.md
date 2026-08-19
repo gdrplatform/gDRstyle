@@ -59,7 +59,7 @@ sessionInfo()
     ## [1] stats     graphics  grDevices utils     datasets  methods   base     
     ## 
     ## other attached packages:
-    ## [1] gDRstyle_1.11.6  BiocStyle_2.40.0
+    ## [1] gDRstyle_1.11.7  BiocStyle_2.40.0
     ## 
     ## loaded via a namespace (and not attached):
     ##  [1] cli_3.6.6           knitr_1.51          rlang_1.3.0        
@@ -71,5 +71,5 @@ sessionInfo()
     ## [19] lifecycle_1.0.5     bookdown_0.47       BiocManager_1.30.27
     ## [22] compiler_4.6.1      lintr_3.4.0         fs_2.1.0           
     ## [25] systemfonts_1.3.2   digest_0.6.39       R6_2.6.1           
-    ## [28] bslib_0.11.0        tools_4.6.1         xml2_1.6.0         
+    ## [28] bslib_0.12.0        tools_4.6.1         xml2_1.6.0         
     ## [31] pkgdown_2.2.1       cachem_1.1.0        desc_1.4.3

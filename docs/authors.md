@@ -24,12 +24,12 @@ Source:
 
 Vuong A, Scigocki D, Kamianowski M, Smola J, Gladki A, Czech B (2026).
 *gDRstyle: A package with style requirements for the gDR suite*. R
-package version 1.11.6, <https://github.com/gdrplatform/gDRstyle>.
+package version 1.11.7, <https://github.com/gdrplatform/gDRstyle>.
 
     @Manual{,
       title = {gDRstyle: A package with style requirements for the gDR suite},
       author = {Allison Vuong and Dariusz Scigocki and Marcin Kamianowski and Janina Smola and Arkadiusz Gladki and Bartosz Czech},
       year = {2026},
-      note = {R package version 1.11.6},
+      note = {R package version 1.11.7},
       url = {https://github.com/gdrplatform/gDRstyle},
     }

@@ -31,6 +31,9 @@ Useful links:
 
 Authors:
 
+- Arkadiusz Gladki <gladki.arkadiusz@gmail.com>
+  ([ORCID](https://orcid.org/0000-0002-7059-6378))
+
 - Allison Vuong
 
 - Dariusz Scigocki

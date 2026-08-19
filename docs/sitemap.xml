@@ -7,10 +7,13 @@
 <url><loc>https://gdrplatform.github.io/gDRstyle/authors.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/index.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/news/index.html</loc></url>
+<url><loc>https://gdrplatform.github.io/gDRstyle/reference/assertVersionBumped.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/avoid_new_lines.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/checkDependencies.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/checkPackage.html</loc></url>
+<url><loc>https://gdrplatform.github.io/gDRstyle/reference/checkPrTemplate.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/compare_versions.html</loc></url>
+<url><loc>https://gdrplatform.github.io/gDRstyle/reference/consecutive_spaces_linter.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/dot-detectHostPackage.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/dot-extractRChunks.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/dot-findDefinedNamesInChunk.html</loc></url>
@@ -22,10 +25,18 @@
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/index.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/installAllDeps.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/installLocalPackage.html</loc></url>
+<url><loc>https://gdrplatform.github.io/gDRstyle/reference/internal_docs_linter.html</loc></url>
+<url><loc>https://gdrplatform.github.io/gDRstyle/reference/lintBranchName.html</loc></url>
+<url><loc>https://gdrplatform.github.io/gDRstyle/reference/lintCommitMessages.html</loc></url>
+<url><loc>https://gdrplatform.github.io/gDRstyle/reference/lintMergeRequest.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/lintNewsEntries.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/lintPkgDirs.html</loc></url>
+<url><loc>https://gdrplatform.github.io/gDRstyle/reference/lintPrTitle.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/lintRmdDeps.html</loc></url>
+<url><loc>https://gdrplatform.github.io/gDRstyle/reference/lintTicketRefs.html</loc></url>
+<url><loc>https://gdrplatform.github.io/gDRstyle/reference/lintVersionConsistency.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/roxygen_tag_linter.html</loc></url>
 <url><loc>https://gdrplatform.github.io/gDRstyle/reference/test_notes_check.html</loc></url>
+<url><loc>https://gdrplatform.github.io/gDRstyle/reference/ticket_ref_linter.html</loc></url>
 </urlset>
 

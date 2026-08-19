@@ -2,9 +2,8 @@
 
 Checks that every bullet entry in `NEWS.md` follows the gDR style
 guidelines: starts with an imperative verb, is concise (no verbose
-phrases, no trailing period, within the character limit), that each
-version section contains at most `max_bullets` entries, and that version
-headers match the expected format.
+phrases, no trailing period, within the character limit), and that each
+version section contains at most `max_bullets` entries.
 
 ## Usage
 

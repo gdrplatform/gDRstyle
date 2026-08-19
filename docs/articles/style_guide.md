@@ -16,8 +16,10 @@ A style guide for the gdrplatform organization.
 - Always include spaces around logical comparison `1 == 1` over `1==1`
 - Always include spaces around logical entity `if (1 == 1) {}` over
   `if (1=1){}`
-- Always include spaces around “full” subsets `[ , subset]` over
-  `[, subset]`
+- Never use consecutive spaces to align code `x <- 1` over `x <- 1`, and
+  `f(a, b)` over `f(a, b)`
+- Do not put a space before a comma in subsets `[, subset]` over
+  `[ , subset]`
 
 3.  Naming conventions
 
@@ -279,6 +281,22 @@ if (length(foo()) == 1) {
 3.  If a PR does not include a version bump in `DESCRIPTION` and a
     matching entry in `NEWS.md`, the `auto-changelog` CI workflow will
     generate and commit them automatically using the PR diff.
+4.  Keep the Jira ticket ID in the branch name only.
+
+- The branch must be named after the ticket alone, e.g. `GDR-1234`, with
+  no trailing description; this is checked by `lintBranchName`.
+- Commit messages must not carry a parenthesized reference such as
+  `(GDR-1234)`.
+- PR titles must not carry any reference such as `GDR-1234`.
+- The ticket ID must not appear in the source code, `NEWS.md`, or
+  `DESCRIPTION`; these are checked by `ticket_ref_linter` and
+  `lintTicketRefs`.
+
+5.  Fill in the gDR PR template (`.github/PULL_REQUEST_TEMPLATE.md`);
+    its section headers must stay in the PR body.
+
+- On GitLab, the same title and template checks run on merge requests
+  via `lintMergeRequest`.
 
 ## SessionInfo
 
@@ -316,7 +334,7 @@ sessionInfo()
     ## [10] rmarkdown_2.31      lifecycle_1.0.5     cli_3.6.6          
     ## [13] sass_0.4.10         pkgdown_2.2.1       textshaping_1.0.5  
     ## [16] jquerylib_0.1.4     systemfonts_1.3.2   compiler_4.6.1     
-    ## [19] tools_4.6.1         ragg_1.5.2          bslib_0.11.0       
+    ## [19] tools_4.6.1         ragg_1.5.2          bslib_0.12.0       
     ## [22] evaluate_1.0.5      yaml_2.3.12         BiocManager_1.30.27
     ## [25] otel_0.2.0          jsonlite_2.0.0      rlang_1.3.0        
     ## [28] fs_2.1.0

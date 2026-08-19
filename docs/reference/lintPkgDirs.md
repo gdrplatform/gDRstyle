@@ -33,8 +33,8 @@ conditionally `"inst/shiny"` if `shiny` is `TRUE`.
 ``` r
 lintPkgDirs(
     pkg_dir= system.file(package = "gDRstyle", "tst_pkgs", "dummy_pkg"))
-#> Linting file: /tmp/RtmpVW76rT/temp_libpath1cd539c07085/gDRstyle/tst_pkgs/dummy_pkg/R/test.R
-#> Linting file: /tmp/RtmpVW76rT/temp_libpath1cd539c07085/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat.R
-#> Linting file: /tmp/RtmpVW76rT/temp_libpath1cd539c07085/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat/test-pkg.R
+#> Linting file: /tmp/Rtmp04MQV4/temp_libpath1cecd8d0424/gDRstyle/tst_pkgs/dummy_pkg/R/test.R
+#> Linting file: /tmp/Rtmp04MQV4/temp_libpath1cecd8d0424/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat.R
+#> Linting file: /tmp/Rtmp04MQV4/temp_libpath1cecd8d0424/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat/test-pkg.R
 #> All files OK!
 ```
