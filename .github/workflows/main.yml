@@ -100,13 +100,25 @@ jobs:
       - name: Trigger GitLab pipeline
         id: trigger
         run: |
-          RESPONSE=$(curl -s -X POST \
+          # Fail loudly when no pipeline is created. Without this the job stays green,
+          # the pending status below is posted with an empty target_url, and nothing ever
+          # overwrites it — the PR then shows every check green plus one check pending
+          # forever. A dead trigger token hid a three-day CI outage that way.
+          HTTP_CODE=$(curl -s -o trigger_response.json -w "%{http_code}" -X POST \
             -F token=${{ secrets.GDRGENESIS_TRIGGER_TOKEN }} \
             -F ref=main \
             -F "variables[PACKAGE_NAME]=${{ github.event.repository.name }}" \
             -F "variables[BRANCH_NAME]=${{ github.head_ref }}" \
             "https://code.roche.com/api/v4/projects/167859/trigger/pipeline")
-          echo "pipeline_url=$(echo "$RESPONSE" | jq -r '.web_url // empty')" >> "$GITHUB_OUTPUT"
+          PIPELINE_URL=$(jq -r '.web_url // empty' trigger_response.json)
+          rm -f trigger_response.json
+          if [ "$HTTP_CODE" != "201" ] || [ -z "$PIPELINE_URL" ]; then
+            echo "::error::No gdrgenesis pipeline was created (HTTP $HTTP_CODE)."
+            echo "::error::The trigger token is most likely invalid, revoked, or owned by a disabled account."
+            echo "::error::Rotate GDRGENESIS_TRIGGER_TOKEN — see the CI/CD token maintenance procedure."
+            exit 1
+          fi
+          echo "pipeline_url=$PIPELINE_URL" >> "$GITHUB_OUTPUT"
 
       - name: Post pending test-result status
         run: |
@@ -116,17 +128,39 @@ jobs:
             "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }}" \
             -d "{\"state\":\"pending\",\"context\":\"test-result\",\"description\":\"GitLab pipeline running\",\"target_url\":\"${{ steps.trigger.outputs.pipeline_url }}\"}"
 
+      - name: Report trigger failure as test-result
+        if: failure()
+        run: |
+          # Make the outage visible on the pull request itself, not only in the Actions log.
+          # target_url must point somewhere — an empty one is what made the stuck pending
+          # status unreadable in the first place. The ::error:: lines above name the token.
+          curl -s -X POST \
+            -u "x-access-token:${{ secrets.PRIVATE_ACCESS_TOKEN }}" \
+            -H "Accept: application/vnd.github+json" \
+            "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }}" \
+            -d "{\"state\":\"failure\",\"context\":\"test-result\",\"description\":\"CI trigger job failed - see the workflow log\",\"target_url\":\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}"
+
   deploy-dev:
     if: github.event.pull_request.merged
     runs-on: ubuntu-24.04
     steps:
       - name: Trigger deploy pipeline
         run: |
-          curl -s -X POST \
+          # Same guard as internal_trigger: a silently skipped deploy is worse than a red job.
+          HTTP_CODE=$(curl -s -o deploy_response.json -w "%{http_code}" -X POST \
             -F token=${{ secrets.GDRVIZ_TRIGGER_TOKEN }} \
             -F ref=main \
             -F "variables[SOURCE_BRANCH]=${{ github.head_ref }}" \
             -F "variables[COMMIT_HASH]=${{ github.sha }}" \
             -F "variables[COMMIT_MSG]=${{ github.event.head_commit.message }}" \
             -F "variables[TESTS_RESULT]=SUCCESSFUL" \
-            "https://code.roche.com/api/v4/projects/181632/trigger/pipeline"
+            "https://code.roche.com/api/v4/projects/181632/trigger/pipeline")
+          PIPELINE_URL=$(jq -r '.web_url // empty' deploy_response.json)
+          rm -f deploy_response.json
+          if [ "$HTTP_CODE" != "201" ] || [ -z "$PIPELINE_URL" ]; then
+            echo "::error::No deploy pipeline was created (HTTP $HTTP_CODE)."
+            echo "::error::The trigger token is most likely invalid, revoked, or owned by a disabled account."
+            echo "::error::Rotate GDRVIZ_TRIGGER_TOKEN — see the CI/CD token maintenance procedure."
+            exit 1
+          fi
+          echo "Deploy pipeline: $PIPELINE_URL"

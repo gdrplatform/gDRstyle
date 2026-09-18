@@ -1,3 +1,7 @@
+## gDRstyle 1.11.8 - 2026-09-17
+* fix the CI trigger job to fail when no downstream pipeline is created instead of reporting success
+* set a red test-result status on the pull request when the trigger fails
+
 ## gDRstyle 1.11.7 - 2026-08-17
 * add contribution linters for commit messages, PR titles, branch names and MR templates
 * add whitespace, ticket-reference, version-consistency and internal-docs style checks
