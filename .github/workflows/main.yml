@@ -132,11 +132,13 @@ jobs:
         if: failure()
         run: |
           # Make the outage visible on the pull request itself, not only in the Actions log.
+          # target_url must point somewhere — an empty one is what made the stuck pending
+          # status unreadable in the first place. The ::error:: lines above name the token.
           curl -s -X POST \
             -u "x-access-token:${{ secrets.PRIVATE_ACCESS_TOKEN }}" \
             -H "Accept: application/vnd.github+json" \
             "https://api.github.com/repos/${{ github.repository }}/statuses/${{ github.event.pull_request.head.sha }}" \
-            -d "{\"state\":\"failure\",\"context\":\"test-result\",\"description\":\"Could not start the GitLab pipeline — check the trigger token\",\"target_url\":\"\"}"
+            -d "{\"state\":\"failure\",\"context\":\"test-result\",\"description\":\"CI trigger job failed - see the workflow log\",\"target_url\":\"${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}\"}"
 
   deploy-dev:
     if: github.event.pull_request.merged
