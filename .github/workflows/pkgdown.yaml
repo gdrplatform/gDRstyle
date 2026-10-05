@@ -45,6 +45,16 @@ jobs:
         with:
           use-public-rspm: true
 
+      # The site documents the devel branch, so its gDR dependencies have to come from
+      # Bioconductor devel. The default resolves to release, which is a release behind:
+      # gDR 1.11.10 built against gDRcore 1.10.0 fails on arguments 1.11.x added.
+      # BiocManager rejects "devel" as a version, so read the number Bioconductor publishes.
+      - name: Pin Bioconductor to devel
+        run: |
+          version=$(curl -fsSL https://bioconductor.org/config.yaml | sed -n 's/^devel_version: *"\(.*\)"/\1/p')
+          test -n "$version"
+          echo "R_BIOC_VERSION=$version" >> "$GITHUB_ENV"
+
       - name: Install dependencies
         uses: r-lib/actions/setup-r-dependencies@v2
         with:
