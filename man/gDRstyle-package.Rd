@@ -32,7 +32,7 @@ Authors:
   \item Allison Vuong
   \item Dariusz Scigocki
   \item Marcin Kamianowski
-  \item Janina Smola
+  \item Janina Smola (\href{https://orcid.org/0009-0007-4347-7748}{ORCID})
   \item Bartosz Czech (\href{https://orcid.org/0000-0002-9908-3007}{ORCID})
 }
 
