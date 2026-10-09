@@ -1,5 +1,9 @@
 # Changelog
 
+## gDRstyle 1.11.9 - 2026-10-08
+
+- update authors data
+
 ## gDRstyle 1.11.8 - 2026-09-17
 
 - fix the CI trigger job to fail when no downstream pipeline is created
