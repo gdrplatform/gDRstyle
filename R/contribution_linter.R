@@ -94,7 +94,7 @@
 #' @export
 lintCommitMessages <- function(messages) {
   checkmate::assert_character(messages, any.missing = FALSE)
-  violations <- .check_ticket_refs(messages, "(?i)\\(GDR-[0-9]+\\)", "commit message")
+  violations <- .check_ticket_refs(messages, "(?i)\\(?GDR-[0-9]+\\)?", "commit message")
   .stop_on_violations(violations, "Commit message lint violations")
 }
 

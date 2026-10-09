@@ -27,6 +27,8 @@ test_that(".check_pr_template accepts a body with all headers", {
 
 test_that("lintCommitMessages stops on parenthesized ticket", {
   expect_error(lintCommitMessages("fix: parser bug (GDR-3471)"), "violations")
+  expect_error(lintCommitMessages("fix: parser bug GDR-3471"), "violations")
+  expect_error(lintCommitMessages("fix: parser bug [GDR-3471]"), "violations")
 })
 
 test_that("lintCommitMessages passes clean messages", {
