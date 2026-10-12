@@ -77,10 +77,10 @@
   NULL
 }
 
-#' Lint commit messages for parenthesized Jira ticket references
+#' Lint commit messages for Jira ticket references
 #'
 #' The ticket ID belongs in the branch name only. Commit messages must not
-#' carry a parenthesized reference such as \code{(GDR-<id>)}.
+#' carry a reference such as \code{GDR-<id>}.
 #'
 #' @param messages character vector of full commit messages.
 #'
@@ -94,7 +94,7 @@
 #' @export
 lintCommitMessages <- function(messages) {
   checkmate::assert_character(messages, any.missing = FALSE)
-  violations <- .check_ticket_refs(messages, "(?i)\\(GDR-[0-9]+\\)", "commit message")
+  violations <- .check_ticket_refs(messages, "(?i)GDR-[0-9]+", "commit message")
   .stop_on_violations(violations, "Commit message lint violations")
 }
 

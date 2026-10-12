@@ -1,3 +1,6 @@
+## gDRstyle 1.11.10 - 2026-10-09
+* update code rules
+
 ## gDRstyle 1.11.9 - 2026-10-08
 * update authors data
 
