@@ -20,7 +20,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">gDRstyle</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.11.9</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">1.11.10</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -135,7 +135,9 @@ over <code>[ , subset]</code>
 </li>
 <li>All internal functions start with a <code>.</code>
 </li>
-<li>Utilize lowerCamelCase for function names</li>
+<li>Utilize lower_snake_case for function names and lowerCamelCase for
+shiny module names (for backward compatibility also function names in
+gDRstyle package follows lowerCamelCase convention)</li>
 <li>Function names should be short and informative</li>
 <li>Getters should start with <code>get*</code>, setters should start
 with <code>set*</code>, boolean checkers should start with
@@ -229,11 +231,11 @@ surrounded by curly braces on the same line</li>
 </ul>
 <div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">what_is_going_on</span> <span class="op">&lt;-</span> <span class="kw">if</span> <span class="op">(</span><span class="fu">is_check</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">flog</span> <span class="op">&lt;-</span> <span class="st">"it's getting hot..."</span></span>
+<span>  <span class="st">"it's getting hot..."</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="kw">if</span> <span class="op">(</span><span class="fu">is_mate</span><span class="op">(</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
-<span>  <span class="va">flog</span> <span class="op">&lt;-</span> <span class="st">"Oh noooo..."</span></span>
+<span>  <span class="st">"Oh noooo..."</span></span>
 <span><span class="op">}</span> <span class="kw">else</span> <span class="op">{</span></span>
-<span>  <span class="va">flog</span> <span class="op">&lt;-</span> <span class="st">"there is a hope..."</span></span>
+<span>  <span class="st">"there is a hope..."</span></span>
 <span><span class="op">}</span></span></code></pre></div>
 <ol start="8" style="list-style-type: decimal">
 <li>Files</li>

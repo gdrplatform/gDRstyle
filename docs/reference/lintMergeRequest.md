@@ -41,5 +41,5 @@ otherwise.
 ``` r
 lintMergeRequest("feat: add contribution linter", "details", tempdir())
 #> PR title lint violations: OK!
-#> PR template check skipped: no template found in /tmp/RtmpOVziei
+#> PR template check skipped: no template found in /tmp/RtmpL02N2p
 ```

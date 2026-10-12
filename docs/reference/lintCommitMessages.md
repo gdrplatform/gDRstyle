@@ -1,7 +1,7 @@
-# Lint commit messages for parenthesized Jira ticket references
+# Lint commit messages for Jira ticket references
 
 The ticket ID belongs in the branch name only. Commit messages must not
-carry a parenthesized reference such as `(GDR-<id>)`.
+carry a reference such as `GDR-<id>`.
 
 ## Usage
 

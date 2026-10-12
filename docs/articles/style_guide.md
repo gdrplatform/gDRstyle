@@ -37,7 +37,9 @@ A style guide for the gdrplatform organization.
   - All action functions should start with verbs `compute_metrics_SE`
     over `metrics_SE`
   - All internal functions start with a `.`
-  - Utilize lowerCamelCase for function names
+  - Utilize lower_snake_case for function names and lowerCamelCase for
+    shiny module names (for backward compatibility also function names
+    in gDRstyle package follows lowerCamelCase convention)
   - Function names should be short and informative
   - Getters should start with `get*`, setters should start with `set*`,
     boolean checkers should start with `is*`
@@ -111,11 +113,11 @@ if (TRUE) {
 
 ``` r
 what_is_going_on <- if (is_check()) {
-  flog <- "it's getting hot..."
+  "it's getting hot..."
 } else if (is_mate()) {
-  flog <- "Oh noooo..."
+  "Oh noooo..."
 } else {
-  flog <- "there is a hope..."
+  "there is a hope..."
 }
 ```
 

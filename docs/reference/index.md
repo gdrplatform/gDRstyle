@@ -38,7 +38,7 @@ Linter helpers
 - [`lintBranchName()`](https://gdrplatform.github.io/gDRstyle/reference/lintBranchName.md)
   : Lint a branch name
 - [`lintCommitMessages()`](https://gdrplatform.github.io/gDRstyle/reference/lintCommitMessages.md)
-  : Lint commit messages for parenthesized Jira ticket references
+  : Lint commit messages for Jira ticket references
 - [`lintMergeRequest()`](https://gdrplatform.github.io/gDRstyle/reference/lintMergeRequest.md)
   : Lint a merge/pull request title and body
 - [`lintNewsEntries()`](https://gdrplatform.github.io/gDRstyle/reference/lintNewsEntries.md)
