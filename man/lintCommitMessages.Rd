@@ -2,7 +2,7 @@
 % Please edit documentation in R/contribution_linter.R
 \name{lintCommitMessages}
 \alias{lintCommitMessages}
-\title{Lint commit messages for parenthesized Jira ticket references}
+\title{Lint commit messages for Jira ticket references}
 \usage{
 lintCommitMessages(messages)
 }
@@ -15,7 +15,7 @@ error listing all violations otherwise.
 }
 \description{
 The ticket ID belongs in the branch name only. Commit messages must not
-carry a parenthesized reference such as \code{(GDR-<id>)}.
+carry a reference such as \code{GDR-<id>}.
 }
 \examples{
 lintCommitMessages("fix: correct edge case in parser")

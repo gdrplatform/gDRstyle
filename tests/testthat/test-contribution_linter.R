@@ -25,7 +25,7 @@ test_that(".check_pr_template accepts a body with all headers", {
   expect_length(vs, 0L)
 })
 
-test_that("lintCommitMessages stops on parenthesized ticket", {
+test_that("lintCommitMessages stops on any ticket reference", {
   expect_error(lintCommitMessages("fix: parser bug (GDR-3471)"), "violations")
   expect_error(lintCommitMessages("fix: parser bug GDR-3471"), "violations")
   expect_error(lintCommitMessages("fix: parser bug [GDR-3471]"), "violations")
