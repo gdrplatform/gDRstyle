@@ -1,3 +1,6 @@
+## gDRstyle 1.11.11 - 2026-10-13
+* correct the style guide to say that commit messages must not carry any ticket reference
+
 ## gDRstyle 1.11.10 - 2026-10-09
 * update code rules
 
