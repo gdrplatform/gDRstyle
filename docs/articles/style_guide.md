@@ -287,8 +287,7 @@ if (length(foo()) == 1) {
 
 - The branch must be named after the ticket alone, e.g. `GDR-1234`, with
   no trailing description; this is checked by `lintBranchName`.
-- Commit messages must not carry a parenthesized reference such as
-  `(GDR-1234)`.
+- Commit messages must not carry any reference such as `GDR-1234`.
 - PR titles must not carry any reference such as `GDR-1234`.
 - The ticket ID must not appear in the source code, `NEWS.md`, or
   `DESCRIPTION`; these are checked by `ticket_ref_linter` and

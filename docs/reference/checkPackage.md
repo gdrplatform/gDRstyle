@@ -90,16 +90,16 @@ checkPackage(
   fail_on = "error"
 )
 #> Lint
-#> ##------ Mon Oct 12 14:19:42 2026 ------##
-#> Linting file: /tmp/RtmpL02N2p/temp_libpath182060b648b5/gDRstyle/tst_pkgs/dummy_pkg/R/test.R
-#> Linting file: /tmp/RtmpL02N2p/temp_libpath182060b648b5/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat.R
-#> Linting file: /tmp/RtmpL02N2p/temp_libpath182060b648b5/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat/test-pkg.R
+#> ##------ Wed Oct 14 09:24:52 2026 ------##
+#> Linting file: /tmp/Rtmpm48lY8/temp_libpath18fe378e3ead/gDRstyle/tst_pkgs/dummy_pkg/R/test.R
+#> Linting file: /tmp/Rtmpm48lY8/temp_libpath18fe378e3ead/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat.R
+#> Linting file: /tmp/Rtmpm48lY8/temp_libpath18fe378e3ead/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat/test-pkg.R
 #> All files OK!
 #> NEWS.md OK!
 #> Ticket reference violations: OK!
 #> Version consistency violations: OK!
 #> Tests
-#> ##------ Mon Oct 12 14:19:42 2026 ------##
+#> ##------ Wed Oct 14 09:24:52 2026 ------##
 #> ✔ | F W  S  OK | Context
 #> 
 #> ⠏ |          0 | pkg                                                            
@@ -123,7 +123,7 @@ checkPackage(
 #> Reading man/tstCharLimitLintr.Rd
 #> Writing `reference/tstCharLimitLintr.html`
 #> Check
-#> ##------ Mon Oct 12 14:19:43 2026 ------##
+#> ##------ Wed Oct 14 09:24:53 2026 ------##
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
 #> pdflatex not found! Not building PDF manual.
 #> * checking for file ‘.../DESCRIPTION’ ... OK
@@ -135,7 +135,7 @@ checkPackage(
 #> * building ‘fakePkg_1.0.0.tar.gz’
 #> 
 #> ── R CMD check ─────────────────────────────────────────────────────────────────
-#> * using log directory ‘/tmp/RtmpL02N2p/file182042de4996/fakePkg.Rcheck’
+#> * using log directory ‘/tmp/Rtmpm48lY8/file18fe26bf699b/fakePkg.Rcheck’
 #> * using R version 4.6.1 (2026-06-24)
 #> * using platform: x86_64-pc-linux-gnu
 #> * R was compiled by
@@ -143,7 +143,7 @@ checkPackage(
 #>     GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
 #> * running under: Ubuntu 24.04.5 LTS
 #> * using session charset: UTF-8
-#> * current time: 2026-10-12 14:19:44 UTC
+#> * current time: 2026-10-14 09:24:54 UTC
 #> * using options ‘--no-tests --no-manual’
 #> * checking for file ‘fakePkg/DESCRIPTION’ ... OK
 #> * checking extension type ... Package
@@ -196,8 +196,8 @@ checkPackage(
 #> 
 #> Status: 1 NOTE
 #> See
-#>   ‘/tmp/RtmpL02N2p/file182042de4996/fakePkg.Rcheck/00check.log’
+#>   ‘/tmp/Rtmpm48lY8/file18fe26bf699b/fakePkg.Rcheck/00check.log’
 #> for details.
 #> Finished
-#> ##------ Mon Oct 12 14:19:51 2026 ------##
+#> ##------ Wed Oct 14 09:25:01 2026 ------##
 ```
