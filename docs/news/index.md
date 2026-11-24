@@ -1,5 +1,11 @@
 # Changelog
 
+## gDRstyle 1.13.1 - 2026-11-24
+
+- synchronize Bioconductor and GitHub versioning
+- restore the test package version to 1.0, which the Bioconductor git
+  server rejected as 1.0.0
+
 ## gDRstyle 1.11.11 - 2026-10-13
 
 - correct the style guide to say that commit messages must not carry any

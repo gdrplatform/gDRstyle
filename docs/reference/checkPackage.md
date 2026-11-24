@@ -90,16 +90,16 @@ checkPackage(
   fail_on = "error"
 )
 #> Lint
-#> ##------ Wed Oct 14 09:24:52 2026 ------##
-#> Linting file: /tmp/Rtmpm48lY8/temp_libpath18fe378e3ead/gDRstyle/tst_pkgs/dummy_pkg/R/test.R
-#> Linting file: /tmp/Rtmpm48lY8/temp_libpath18fe378e3ead/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat.R
-#> Linting file: /tmp/Rtmpm48lY8/temp_libpath18fe378e3ead/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat/test-pkg.R
+#> ##------ Tue Nov 24 10:14:58 2026 ------##
+#> Linting file: /tmp/RtmpoyjymF/temp_libpath1c2836f193fa/gDRstyle/tst_pkgs/dummy_pkg/R/test.R
+#> Linting file: /tmp/RtmpoyjymF/temp_libpath1c2836f193fa/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat.R
+#> Linting file: /tmp/RtmpoyjymF/temp_libpath1c2836f193fa/gDRstyle/tst_pkgs/dummy_pkg/tests/testthat/test-pkg.R
 #> All files OK!
 #> NEWS.md OK!
 #> Ticket reference violations: OK!
 #> Version consistency violations: OK!
 #> Tests
-#> ##------ Wed Oct 14 09:24:52 2026 ------##
+#> ##------ Tue Nov 24 10:14:58 2026 ------##
 #> ✔ | F W  S  OK | Context
 #> 
 #> ⠏ |          0 | pkg                                                            
@@ -123,7 +123,7 @@ checkPackage(
 #> Reading man/tstCharLimitLintr.Rd
 #> Writing `reference/tstCharLimitLintr.html`
 #> Check
-#> ##------ Wed Oct 14 09:24:53 2026 ------##
+#> ##------ Tue Nov 24 10:14:59 2026 ------##
 #> ── R CMD build ─────────────────────────────────────────────────────────────────
 #> pdflatex not found! Not building PDF manual.
 #> * checking for file ‘.../DESCRIPTION’ ... OK
@@ -132,22 +132,22 @@ checkPackage(
 #> * checking for LF line-endings in source and make files and shell scripts
 #> * checking for empty or unneeded directories
 #> Removed empty directory ‘fakePkg/tests/testthat/_snaps’
-#> * building ‘fakePkg_1.0.0.tar.gz’
+#> * building ‘fakePkg_1.0.tar.gz’
 #> 
 #> ── R CMD check ─────────────────────────────────────────────────────────────────
-#> * using log directory ‘/tmp/Rtmpm48lY8/file18fe26bf699b/fakePkg.Rcheck’
-#> * using R version 4.6.1 (2026-06-24)
+#> * using log directory ‘/tmp/RtmpoyjymF/file1c287cb3bd39/fakePkg.Rcheck’
+#> * using R version 4.6.2 (2026-10-29)
 #> * using platform: x86_64-pc-linux-gnu
 #> * R was compiled by
-#>     gcc (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
-#>     GNU Fortran (Ubuntu 13.3.0-6ubuntu2~24.04.1) 13.3.0
-#> * running under: Ubuntu 24.04.5 LTS
+#>     gcc (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+#>     GNU Fortran (Ubuntu 15.2.0-16ubuntu1) 15.2.0
+#> * running under: Ubuntu 26.04.1 LTS
 #> * using session charset: UTF-8
-#> * current time: 2026-10-14 09:24:54 UTC
+#> * current time: 2026-11-24 10:15:00 UTC
 #> * using options ‘--no-tests --no-manual’
 #> * checking for file ‘fakePkg/DESCRIPTION’ ... OK
 #> * checking extension type ... Package
-#> * this is package ‘fakePkg’ version ‘1.0.0’
+#> * this is package ‘fakePkg’ version ‘1.0’
 #> * checking package namespace information ... OK
 #> * checking package dependencies ... OK
 #> * checking if this is a source package ... OK
@@ -196,8 +196,8 @@ checkPackage(
 #> 
 #> Status: 1 NOTE
 #> See
-#>   ‘/tmp/Rtmpm48lY8/file18fe26bf699b/fakePkg.Rcheck/00check.log’
+#>   ‘/tmp/RtmpoyjymF/file1c287cb3bd39/fakePkg.Rcheck/00check.log’
 #> for details.
 #> Finished
-#> ##------ Wed Oct 14 09:25:01 2026 ------##
+#> ##------ Tue Nov 24 10:15:07 2026 ------##
 ```
